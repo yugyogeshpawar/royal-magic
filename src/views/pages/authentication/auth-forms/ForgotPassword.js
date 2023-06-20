@@ -1,10 +1,27 @@
 // import { useSelector } from 'react-redux';
+import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Button, FormControl, FormHelperText, Grid, InputLabel, OutlinedInput, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  OutlinedInput,
+  Stack,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField
+} from '@mui/material';
 
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
 // third party
 import * as Yup from 'yup';
@@ -19,9 +36,21 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const ForgotPassword = ({ ...others }) => {
-  const navigate = useNavigate();
+  const [openOTPModal, setOpenOTPModal] = useState(false);
   const { forgotPassword } = useAuth();
 
+  const handleOpenOTPModal = () => {
+    setOpenOTPModal(true);
+  };
+  const handleOTPSubmit = () => {
+    // Add your OTP validation logic here
+    // You can access the entered OTP using the appropriate state variable
+    // Close the modal after successful validation
+    handleCloseOTPModal();
+  };
+  const handleCloseOTPModal = () => {
+    setOpenOTPModal(false);
+  };
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   // const customization = useSelector((state) => state.customization);
@@ -38,7 +67,7 @@ const ForgotPassword = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          email: 'info@Royal-Magic.com',
+          email: 'info@royalmagic.live',
           password: '123456',
           submit: null
         }}
@@ -49,12 +78,13 @@ const ForgotPassword = ({ ...others }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             console.log(values);
-            await forgotPassword(values);
+            // Call the function to send OTP to the provided email or username
+            await forgotPassword(values.email);
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
             }
-            navigate('/');
+            handleOpenOTPModal(); // Open the OTP confirmation modal after sending OTP
           } catch (err) {
             console.error(err);
             if (scriptedRef.current) {
@@ -85,6 +115,7 @@ const ForgotPassword = ({ ...others }) => {
                 </FormHelperText>
               )}
             </FormControl>
+
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <div></div>
               <Typography
@@ -105,7 +136,16 @@ const ForgotPassword = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+                <Button
+                  disableElevation
+                  disabled={isSubmitting}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleOpenOTPModal}
+                >
                   Forgot Password
                 </Button>
               </AnimateButton>
@@ -113,6 +153,20 @@ const ForgotPassword = ({ ...others }) => {
           </form>
         )}
       </Formik>
+      <Dialog open={openOTPModal} onClose={handleCloseOTPModal}>
+        <DialogTitle>Confirm OTP</DialogTitle>
+        <DialogContent>
+          <TextField autoFocus margin="dense" id="otp" label="Enter OTP" type="text" fullWidth variant="standard" />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseOTPModal} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleOTPSubmit} color="primary">
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

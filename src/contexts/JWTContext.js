@@ -119,19 +119,20 @@ function AuthProvider({ children }) {
     const accessToken = window.localStorage.getItem('accessToken');
     const response = await axios({
       method: 'put',
-      url: `${baseUrl}/Account/changePassword`,
+      url: `${baseUrl}/auth/forgot-password`,
       headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-      data: values
+      data: { email: values }
     });
     return response.data;
   };
-  const changePassword = async (values) => {
+
+  const changePassword = async (currentPassword, password, confimrPassword) => {
     const accessToken = window.localStorage.getItem('accessToken');
     const response = await axios({
       method: 'put',
-      url: `${baseUrl}/Account/changePassword`,
+      url: `${baseUrl}/Dashboard/changePassword`,
       headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-      data: values
+      data: { oldPassword: currentPassword, newPassword: password, verifyPassword: confimrPassword }
     });
     return response.data;
   };

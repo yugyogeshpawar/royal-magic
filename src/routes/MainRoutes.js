@@ -24,6 +24,7 @@ const Myteam = Loadable(lazy(() => import('views/team/Myteam')));
 const StackingSummary = Loadable(lazy(() => import('views/stacking/StackingSummary')));
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const ChangePassword = Loadable(lazy(() => import('views/pages/authentication/authentication/ChangePassword')));
 const Logout = Loadable(lazy(() => import('views/logout')));
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -151,6 +152,10 @@ const MainRoutes = {
     {
       path: '/logout',
       element: <Logout />
+    },
+    {
+      path: '/change-password',
+      element: <ChangePassword />
     }
   ]
 };
