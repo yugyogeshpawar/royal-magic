@@ -59,7 +59,7 @@ const PendingCard = ({ isLoading, title, stackingBonus }) => {
                     sx={{
                       ...theme.typography.commonAvatar,
                       ...theme.typography.largeAvatar,
-                      backgroundColor: theme.palette.warning.main,
+                      backgroundColor: theme.palette.warning.dark,
                       color: '#fff'
                     }}
                   >
