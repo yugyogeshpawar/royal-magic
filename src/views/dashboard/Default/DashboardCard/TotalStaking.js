@@ -13,7 +13,7 @@ import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: theme.palette.success.main,
+  backgroundColor: theme.palette.success.dark,
   color: theme.palette.primary.light,
   overflow: 'hidden',
   position: 'relative',
@@ -73,12 +73,12 @@ const TotalStaking = ({ isLoading, title, refBonus }) => {
                     mb: 0.45
                   }}
                   primary={
-                    <Typography variant="h4" sx={{ color: '#374359' }}>
+                    <Typography variant="h4" sx={{ color: '#FFFFFF' }}>
                       ${refBonus}
                     </Typography>
                   }
                   secondary={
-                    <Typography variant="subtitle2" sx={{ color: '#374359', mt: 0.25 }}>
+                    <Typography variant="subtitle2" sx={{ color: '#FFFFFF', mt: 0.25 }}>
                       {title}
                     </Typography>
                   }

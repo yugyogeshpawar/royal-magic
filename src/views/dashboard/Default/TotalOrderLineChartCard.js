@@ -137,8 +137,8 @@ const TotalOrderLineChartCard = ({ isLoading, directBusiness }) => {
                           sx={{
                             ...theme.typography.smallAvatar,
                             cursor: 'pointer',
-                            backgroundColor: theme.palette.primary[200],
-                            color: theme.palette.primary.dark
+                            backgroundColor: theme.palette.primary.main,
+                            color: theme.palette.primary.light
                           }}
                         >
                           <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
