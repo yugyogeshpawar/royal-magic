@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import useAuth from 'hooks/useAuth';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -42,6 +42,8 @@ import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
+  const { user } = useAuth();
+  console.log(user);
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
@@ -158,7 +160,7 @@ const ProfileSection = () => {
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">Hello,</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
+                          {user?.member_name}
                         </Typography>
                       </Stack>
                       <Typography variant="subtitle2">Project Admin</Typography>

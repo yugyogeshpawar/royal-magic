@@ -113,6 +113,7 @@ export default function ValidationTextFields() {
         onSubmit={handleSubmit}
         sx={{ display: 'flex', flexDirection: 'column', background: 'white', width: 'fit-content', p: 4, borderRadius: '20px', mb: 4 }}
       >
+        <h1>Withdraw details</h1>
         <TextField
           error={Boolean(validationErrors.wallet)}
           id="outlined-error-helper-text-wallet"
@@ -138,7 +139,7 @@ export default function ValidationTextFields() {
           helperText={validationErrors.staking}
           sx={{
             mt: 2,
-            width: '300px'
+            width: { sm: 200, md: 300 }
           }}
         />
 
@@ -160,6 +161,7 @@ export default function ValidationTextFields() {
         <Button type="submit" variant="contained" disableElevation sx={{ mt: 2, width: '200px' }}>
           Submit
         </Button>
+        <p>Stacking: Lock crypto, support network, earn rewards.</p>
       </Box>
       <Box
         component="form"
@@ -167,8 +169,14 @@ export default function ValidationTextFields() {
         autoComplete="off"
         sx={{ display: 'flex', flexDirection: 'column', background: 'white', width: 'fit-content', p: 4, borderRadius: '20px', ml: 2 }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box>
           <img src={QrCode} alt="QrCode" width={240} />
+          <h1>Important</h1>
+          <ol>
+            <li>This address is only for Royal Magic</li>
+            <li>Sending any other coin or token to this address may result in the loss</li>
+            <li>Deposits will automatically be processed after 3 network confirmations.</li>
+          </ol>
         </Box>
 
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
