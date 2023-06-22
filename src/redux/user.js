@@ -164,6 +164,7 @@ export async function getStacking() {
       const response = await axios.get(`${baseUrl}/Staking/Summary`, {
         headers
       });
+      console.log(response.data);
       initializer.stakingHistorySucess = true;
       stakingHistory = response.data;
     } catch (error) {

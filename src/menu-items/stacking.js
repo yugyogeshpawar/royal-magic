@@ -17,7 +17,7 @@ const stacking = {
   children: [
     {
       id: 'stackinglist',
-      title: 'Stacking',
+      title: 'Staking',
       type: 'item',
       url: '/stacking',
       icon: icons.IconStack,
@@ -25,7 +25,7 @@ const stacking = {
     },
     {
       id: 'stacking-summary',
-      title: 'Stacking Summary',
+      title: 'Staking Summary',
       type: 'item',
       url: '/stacking-summary',
       icon: icons.IconList,
