@@ -42,7 +42,7 @@ const Dashboard = () => {
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <ActiveCard isLoading={isLoading} title="Team Members" teams={user?.direct_business} />
+                <ActiveCard isLoading={isLoading} title="Team Members" teams={user?.team_member} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
                 <ConfirmWithdraw isLoading={isLoading} title="Direct Member" directMember={user?.direct_member} />

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import useAuth from '../../../../hooks/useAuth';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -40,13 +40,18 @@ const FirebaseRegister = ({ ...others }) => {
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const [showPassword, setShowPassword] = useState(false);
+  const [cshowPassword, setcShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
+  const { register } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+  const handleClickCShowPassword = () => {
+    setcShowPassword(!cshowPassword);
   };
 
   const handleMouseDownPassword = (event) => {
@@ -58,10 +63,6 @@ const FirebaseRegister = ({ ...others }) => {
     setStrength(temp);
     setLevel(strengthColor(temp));
   };
-
-  useEffect(() => {
-    changePassword('123456');
-  }, []);
 
   return (
     <>
@@ -77,14 +78,18 @@ const FirebaseRegister = ({ ...others }) => {
         initialValues={{
           email: '',
           password: '',
+          cpassword: '',
+          sponcerid: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          password: Yup.string().max(255).required('Password is required'),
+          cpassword: Yup.string().max(255).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            await register(values);
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
@@ -101,6 +106,23 @@ const FirebaseRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
+            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-spnace-id">Sponcer ID</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-spnace-id"
+                type="number"
+                value={values.sponcerid}
+                name="sponcerid"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                inputProps={{}}
+              />
+              {touched.email && errors.email && (
+                <FormHelperText error id="standard-weight-helper-text--register">
+                  {errors.email}
+                </FormHelperText>
+              )}
+            </FormControl>
             <Grid container spacing={matchDownSM ? 0 : 2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -174,6 +196,40 @@ const FirebaseRegister = ({ ...others }) => {
               {touched.password && errors.password && (
                 <FormHelperText error id="standard-weight-helper-text-password-register">
                   {errors.password}
+                </FormHelperText>
+              )}
+            </FormControl>
+            <FormControl fullWidth error={Boolean(touched.cpassword && errors.cpassword)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-cpassword-register">Confirm Password</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-cpassword-register"
+                type={cshowPassword ? 'text' : 'password'}
+                value={values.cpassword}
+                name="password"
+                label="Confirm Password"
+                onBlur={handleBlur}
+                onChange={(e) => {
+                  handleChange(e);
+                  changePassword(e.target.value);
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickCShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      size="large"
+                    >
+                      {cshowPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                inputProps={{}}
+              />
+              {touched.cpassword && errors.cpassword && (
+                <FormHelperText error id="standard-weight-helper-text-cpassword-register">
+                  {errors.cpassword}
                 </FormHelperText>
               )}
             </FormControl>

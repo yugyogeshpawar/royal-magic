@@ -1,7 +1,7 @@
 // import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -47,11 +47,13 @@ const ForgotPassword = ({ ...others }) => {
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [emailAdd, setEmailAdd] = useState('');
   const [errors] = useState({});
   const theme = useTheme();
   const scriptedRef = useScriptRef();
 
-  const { confirmOptPassword } = useAuth();
+  const { confirmOptPassword, forgotPassword } = useAuth();
+  const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
   const handleOpenModal = () => {
@@ -88,7 +90,8 @@ const ForgotPassword = ({ ...others }) => {
         console.log('password should match');
         throw 'password should match';
       }
-      await confirmOptPassword(otp, newPassword, confirmPassword);
+      await confirmOptPassword(otp, newPassword, confirmPassword, emailAdd);
+      navigate('/login');
     } catch (error) {
       // You can show an error message to the user if needed
       console.error(error);
@@ -128,7 +131,8 @@ const ForgotPassword = ({ ...others }) => {
           try {
             console.log(values);
             // Call the function to send OTP to the provided email or username
-            // await forgotPassword(values.email);
+            await forgotPassword(values.email);
+            setEmailAdd(values.email);
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);

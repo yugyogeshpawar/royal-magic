@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 // utils
 import axios from 'axios';
-import { setSession } from '../utils/jwt';
+import { setSession } from '../utils/adminjwt';
 // ----------------------------------------------------------------------
 
 const baseUrl = process.env.PORT || 'http://localhost:3010/api';
@@ -32,6 +32,15 @@ const handlers = {
       user
     };
   },
+  REGISTER: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user
+    };
+  },
   LOGOUT: (state) => ({
     ...state,
     isAuthenticated: false,
@@ -47,6 +56,8 @@ const AuthContext = createContext({
   login: () => Promise.resolve(),
   forgotPassword: () => Promise.resolve(),
   confirmOptPassword: () => Promise.resolve(),
+  register: () => Promise.resolve(),
+  adminlogin: () => Promise.resolve(),
   logout: () => Promise.resolve()
 });
 
@@ -145,6 +156,68 @@ function AuthProvider({ children }) {
     initialize();
   }, []);
 
+  const adminlogin = async ({ email, password }) => {
+    const response = await axios.post(`${baseUrl}/auth/admin/login`, {
+      email,
+      password
+    });
+    console.log(response);
+    // const response = {
+    //   status: true,
+    //   message: 'Login successfully',
+    //   token:
+    //     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NjYwMjY0IiwiaWF0IjoxNjg3MjU3OTA2LCJleHAiOjE2ODcyNjE1MDZ9.V9BDDqR1CQlThRYKjZqxzvVue58Ua3L22tGV6Du5GSY',
+    //   user: {
+    //     member_user_id: '4660264',
+    //     member_name: 'JAYPATEL',
+    //     sponcer_id: '5217560',
+    //     sponcer_name: 'Jay',
+    //     wallet_address: null,
+    //     promoter_id: null,
+    //     promoter_name: null,
+    //     contact: '3456434565',
+    //     email: 'info@codedthemes.com',
+    //     status: 0,
+    //     registration_date: '2023-05-25T05:22:20.000Z',
+    //     member_status: 0,
+    //     kyc_status: 0,
+    //     topup_amount: 0,
+    //     direct_member: 0,
+    //     wallet_amount: 9800,
+    //     checked: 0,
+    //     withdrawal_amt: 200,
+    //     block_status: 0,
+    //     current_investment: 0,
+    //     direct_business: 0,
+    //     total_earning: 10000,
+    //     isblock: 0,
+    //     team_business: 0,
+    //     expiry_date: null,
+    //     team_member: 0,
+    //     activation_date: null,
+    //     profile_image: null,
+    //     front_image: null,
+    //     back_image: null,
+    //     member_dob: null,
+    //     address: null,
+    //     pincod: 0,
+    //     gender: null,
+    //     country_code: 0,
+    //     state: null,
+    //     city: null,
+    //     calTeamStatus: 0,
+    //     updateWallet: 0
+    //   }
+    // };
+    const { token, user } = response.data;
+    setSession(token);
+    dispatch({
+      type: 'LOGIN',
+      payload: {
+        user
+      }
+    });
+  };
   const login = async ({ email, password }) => {
     const response = await axios.post(`${baseUrl}/auth/login`, {
       email,
@@ -208,10 +281,27 @@ function AuthProvider({ children }) {
     });
   };
 
+  const register = async (sponsorId, memberName, email, contactNo, password, cpassword) => {
+    const response = await axios({
+      method: 'post',
+      url: `${baseUrl}/Auth/register`,
+      data: { sponsorId, memberName, email, contactNo, password, cpassword }
+    });
+    const { accessToken, user } = response.data;
+
+    window.localStorage.setItem('accessToken', accessToken);
+    dispatch({
+      type: 'REGISTER',
+      payload: {
+        user
+      }
+    });
+  };
+
   const forgotPassword = async (values) => {
     const accessToken = window.localStorage.getItem('accessToken');
     const response = await axios({
-      method: 'put',
+      method: 'post',
       url: `${baseUrl}/auth/forgot-password`,
       headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
       data: { email: values }
@@ -222,23 +312,23 @@ function AuthProvider({ children }) {
   const changePassword = async (currentPassword, password, confimrPassword) => {
     const accessToken = window.localStorage.getItem('accessToken');
     const response = await axios({
-      method: 'put',
+      method: 'post',
       url: `${baseUrl}/Dashboard/changePassword`,
       headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
       data: { oldPassword: currentPassword, newPassword: password, verifyPassword: confimrPassword }
     });
     return response.data;
   };
-  const confirmOptPassword = async (currentPassword, password, confimrPassword) => {
-    console.log(currentPassword, password, confimrPassword);
-    // const accessToken = window.localStorage.getItem('accessToken');
-    // const response = await axios({
-    //   method: 'put',
-    //   url: `${baseUrl}/auth/confirm-otp`,
-    //   headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    //   data: { oldPassword: currentPassword, newPassword: password, verifyPassword: confimrPassword }
-    // });
-    // return response.data;
+  const confirmOptPassword = async (otp, password, confirmPassword, email) => {
+    console.log(otp, password, confirmPassword, email);
+    const accessToken = window.localStorage.getItem('accessToken');
+    const response = await axios({
+      method: 'post',
+      url: `${baseUrl}/auth/confirm-otp`,
+      headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      data: { token: otp, newPassword: password, verifyPassword: confirmPassword, email }
+    });
+    return response.data;
   };
 
   const logout = async () => {
@@ -256,7 +346,9 @@ function AuthProvider({ children }) {
         login,
         logout,
         changePassword,
+        register,
         confirmOptPassword,
+        adminlogin,
         forgotPassword
       }}
     >

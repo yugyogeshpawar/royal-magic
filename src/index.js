@@ -9,6 +9,7 @@ import * as serviceWorker from 'serviceWorker';
 import App from 'App';
 import { store } from 'store';
 import { AuthProvider } from './contexts/JWTContext';
+import { AdminAuthProvider } from './contexts/AdminJWTContext';
 // style + assets
 import 'assets/scss/style.scss';
 import config from './config';
@@ -21,7 +22,9 @@ root.render(
   <Provider store={store}>
     <BrowserRouter basename={config.basename}>
       <AuthProvider>
-        <App />
+        <AdminAuthProvider>
+          <App />
+        </AdminAuthProvider>
       </AuthProvider>
     </BrowserRouter>
   </Provider>
