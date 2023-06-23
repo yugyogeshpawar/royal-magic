@@ -20,7 +20,7 @@ const WithdrawRequest = Loadable(lazy(() => import('views/withdraw/withdrawReque
 const ConfirmWithdrawRequest = Loadable(lazy(() => import('views/withdraw/ConfirmWithRequest')));
 const Withdraw = Loadable(lazy(() => import('views/withdraw/WithdrawHistory')));
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default/AdminDashboard')));
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const Logout = Loadable(lazy(() => import('views/logout/adminLogout')));
 // ==============================|| MAIN ROUTING ||============================== //
@@ -66,11 +66,11 @@ const MainRoutes = {
       path: 'admin/invesment',
       children: [
         {
-          path: 'admin/invesment',
+          path: '/admin/invesment',
           element: <Investment />
         },
         {
-          path: 'admin/invesment/summary',
+          path: 'summary',
           element: <InvestmentSummary />
         }
       ]

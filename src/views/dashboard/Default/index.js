@@ -91,7 +91,7 @@ const Dashboard = () => {
       <Grid item lg={4} md={12} sm={12} xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item sm={6} xs={12} md={6} lg={12}>
-            <TotalIncomeG isLoading={isLoading} title={'Total Staking'} />
+            <TotalIncomeG isLoading={isLoading} title={'Level Bonus'} />
           </Grid>
         </Grid>
       </Grid>

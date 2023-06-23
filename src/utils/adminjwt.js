@@ -32,7 +32,7 @@ const setSession = (accessToken) => {
     localStorage.setItem('adminAccessToken', accessToken);
     // This function below will handle when token is expired
   } else {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('adminAccessToken');
   }
 };
 

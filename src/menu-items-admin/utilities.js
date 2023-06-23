@@ -19,63 +19,32 @@ const utilities = {
   title: 'User List',
   children: [
     {
-      id: 'user',
-      title: 'User List',
-      type: 'collapse',
-      icon: icons.IconUser,
-      children: [
-        {
-          id: 'tabler-icons',
-          title: 'Active User List',
-          type: 'item',
-          url: 'admin/user/active',
-          breadcrumbs: false
-        },
-        {
-          id: 'material-icons',
-          title: 'Block User List',
-          type: 'item',
-          url: 'admin/user/blocked',
-          breadcrumbs: false
-        },
-        {
-          id: 'material-icons',
-          title: 'Inative User',
-          type: 'item',
-          url: 'admin/user/inactive',
-          breadcrumbs: false
-        },
-        {
-          id: 'material-icons',
-          title: 'Search User',
-          type: 'item',
-
-          url: 'admin/user/search-user',
-          breadcrumbs: false
-        }
-      ]
+      id: 'tabler-icons',
+      title: 'Active User List',
+      type: 'item',
+      url: 'admin/user/active',
+      icon: icons.IconCash
     },
     {
-      id: 'icons',
-      title: 'Invesment',
-      type: 'collapse',
-      icon: icons.IconReportMoney,
-      children: [
-        {
-          id: 'tabler-icons',
-          title: 'Invesment',
-          type: 'item',
-          url: 'admin/invesment',
-          breadcrumbs: false
-        },
-        {
-          id: 'material-icons',
-          title: 'Invesment Summary',
-          type: 'item',
-          url: 'admin/invesment/summary',
-          breadcrumbs: false
-        }
-      ]
+      id: 'material-icons',
+      title: 'Block User List',
+      type: 'item',
+      url: 'admin/user/blocked',
+      icon: icons.IconCash
+    },
+    {
+      id: 'material-icons',
+      title: 'Inative User',
+      type: 'item',
+      url: 'admin/user/inactive',
+      icon: icons.IconCash
+    },
+    {
+      id: 'material-icons',
+      title: 'Search User',
+      type: 'item',
+      url: 'admin/user/search-user',
+      breadcrumbs: false
     }
   ]
 };
