@@ -16,10 +16,10 @@ const earning = {
   type: 'group',
   children: [
     {
-      id: 'stackingbonus',
-      title: 'Stacking Bonus',
+      id: 'levelBonus',
+      title: 'Level Bonus',
       type: 'item',
-      url: '/stacking/bonus',
+      url: '/bonus/level',
       icon: icons.IconReportMoney,
       breadcrumbs: false
     },
@@ -27,7 +27,7 @@ const earning = {
       id: 'ref-bonus',
       title: 'Referral Bonus',
       type: 'item',
-      url: '/stacking/ref-bonus',
+      url: '/bonus/referral',
       icon: icons.IconZoomMoney,
       breadcrumbs: false
     }

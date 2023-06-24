@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import useAuth from '../../../../hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -28,25 +29,31 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
-
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
-const FirebaseRegister = ({ ...others }) => {
+const Register = ({ ...others }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const [showPassword, setShowPassword] = useState(false);
+  const [cshowPassword, setcShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
+  const { register } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+  const handleClickCShowPassword = () => {
+    setcShowPassword(!cshowPassword);
   };
 
   const handleMouseDownPassword = (event) => {
@@ -58,10 +65,6 @@ const FirebaseRegister = ({ ...others }) => {
     setStrength(temp);
     setLevel(strengthColor(temp));
   };
-
-  useEffect(() => {
-    changePassword('123456');
-  }, []);
 
   return (
     <>
@@ -77,23 +80,38 @@ const FirebaseRegister = ({ ...others }) => {
         initialValues={{
           email: '',
           password: '',
+          cpassword: '',
+          sponcerid: '',
+          contactNumber: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          sponcerid: Yup.string().length(7, 'Sponcer ID must be 7 characters').required('Sponcer ID is required'),
+          password: Yup.string().max(255).required('Password is required'),
+          cpassword: Yup.string().max(255).required('Password is required'),
+          contactNumber: Yup.string()
+            .min(10, 'Contact number must be at least 10 digits')
+            .max(12, 'Contact number must be at most 12 digits')
+            .required('Contact number is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            // Combine first name and last name into member_name
+            const memberName = `${firstName} ${lastName}`;
+
+            await register({ ...values, member_name: memberName });
+
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
             }
+            <Navigate to="/login" />;
           } catch (err) {
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });
-              setErrors({ submit: err.message });
+              setErrors({ submit: err.response.data.message });
               setSubmitting(false);
             }
           }
@@ -101,6 +119,23 @@ const FirebaseRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
+            <FormControl fullWidth error={Boolean(touched.sponcerid && errors.sponcerid)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-spnace-id">Sponcer ID</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-spnace-id"
+                type="number"
+                value={values.sponcerid}
+                name="sponcerid"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                inputProps={{}}
+              />
+              {touched.sponcerid && errors.sponcerid && (
+                <FormHelperText error id="standard-weight-helper-text--register">
+                  {errors.sponcerid}
+                </FormHelperText>
+              )}
+            </FormControl>
             <Grid container spacing={matchDownSM ? 0 : 2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -109,7 +144,8 @@ const FirebaseRegister = ({ ...others }) => {
                   margin="normal"
                   name="fname"
                   type="text"
-                  defaultValue=""
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   sx={{ ...theme.typography.customInput }}
                 />
               </Grid>
@@ -120,7 +156,8 @@ const FirebaseRegister = ({ ...others }) => {
                   margin="normal"
                   name="lname"
                   type="text"
-                  defaultValue=""
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   sx={{ ...theme.typography.customInput }}
                 />
               </Grid>
@@ -139,6 +176,22 @@ const FirebaseRegister = ({ ...others }) => {
               {touched.email && errors.email && (
                 <FormHelperText error id="standard-weight-helper-text--register">
                   {errors.email}
+                </FormHelperText>
+              )}
+            </FormControl>
+            <FormControl fullWidth error={Boolean(touched.contactNumber && errors.contactNumber)}>
+              <InputLabel htmlFor="outlined-adornment-contact-number">Contact Number</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-contact-number"
+                value={values.contactNumber}
+                onChange={handleChange}
+                label="Contact Number"
+                onBlur={handleBlur}
+                name="contactNumber" // Update the name attribute to match the field name in initialValues
+              />
+              {touched.contactNumber && errors.contactNumber && (
+                <FormHelperText error id="standard-weight-helper-text-contact-number">
+                  {errors.contactNumber}
                 </FormHelperText>
               )}
             </FormControl>
@@ -174,6 +227,40 @@ const FirebaseRegister = ({ ...others }) => {
               {touched.password && errors.password && (
                 <FormHelperText error id="standard-weight-helper-text-password-register">
                   {errors.password}
+                </FormHelperText>
+              )}
+            </FormControl>
+            <FormControl fullWidth error={Boolean(touched.cpassword && errors.cpassword)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="outlined-adornment-cpassword-register">Confirm Password</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-cpassword-register"
+                type={cshowPassword ? 'text' : 'password'}
+                value={values.cpassword}
+                name="cpassword"
+                label="Confirm Password"
+                onBlur={handleBlur}
+                onChange={(e) => {
+                  handleChange(e);
+                  changePassword(e.target.value);
+                }}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickCShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      size="large"
+                    >
+                      {cshowPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                inputProps={{}}
+              />
+              {touched.cpassword && errors.cpassword && (
+                <FormHelperText error id="standard-weight-helper-text-cpassword-register">
+                  {errors.cpassword}
                 </FormHelperText>
               )}
             </FormControl>
@@ -232,4 +319,4 @@ const FirebaseRegister = ({ ...others }) => {
   );
 };
 
-export default FirebaseRegister;
+export default Register;

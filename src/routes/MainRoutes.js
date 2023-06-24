@@ -15,7 +15,7 @@ const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialI
 const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
 
 const ReferralBonus = Loadable(lazy(() => import('views/earning/ReferralBonus')));
-const StackingBonus = Loadable(lazy(() => import('views/earning/StackingBonus')));
+const LevelBonus = Loadable(lazy(() => import('views/earning/LevelBonus')));
 const Withdraw = Loadable(lazy(() => import('views/payout/Withdraw')));
 const Withdrawhistory = Loadable(lazy(() => import('views/payout/Withdrawhistory')));
 const Stacking = Loadable(lazy(() => import('views/stacking/Index')));
@@ -45,11 +45,11 @@ const MainRoutes = {
       element: <DashboardDefault />
     },
     {
-      path: 'stacking',
+      path: 'deposit',
       element: <Stacking />
     },
     {
-      path: 'stacking-summary',
+      path: 'deposit-summary',
       element: <StackingSummary />
     },
     {
@@ -66,14 +66,14 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'stacking',
+      path: 'bonus',
       children: [
         {
-          path: 'bonus',
-          element: <StackingBonus />
+          path: 'level',
+          element: <LevelBonus />
         },
         {
-          path: 'ref-bonus',
+          path: 'referral',
           element: <ReferralBonus />
         }
       ]

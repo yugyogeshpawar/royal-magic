@@ -32,6 +32,15 @@ const handlers = {
       user
     };
   },
+  REGISTER: (state, action) => {
+    const { user } = action.payload;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user
+    };
+  },
   LOGOUT: (state) => ({
     ...state,
     isAuthenticated: false,
@@ -47,6 +56,7 @@ const AuthContext = createContext({
   login: () => Promise.resolve(),
   forgotPassword: () => Promise.resolve(),
   confirmOptPassword: () => Promise.resolve(),
+  register: () => Promise.resolve(),
   logout: () => Promise.resolve()
 });
 
@@ -208,10 +218,27 @@ function AuthProvider({ children }) {
     });
   };
 
+  const register = async ({ sponcerid, memberName, email, contactNumber, password, cpassword, member_name }) => {
+    const response = await axios({
+      method: 'post',
+      url: `${baseUrl}/Auth/register`,
+      data: { sponcerid, memberName, email, contactNumber, password, cpassword, member_name }
+    });
+    const { accessToken, user } = response.data;
+
+    window.localStorage.setItem('accessToken', accessToken);
+    dispatch({
+      type: 'REGISTER',
+      payload: {
+        user
+      }
+    });
+  };
+
   const forgotPassword = async (values) => {
     const accessToken = window.localStorage.getItem('accessToken');
     const response = await axios({
-      method: 'put',
+      method: 'post',
       url: `${baseUrl}/auth/forgot-password`,
       headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
       data: { email: values }
@@ -222,23 +249,23 @@ function AuthProvider({ children }) {
   const changePassword = async (currentPassword, password, confimrPassword) => {
     const accessToken = window.localStorage.getItem('accessToken');
     const response = await axios({
-      method: 'put',
+      method: 'post',
       url: `${baseUrl}/Dashboard/changePassword`,
       headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
       data: { oldPassword: currentPassword, newPassword: password, verifyPassword: confimrPassword }
     });
     return response.data;
   };
-  const confirmOptPassword = async (currentPassword, password, confimrPassword) => {
-    console.log(currentPassword, password, confimrPassword);
-    // const accessToken = window.localStorage.getItem('accessToken');
-    // const response = await axios({
-    //   method: 'put',
-    //   url: `${baseUrl}/auth/confirm-otp`,
-    //   headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-    //   data: { oldPassword: currentPassword, newPassword: password, verifyPassword: confimrPassword }
-    // });
-    // return response.data;
+  const confirmOptPassword = async (otp, password, confirmPassword, email) => {
+    console.log(otp, password, confirmPassword, email);
+    const accessToken = window.localStorage.getItem('accessToken');
+    const response = await axios({
+      method: 'post',
+      url: `${baseUrl}/auth/confirm-otp`,
+      headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      data: { token: otp, newPassword: password, verifyPassword: confirmPassword, email }
+    });
+    return response.data;
   };
 
   const logout = async () => {
@@ -256,6 +283,7 @@ function AuthProvider({ children }) {
         login,
         logout,
         changePassword,
+        register,
         confirmOptPassword,
         forgotPassword
       }}

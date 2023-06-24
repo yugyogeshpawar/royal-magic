@@ -16,11 +16,11 @@ export default function QuickFilteringGrid() {
             id: element.record_no,
             member_user_id: element.member_user_id,
             member_name: element.member_name,
-            sys_date: format(new Date(element.sys_date), 'dd-MM-yyyy'),
-            investment: element.investment,
-            transaction_id: element.transaction_id,
+            sys_date: format(new Date(element.tr_date), 'dd-MM-yyyy'),
+            investment: element.invest_package,
+            transaction_id: element.hash_code,
             walletAddress: element.walletAddress,
-            checked: element.checked,
+            checked: element.checked ? 'Confirmed' : 'Pending',
             status: element.status,
             deposit_type: element.deposit_type
           }));
@@ -38,7 +38,8 @@ export default function QuickFilteringGrid() {
       { field: 'sys_date', headerName: 'Date', width: 120 },
       { field: 'investment', headerName: 'Investment', hide: true, width: 120 },
       { field: 'transaction_id', headerName: 'Transaction ID', flex: 1 },
-      { field: 'walletAddress', headerName: 'Wallet Address', hide: true, flex: 1 }
+      { field: 'walletAddress', headerName: 'Wallet Address', hide: true, flex: 1 },
+      { field: 'checked', headerName: 'Status', flex: 1 }
     ],
     []
   );

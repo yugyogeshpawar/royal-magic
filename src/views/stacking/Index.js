@@ -113,7 +113,7 @@ export default function ValidationTextFields() {
         onSubmit={handleSubmit}
         sx={{ display: 'flex', flexDirection: 'column', background: 'white', width: 'fit-content', p: 4, borderRadius: '20px', mb: 4 }}
       >
-        <h1>Withdraw details</h1>
+        <h1>Enter Deposit Details</h1>
         <TextField
           error={Boolean(validationErrors.wallet)}
           id="outlined-error-helper-text-wallet"
@@ -132,7 +132,7 @@ export default function ValidationTextFields() {
         <TextField
           error={Boolean(validationErrors.staking)}
           id="outlined-error-helper-text-staking"
-          label="Staking(USD)"
+          label="Deposit (USD)"
           name="staking"
           value={formValues.staking}
           onChange={handleInputChange}

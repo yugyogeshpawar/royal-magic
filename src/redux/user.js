@@ -9,6 +9,7 @@ let teams = [];
 let refBonus = [];
 let stackingBonus = [];
 let myRefferal = [];
+let levelBonus = [];
 const initializer = {
   stakingHistorySucess: false,
   stakingBonusSucess: false,
@@ -16,7 +17,8 @@ const initializer = {
   withdrawHisSuccess: false,
   teamListSucess: false,
   RefBonusSucess: false,
-  myRefferalSucess: false
+  myRefferalSucess: false,
+  levelBonusSucess: false
 };
 
 const initialState = {
@@ -83,6 +85,24 @@ export async function getTeams() {
   return teams;
 }
 // ----------------------------------------------------------------------
+export async function getMyRefferal() {
+  if (!initializer.RefBonusSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('accessToken');
+      const headers = { Authorization: `Bearer ${accessToken}` };
+      const response = await axios.get(`${baseUrl}/Team/MyReferral`, {
+        headers
+      });
+      myRefferal = response.data;
+      initializer.RefBonusSucess = true;
+    } catch (error) {
+      console.log(error);
+      initializer.RefBonusSucess = false;
+    }
+  }
+  return myRefferal;
+}
+// ----------------------------------------------------------------------
 export async function getStakingBonus() {
   if (!initializer.stakingBonusSucess) {
     try {
@@ -101,22 +121,22 @@ export async function getStakingBonus() {
   return stackingBonus;
 }
 // ----------------------------------------------------------------------
-export async function getMyRefferal() {
-  if (!initializer.myRefferalSucess) {
+export async function getLevelBonus() {
+  if (!initializer.levelBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
       const headers = { Authorization: `Bearer ${accessToken}` };
-      const response = await axios.get(`${baseUrl}/Earning/StakingBonus`, {
+      const response = await axios.get(`${baseUrl}/Earning/levelBonus`, {
         headers
       });
-      initializer.myRefferalSucess = true;
-      myRefferal = response.data;
+      initializer.levelBonusSucess = true;
+      levelBonus = response.data;
     } catch (error) {
       console.log(error);
-      initializer.myRefferalSucess = false;
+      initializer.levelBonusSucess = false;
     }
   }
-  return myRefferal;
+  return levelBonus;
 }
 // ----------------------------------------------------------------------
 export async function getRefBonus() {
@@ -124,7 +144,7 @@ export async function getRefBonus() {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
       const headers = { Authorization: `Bearer ${accessToken}` };
-      const response = await axios.get(`${baseUrl}/Earning/StakingBonus`, {
+      const response = await axios.get(`${baseUrl}/Earning/ReferralBonus`, {
         headers
       });
       initializer.RefBonusSucess = true;

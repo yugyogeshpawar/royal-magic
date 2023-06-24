@@ -11,9 +11,10 @@ export default function NewPage() {
     const fetchData = async () => {
       // Fetch data from the API
       const res = await getMyRefferal(); // Replace with your API call
+      console.log(res);
       if (Array.isArray(res?.data)) {
         // Map the data to the desired structure
-        const mappedData = res.data.data.map((item, index) => ({
+        const mappedData = res.data.map((item, index) => ({
           id: index + 1,
           member_user_id: item.member_user_id,
           member_name: item.member_name,
