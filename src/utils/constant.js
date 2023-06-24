@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3010/api';
+const BASE_URL = 'http://13.200.50.205:3010/api';
 
 export const API_ROUTES = {
   GET_ACTIVE_USER: BASE_URL + '/admin/activeUser',

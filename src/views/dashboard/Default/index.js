@@ -76,7 +76,7 @@ const Dashboard = () => {
             <TotalIncomeDarkCard isLoading={isLoading} title={'Team Business'} teamBusiness={user?.team_business} />
           </Grid>
           <Grid item sm={6} xs={12} md={6} lg={12}>
-            <TotalStaking isLoading={isLoading} title={'Refferal Bonus'} refBonus={user?.team_business} />
+            <TotalStaking isLoading={isLoading} title={'Refferal Bonus'} refBonus={user?.direct_income} />
           </Grid>
         </Grid>
       </Grid>

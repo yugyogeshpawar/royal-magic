@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setSession } from '../utils/adminjwt';
 // ----------------------------------------------------------------------
 
-const baseUrl = process.env.PORT || 'http://localhost:3010/api';
+const baseUrl = process.env.PORT || 'http://13.200.50.205:3010/api';
 
 const initialState = {
   isInitialized: false,

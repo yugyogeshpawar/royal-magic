@@ -163,7 +163,15 @@ const ProfileSection = () => {
                           {user?.member_name}
                         </Typography>
                       </Stack>
-                      <Typography variant="subtitle2">Project Royal Magic</Typography>
+                      <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mt: 1 }}>
+                        <Typography variant="h5">Member Id</Typography>
+                        <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
+                          {user?.member_user_id}
+                        </Typography>
+                      </Stack>
+                      <Typography variant="subtitle2" sx={{ mt: 1 }}>
+                        Project Royal Magic
+                      </Typography>
                     </Stack>
                     <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
