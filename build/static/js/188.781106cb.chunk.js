@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkRoyal_Magic=self.webpackChunkRoyal_Magic||[]).push([[188],{2188:function(a,n,o){o.r(n);var c=o(3497),s=o(4199),e=o(7890),i=o(7313);o(6417);n.default=()=>{const a=(0,e.s0)(),{logout:n}=(0,s.Z)();(0,i.useEffect)((()=>{!async function(){await n(),a("/admin/login")}()})),console.log("working"),c.Z}}}]);
