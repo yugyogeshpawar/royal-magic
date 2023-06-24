@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-
+import useAdminAuth from '../../../hooks/useAdminAuth';
 // material-ui
 import { Grid } from '@mui/material';
 
@@ -20,6 +20,8 @@ import { gridSpacing } from 'store/constant';
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
+  const { user } = useAdminAuth();
+  console.log(user);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     setLoading(false);
@@ -32,47 +34,47 @@ const Dashboard = () => {
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} title={'Total User'} />
+                <TotalIncomeDarkCard isLoading={isLoading} title={'Total User'} totalUser={user?.totalUser} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <ActiveCard isLoading={isLoading} title={'Active'} />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item lg={4} md={12} sm={12} xs={12}>
-            <Grid container spacing={gridSpacing}>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <InactiveCard isLoading={isLoading} title={'Inactive'} />
-              </Grid>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeLightCard isLoading={isLoading} title={'Total investment'} />
+                <ActiveCard isLoading={isLoading} title={'Active Table'} teams={user?.totalActiveUser} />
               </Grid>
             </Grid>
           </Grid>
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <PendingCard isLoading={isLoading} title={'Pending Withdraw Request'} />
+                <InactiveCard isLoading={isLoading} title={'Inactive User'} inactive={user?.totalInactiveUser} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <ConfirmWithdraw isLoading={isLoading} title={'Confirm Withdraw Request'} />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item lg={4} md={12} sm={12} xs={12}>
-            <Grid container spacing={gridSpacing}>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} title={'Wallet Balance'} />
-              </Grid>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalStaking isLoading={isLoading} title={'Total Staking'} />
+                <TotalIncomeLightCard isLoading={isLoading} title={'Total investment'} number={user?.totalInvestment} />
               </Grid>
             </Grid>
           </Grid>
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} title={'Today Stacking'} />
+                <PendingCard isLoading={isLoading} title={'Pending Withdraw Request'} stackingBonus={user?.pendingWithdraw} />
+              </Grid>
+              <Grid item sm={6} xs={12} md={6} lg={12}>
+                <ConfirmWithdraw isLoading={isLoading} title={'Confirm Withdraw Request'} directMember={`$${user?.confirmWithdraw}`} />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item lg={4} md={12} sm={12} xs={12}>
+            <Grid container spacing={gridSpacing}>
+              <Grid item sm={6} xs={12} md={6} lg={12}>
+                <TotalIncomeDarkCard isLoading={isLoading} title={'Blocked Users'} totalUser={`$${user?.totalBlockedUser}`} />
+              </Grid>
+              <Grid item sm={6} xs={12} md={6} lg={12}>
+                <TotalStaking isLoading={isLoading} title={'Today Staking'} />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item lg={4} md={12} sm={12} xs={12}>
+            <Grid container spacing={gridSpacing}>
+              <Grid item sm={6} xs={12} md={6} lg={12}>
+                <TotalIncomeDarkCard isLoading={isLoading} title={'Today Stacking'} totalUser={`$${user?.todaystaking}`} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
                 <PendingCard isLoading={isLoading} title={'Total Income'} />
@@ -82,7 +84,7 @@ const Dashboard = () => {
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} title={'Total Income'} />
+                <TotalIncomeDarkCard isLoading={isLoading} title={'Total Wallet Bal'} totalUser={`$${user?.walletAmount}`} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
                 <ActiveCard isLoading={isLoading} title={'Total Income'} />

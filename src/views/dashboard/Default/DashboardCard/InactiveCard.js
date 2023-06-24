@@ -41,7 +41,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 // ==============================|| DASHBOARD - TOTAL INCOME DARK CARD ||============================== //
 
-const PendingCard = ({ isLoading, title, inactive }) => {
+const InactiveCard = ({ isLoading, title, inactive }) => {
   const theme = useTheme();
 
   return (
@@ -74,12 +74,7 @@ const PendingCard = ({ isLoading, title, inactive }) => {
                   }}
                   primary={
                     <Typography variant="h4" sx={{ color: '#fff' }}>
-                      {inactive}
-                    </Typography>
-                  }
-                  secondary={
-                    <Typography variant="subtitle2" sx={{ color: '#fff', mt: 0.25 }}>
-                      {title}
+                      {inactive} {title}
                     </Typography>
                   }
                 />
@@ -92,10 +87,10 @@ const PendingCard = ({ isLoading, title, inactive }) => {
   );
 };
 
-PendingCard.propTypes = {
+InactiveCard.propTypes = {
   isLoading: PropTypes.bool,
   title: PropTypes.string,
   inactive: PropTypes.number
 };
 
-export default PendingCard;
+export default InactiveCard;

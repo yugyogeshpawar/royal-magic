@@ -121,12 +121,12 @@ function AdminAuthProvider({ children }) {
           //   }
           // };
           console.log(axios, baseUrl);
-          const { data } = response.data;
+          const { user } = response.data;
           dispatch({
             type: 'INITIALIZE',
             payload: {
               isAdminAuthenticated: true,
-              user: data
+              user
             }
           });
           console.log('initialized');
