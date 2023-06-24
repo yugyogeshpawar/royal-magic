@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
+import { Navigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -105,6 +106,7 @@ const Register = ({ ...others }) => {
               setStatus({ success: true });
               setSubmitting(false);
             }
+            <Navigate to="/login" />;
           } catch (err) {
             console.error(err);
             if (scriptedRef.current) {
