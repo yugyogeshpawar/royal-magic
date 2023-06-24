@@ -1,41 +1,81 @@
-// User list
-
 import * as React from 'react';
-import Box from '@mui/material/Box';
+import { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useDemoData } from '@mui/x-data-grid-generator';
+import { getInactiveUsers } from '../../redux/admin';
 
-const VISIBLE_FIELDS = ['id', 'name', 'rating', 'country', 'dateCreated', 'isAdmin'];
+export default function InactiveUsers() {
+  const [rows, setRows] = useState([]);
 
-export default function QuickFilteringGrid() {
-  const { data } = useDemoData({
-    dataSet: 'Employee',
-    visibleFields: VISIBLE_FIELDS,
-    rowLength: 500
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      // Fetch data from the API
+      const res = await getInactiveUsers(); // Replace with your API call
+      if (Array.isArray(res?.data)) {
+        const mappedData = res.data.map((item, index) => ({
+          id: index + 1,
+          member_user_id: item.member_user_id,
+          member_name: item.member_name,
+          contact: item.contact,
+          email: item.email,
+          wallet_amount: item.wallet_amount
+        }));
+        setRows(mappedData);
+      }
+    };
 
-  // Otherwise filter will be applied on fields such as the hidden column id
-  const columns = React.useMemo(() => data.columns.filter((column) => VISIBLE_FIELDS.includes(column.field)), [data.columns]);
-  console.log(columns);
+    fetchData();
+  }, []);
+
+  const columns = [
+    { field: 'id', headerName: 'No.', width: 90 },
+    {
+      field: 'member_user_id',
+      headerName: 'Member User Id',
+      width: 150,
+      editable: true
+    },
+    {
+      field: 'member_name',
+      headerName: 'Member Name',
+      sortable: false,
+      width: 160
+    },
+    {
+      field: 'contact',
+      headerName: 'Contact',
+      sortable: false,
+      width: 160
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      sortable: false,
+      width: 160
+    },
+    {
+      field: 'wallet_amount',
+      headerName: 'Wallet Amount',
+      sortable: false,
+      width: 160
+    }
+  ];
 
   return (
-    <Box sx={{ height: '80vh', width: 1, backgroundColor: 'white'  }}>
+    <div style={{ height: '80vh', width: '100%' }}>
       <DataGrid
-        {...data}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 20, page: 0 }
-          }
-        }}
+        rows={rows}
         columns={columns}
-        slots={{ toolbar: GridToolbar }}
+        components={{ Toolbar: GridToolbar }}
+        autoPageSize
+        showToolbar
         slotProps={{
           toolbar: {
             showQuickFilter: true,
             quickFilterProps: { debounceMs: 500 }
           }
         }}
+        sx={{ background: '#fff', padding: 2, borderRadius: 4 }}
       />
-    </Box>
+    </div>
   );
 }

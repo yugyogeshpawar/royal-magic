@@ -43,7 +43,6 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const InactiveCard = ({ isLoading, title, inactive }) => {
   const theme = useTheme();
-
   return (
     <>
       {isLoading ? (

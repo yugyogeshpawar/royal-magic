@@ -12,22 +12,22 @@ const icons = {
 
 const stacking = {
   id: 'stacking',
-  title: 'Stacking',
+  title: 'Deposit',
   type: 'group',
   children: [
     {
       id: 'stackinglist',
-      title: 'Staking',
+      title: 'Deposit',
       type: 'item',
-      url: '/stacking',
+      url: '/deposit',
       icon: icons.IconStack,
       breadcrumbs: false
     },
     {
       id: 'stacking-summary',
-      title: 'Staking Summary',
+      title: 'Deposit Summary',
       type: 'item',
-      url: '/stacking-summary',
+      url: '/deposit-summary',
       icon: icons.IconList,
       breadcrumbs: false
     }

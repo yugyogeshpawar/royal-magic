@@ -28,14 +28,15 @@ import { Formik } from 'formik';
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
-
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
-const FirebaseRegister = ({ ...others }) => {
+const Register = ({ ...others }) => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const theme = useTheme();
   const scriptedRef = useScriptRef();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -80,16 +81,26 @@ const FirebaseRegister = ({ ...others }) => {
           password: '',
           cpassword: '',
           sponcerid: '',
+          contactNumber: '',
           submit: null
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          sponcerid: Yup.string().length(7, 'Sponcer ID must be 7 characters').required('Sponcer ID is required'),
           password: Yup.string().max(255).required('Password is required'),
-          cpassword: Yup.string().max(255).required('Password is required')
+          cpassword: Yup.string().max(255).required('Password is required'),
+          contactNumber: Yup.string()
+            .min(10, 'Contact number must be at least 10 digits')
+            .max(12, 'Contact number must be at most 12 digits')
+            .required('Contact number is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await register(values);
+            // Combine first name and last name into member_name
+            const memberName = `${firstName} ${lastName}`;
+
+            await register({ ...values, member_name: memberName });
+
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
@@ -98,7 +109,7 @@ const FirebaseRegister = ({ ...others }) => {
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });
-              setErrors({ submit: err.message });
+              setErrors({ submit: err.response.data.message });
               setSubmitting(false);
             }
           }
@@ -106,7 +117,7 @@ const FirebaseRegister = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+            <FormControl fullWidth error={Boolean(touched.sponcerid && errors.sponcerid)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-spnace-id">Sponcer ID</InputLabel>
               <OutlinedInput
                 id="outlined-adornment-spnace-id"
@@ -117,9 +128,9 @@ const FirebaseRegister = ({ ...others }) => {
                 onChange={handleChange}
                 inputProps={{}}
               />
-              {touched.email && errors.email && (
+              {touched.sponcerid && errors.sponcerid && (
                 <FormHelperText error id="standard-weight-helper-text--register">
-                  {errors.email}
+                  {errors.sponcerid}
                 </FormHelperText>
               )}
             </FormControl>
@@ -131,7 +142,8 @@ const FirebaseRegister = ({ ...others }) => {
                   margin="normal"
                   name="fname"
                   type="text"
-                  defaultValue=""
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                   sx={{ ...theme.typography.customInput }}
                 />
               </Grid>
@@ -142,7 +154,8 @@ const FirebaseRegister = ({ ...others }) => {
                   margin="normal"
                   name="lname"
                   type="text"
-                  defaultValue=""
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                   sx={{ ...theme.typography.customInput }}
                 />
               </Grid>
@@ -161,6 +174,22 @@ const FirebaseRegister = ({ ...others }) => {
               {touched.email && errors.email && (
                 <FormHelperText error id="standard-weight-helper-text--register">
                   {errors.email}
+                </FormHelperText>
+              )}
+            </FormControl>
+            <FormControl fullWidth error={Boolean(touched.contactNumber && errors.contactNumber)}>
+              <InputLabel htmlFor="outlined-adornment-contact-number">Contact Number</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-contact-number"
+                value={values.contactNumber}
+                onChange={handleChange}
+                label="Contact Number"
+                onBlur={handleBlur}
+                name="contactNumber" // Update the name attribute to match the field name in initialValues
+              />
+              {touched.contactNumber && errors.contactNumber && (
+                <FormHelperText error id="standard-weight-helper-text-contact-number">
+                  {errors.contactNumber}
                 </FormHelperText>
               )}
             </FormControl>
@@ -205,7 +234,7 @@ const FirebaseRegister = ({ ...others }) => {
                 id="outlined-adornment-cpassword-register"
                 type={cshowPassword ? 'text' : 'password'}
                 value={values.cpassword}
-                name="password"
+                name="cpassword"
                 label="Confirm Password"
                 onBlur={handleBlur}
                 onChange={(e) => {
@@ -288,4 +317,4 @@ const FirebaseRegister = ({ ...others }) => {
   );
 };
 
-export default FirebaseRegister;
+export default Register;

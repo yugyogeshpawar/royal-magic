@@ -132,7 +132,7 @@ export default function ValidationTextFields() {
         <TextField
           error={Boolean(validationErrors.staking)}
           id="outlined-error-helper-text-staking"
-          label="Staking(USD)"
+          label="Deposit (USD)"
           name="staking"
           value={formValues.staking}
           onChange={handleInputChange}

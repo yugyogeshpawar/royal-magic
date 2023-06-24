@@ -9,10 +9,12 @@ export async function getActiveUsers() {
   try {
     const URL = API_ROUTES.GET_ACTIVE_USER;
 
-    const data = await axios.get(URL);
-
-    console.log('hello backend getactive_value value :', data);
-    return [data, null];
+    const accessToken = window.localStorage.getItem('adminAccessToken');
+    const headers = { Authorization: `Bearer ${accessToken}` };
+    const response = await axios.get(URL, {
+      headers
+    });
+    return [response.data, 'success'];
   } catch (e) {
     return [null, e];
   }

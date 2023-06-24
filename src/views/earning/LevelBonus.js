@@ -4,6 +4,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { format } from 'date-fns';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import { getLevelBonus } from '../../redux/user';
 
 export default function StakingBonusPage() {
   const [rows, setRows] = useState([]);
@@ -12,7 +13,7 @@ export default function StakingBonusPage() {
   useEffect(() => {
     const fetchData = async () => {
       // Fetch staking bonus data from the API
-      const res = await getStakingBonus(); // Replace with your API call
+      const res = await getLevelBonus(); // Replace with your API call
       if (Array.isArray(res?.data)) {
         // Map the data to the desired structure
         const mappedData = res.data.map((item, index) => ({

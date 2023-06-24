@@ -26,21 +26,21 @@ const utilities = {
       icon: icons.IconCash
     },
     {
-      id: 'material-icons',
-      title: 'Block User List',
+      id: 'blocked-user',
+      title: 'Blocked User List',
       type: 'item',
       url: 'admin/user/blocked',
       icon: icons.IconCash
     },
     {
-      id: 'material-icons',
+      id: 'inactive-user',
       title: 'Inative User',
       type: 'item',
       url: 'admin/user/inactive',
       icon: icons.IconCash
     },
     {
-      id: 'material-icons',
+      id: 'search-user',
       title: 'Search User',
       type: 'item',
       url: 'admin/user/search-user',

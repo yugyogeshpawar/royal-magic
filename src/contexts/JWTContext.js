@@ -155,7 +155,6 @@ function AuthProvider({ children }) {
     initialize();
   }, []);
 
-
   const login = async ({ email, password }) => {
     const response = await axios.post(`${baseUrl}/auth/login`, {
       email,
@@ -219,11 +218,11 @@ function AuthProvider({ children }) {
     });
   };
 
-  const register = async (sponsorId, memberName, email, contactNo, password, cpassword) => {
+  const register = async ({ sponcerid, memberName, email, contactNumber, password, cpassword, member_name }) => {
     const response = await axios({
       method: 'post',
       url: `${baseUrl}/Auth/register`,
-      data: { sponsorId, memberName, email, contactNo, password, cpassword }
+      data: { sponcerid, memberName, email, contactNumber, password, cpassword, member_name }
     });
     const { accessToken, user } = response.data;
 

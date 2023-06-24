@@ -1,104 +1,81 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { getActiveUsers } from 'utils/api';
 import { useEffect, useState } from 'react';
-import { throwIfExists } from 'utils/helper';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { getActiveUsers } from '../../redux/admin';
 
-export default function QuickFilteringGrid() {
-  const [state, setState] = useState([]);
-
-  console.log('state value data:', state.data);
-
-  const getActiveUsersFunction = async () => {
-    try {
-      const [getActiveData, getActiveError] = await getActiveUsers();
-      throwIfExists(getActiveError);
-      setState(getActiveData.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+export default function ActiveUsers() {
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    getActiveUsersFunction();
+    const fetchData = async () => {
+      // Fetch data from the API
+      const res = await getActiveUsers(); // Replace with your API call
+      if (Array.isArray(res?.data)) {
+        const mappedData = res.data.map((item, index) => ({
+          id: index + 1,
+          member_user_id: item.member_user_id,
+          member_name: item.member_name,
+          contact: item.contact,
+          email: item.email,
+          topup_amount: item.topup_amount
+        }));
+        setRows(mappedData);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'id', headerName: 'No.', width: 90 },
     {
       field: 'member_user_id',
-      headerName: 'member User Id',
+      headerName: 'Member User Id',
       width: 150,
       editable: true
     },
     {
       field: 'member_name',
       headerName: 'Member Name',
-      description: 'This column has a value getter and is not sortable.',
       sortable: false,
       width: 160
     },
-    {
-      field: 'password',
-      headerName: 'Password',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160
-    },
-
     {
       field: 'contact',
       headerName: 'Contact',
-      description: 'This column has a value getter and is not sortable.',
       sortable: false,
       width: 160
     },
     {
       field: 'email',
       headerName: 'Email',
-      description: 'This column has a value getter and is not sortable.',
       sortable: false,
       width: 160
     },
-
     {
-      field: 'wallet_amount',
-      headerName: 'Wallet Amount',
-      description: 'This column has a value getter and is not sortable.',
+      field: 'topup_amount',
+      headerName: 'Topup Amount',
       sortable: false,
       width: 160
     }
   ];
 
-  const stateData = state.data;
-
-  const rows = Array.isArray(stateData)
-    ? stateData.map((dataItem, index) => ({
-        id: index + 1,
-        member_user_id: dataItem.member_user_id,
-        member_name: dataItem.member_name,
-        password: dataItem.password,
-        contact: dataItem.contact,
-        email: dataItem.email,
-
-        wallet_amount: dataItem.wallet_amount
-      }))
-    : [];
-
   return (
-    <Box sx={{ height: '80vh', width: 1, backgroundColor: 'white' }}>
+    <div style={{ height: '80vh', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        initialState={{
-          pagination: { pageSize: 20, page: 0 }
-        }}
-        slots={{ toolbar: GridToolbar }}
+        components={{ Toolbar: GridToolbar }}
+        autoPageSize
+        showToolbar
         slotProps={{
-          toolbar: { showQuickFilter: true, quickFilterProps: { debounceMs: 500 } }
+          toolbar: {
+            showQuickFilter: true,
+            quickFilterProps: { debounceMs: 500 }
+          }
         }}
+        sx={{ background: '#fff', padding: 2, borderRadius: 4 }}
       />
-    </Box>
+    </div>
   );
 }
