@@ -5,11 +5,18 @@ import Button from '@mui/material/Button';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import QrCode from '../../assets/images/qrcode/qr-code.png';
 import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import { postDesposit } from '../../redux/user';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function ValidationTextFields() {
   const [open, setOpen] = React.useState(false);
+  const [open2, setOpen2] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     wallet: '',
     staking: '',
@@ -85,13 +92,15 @@ export default function ValidationTextFields() {
     return errors;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const errors = validateForm();
 
     if (Object.keys(errors).length === 0) {
       // Form is valid, submit the data or perform any other desired action
+      await postDesposit(formValues);
+      setOpen2(true);
       console.log('Form submitted:', formValues);
     } else {
       // Set validation errors
@@ -161,7 +170,7 @@ export default function ValidationTextFields() {
         <Button type="submit" variant="contained" disableElevation sx={{ mt: 2, width: '200px' }}>
           Submit
         </Button>
-        <p>Stacking: Lock crypto, support network, earn rewards.</p>
+        <p>Deposit: Lock crypto, support network - Tron.</p>
       </Box>
       <Box
         component="form"
@@ -201,6 +210,15 @@ export default function ValidationTextFields() {
             message="Copied"
             action={action}
           />
+          <Snackbar
+            autoHideDuration={6000}
+            open={open2}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            onClose={handleClose}
+            action={action}
+          >
+            <Alert severity="success">Request Submited Successfully</Alert>
+          </Snackbar>
         </Box>
       </Box>
     </Box>

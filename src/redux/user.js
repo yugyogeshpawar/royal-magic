@@ -4,6 +4,7 @@ import axios from 'axios';
 // ----------------------------------------------------------------------
 
 let stakingHistory = [];
+let stakingPost = [];
 let withDrawHistory = [];
 let teams = [];
 let refBonus = [];
@@ -12,6 +13,7 @@ let myRefferal = [];
 let levelBonus = [];
 const initializer = {
   stakingHistorySucess: false,
+  stakingSucess: false,
   stakingBonusSucess: false,
   refBonusSucess: false,
   withdrawHisSuccess: false,
@@ -195,6 +197,27 @@ export async function getStacking() {
 }
 
 // ----------------------------------------------------------------------
+export async function postDesposit(values) {
+  if (!initializer.stakingSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('accessToken');
+      const response = await axios({
+        method: 'post',
+        url: `${baseUrl}/Staking/`,
+        headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        data: { wallerAddress: values.wallet, amount: values.staking, transactionHash: values.transactionHash }
+      });
+      initializer.stakingSucess = true;
+      stakingPost = response.data;
+    } catch (error) {
+      console.log(error);
+      initializer.stakingSucess = false;
+    }
+  }
+  return stakingPost;
+}
+
+// ----------------------------------------------------------------------
 
 export function getUsers() {
   return async (dispatch) => {
@@ -207,3 +230,4 @@ export function getUsers() {
     }
   };
 }
+// ----------------------------------------------------------------------
