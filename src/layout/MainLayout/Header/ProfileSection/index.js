@@ -1,5 +1,6 @@
+import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-
+import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useAuth from 'hooks/useAuth';
@@ -33,12 +34,19 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from '@mui/material/IconButton';
 
 import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -52,6 +60,8 @@ const ProfileSection = () => {
   const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [open2, setOpen2] = React.useState(false);
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
@@ -67,6 +77,14 @@ const ProfileSection = () => {
     setOpen(false);
   };
 
+  const action = (
+    <React.Fragment>
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
   const handleListItemClick = (event, index, route = '') => {
     setSelectedIndex(index);
     handleClose(event);
@@ -79,6 +97,14 @@ const ProfileSection = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
+  const handleClose2 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen2(false);
+  };
+
   const prevOpen = useRef(open);
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -87,6 +113,33 @@ const ProfileSection = () => {
 
     prevOpen.current = open;
   }, [open]);
+
+  const copyToClipboard = () => {
+    try {
+      navigator.clipboard.writeText(`http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`);
+      setOpen2(true);
+    } catch (error) {
+      const tempItem = document.createElement('input');
+
+      tempItem.setAttribute('type', 'text');
+      tempItem.setAttribute('display', 'none');
+      const content = `http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`;
+      tempItem.setAttribute('value', content);
+      document.body.appendChild(tempItem);
+
+      tempItem.select();
+      document.execCommand('Copy');
+
+      tempItem.parentElement.removeChild(tempItem);
+      setOpen2(true);
+    }
+  };
+
+  const blueWhiteStyle = {
+    color: isHovered ? 'blue' : 'gray', // Set the color based on hover state
+    backgroundColor: isHovered ? 'white' : 'white', // Set the background color based on hover state
+    cursor: 'pointer'
+  };
 
   return (
     <>
@@ -204,6 +257,21 @@ const ProfileSection = () => {
                             <Grid item>
                               <Grid item container alignItems="center" justifyContent="space-between">
                                 <Grid item>
+                                  <Typography variant="subtitle1">Copy Referral Link</Typography>
+                                </Grid>
+                                <Grid item>
+                                  <ContentCopyTwoToneIcon
+                                    style={blueWhiteStyle}
+                                    onMouseEnter={() => setIsHovered(true)}
+                                    onMouseLeave={() => setIsHovered(false)}
+                                    onClick={() => copyToClipboard()}
+                                  />
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Grid item container alignItems="center" justifyContent="space-between">
+                                <Grid item>
                                   <Typography variant="subtitle1">Allow Notifications</Typography>
                                 </Grid>
                                 <Grid item>
@@ -276,6 +344,15 @@ const ProfileSection = () => {
           </Transitions>
         )}
       </Popper>
+      <Snackbar
+        autoHideDuration={6000}
+        open={open2}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        onClose={handleClose2}
+        action={action}
+      >
+        <Alert severity="success">Coppied</Alert>
+      </Snackbar>
     </>
   );
 };

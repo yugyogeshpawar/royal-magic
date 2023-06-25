@@ -39,6 +39,14 @@ export default function ValidationTextFields() {
 
     setOpen(false);
   };
+  
+  const handleClose2 = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen2(false);
+  };
 
   const onCopyClick = () => {
     try {
@@ -214,7 +222,7 @@ export default function ValidationTextFields() {
             autoHideDuration={6000}
             open={open2}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            onClose={handleClose}
+            onClose={handleClose2}
             action={action}
           >
             <Alert severity="success">Request Submited Successfully</Alert>

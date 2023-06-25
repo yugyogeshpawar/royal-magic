@@ -65,7 +65,7 @@ const FirebaseLogin = ({ ...others }) => {
 
       <Formik
         initialValues={{
-          email: 'info@codedthemes.com',
+          email: 'user@royalmagic.com',
           password: '123456',
           submit: null
         }}

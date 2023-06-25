@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setSession } from '../utils/adminjwt';
 // ----------------------------------------------------------------------
 
-const baseUrl = process.env.PORT || 'http://13.200.50.205:3010/api';
+const baseUrl = process.env.ADMINPORT || 'http://13.200.50.205:3010/api/admin';
 
 const initialState = {
   isInitialized: false,
@@ -72,7 +72,7 @@ function AdminAuthProvider({ children }) {
         if (accessToken) {
           setSession(accessToken);
           const headers = { Authorization: `Bearer ${accessToken}` };
-          const response = await axios.get(`${baseUrl}/admin/dashboard`, {
+          const response = await axios.get(`${baseUrl}/dashboard`, {
             headers
           });
           // const response = {
@@ -87,7 +87,7 @@ function AdminAuthProvider({ children }) {
           //     promoter_id: null,
           //     promoter_name: null,
           //     contact: '3456434565',
-          //     email: 'info@codedthemes.com',
+          //     email: 'user@royalmagic.com',
           //     status: 0,
           //     registration_date: '2023-05-25T05:22:20.000Z',
           //     member_status: 0,
@@ -154,7 +154,7 @@ function AdminAuthProvider({ children }) {
   }, []);
 
   const login = async ({ email, password }) => {
-    const response = await axios.post(`${baseUrl}/admin/login`, {
+    const response = await axios.post(`${baseUrl}/login`, {
       username: email,
       password
     });
@@ -174,7 +174,7 @@ function AdminAuthProvider({ children }) {
     //     promoter_id: null,
     //     promoter_name: null,
     //     contact: '3456434565',
-    //     email: 'info@codedthemes.com',
+    //     email: 'user@royalmagic.com',
     //     status: 0,
     //     registration_date: '2023-05-25T05:22:20.000Z',
     //     member_status: 0,

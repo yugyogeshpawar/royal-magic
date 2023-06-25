@@ -24,6 +24,7 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import queryString from 'query-string';
 
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
@@ -44,6 +45,9 @@ const Register = ({ ...others }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [cshowPassword, setcShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
+
+  const queryParams = new queryString.parse(window.location.search);
+  console.log(queryParams);
 
   const [strength, setStrength] = useState(0);
   const [level, setLevel] = useState();
@@ -81,7 +85,7 @@ const Register = ({ ...others }) => {
           email: '',
           password: '',
           cpassword: '',
-          sponcerid: '',
+          sponcerid: queryParams.UplineId,
           contactNumber: '',
           submit: null
         }}
