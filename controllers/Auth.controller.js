@@ -135,10 +135,10 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { userId, password } = req.body;
+  const { email, password } = req.body;
 
   console.log(email, password);
-  const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${userId}' `;
+  const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${email}' `;
   const checkUser = await query(checkUserQuery);
   if (checkUser.length === 0) {
     return res.status(400).send({
