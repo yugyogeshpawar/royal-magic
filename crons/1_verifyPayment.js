@@ -74,7 +74,7 @@ async function fetchTransactionDetails() {
           console.log(`
           contractAddress:- ${ transactionDetails.contractData.contract_address} ,TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
           sender:- ${ transactionDetails.contractData.owner_address}, ${element.walletAddress}
-          reciever:- ${transactionDetails.trigger_info.parameter._to},TAJfRnRfBJkFKzEoErjJYTrHmUUSUMnbaL
+          reciever:- ${transactionDetails.trigger_info.parameter._to},0x1c0632E61Ee09A8e3713a11324B9574754c51021
           amount:- ${transactionAmount},${element.invest_package}
              `);
 
@@ -91,7 +91,7 @@ async function fetchTransactionDetails() {
           //     15
           // ) {
 
-          
+
             const update = `UPDATE tbl_reinvest SET checked = 1 WHERE hash_code = '${element.hash_code}'`;
           console.log(update);
             const updated = await query(update);
