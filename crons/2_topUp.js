@@ -6,9 +6,9 @@ const { log } = require("util");
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "AIFX",
+  user: "phpmyadmin",
+  password: "123456789",
+  database: "royal_magic1",
 });
 
 try {
