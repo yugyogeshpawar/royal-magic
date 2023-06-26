@@ -212,6 +212,7 @@ export async function postDesposit(values) {
     } catch (error) {
       console.log(error);
       initializer.stakingSucess = false;
+      stakingPost = error;
     }
   }
   return stakingPost;

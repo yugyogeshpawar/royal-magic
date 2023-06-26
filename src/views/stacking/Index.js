@@ -39,7 +39,7 @@ export default function ValidationTextFields() {
 
     setOpen(false);
   };
-  
+
   const handleClose2 = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -102,17 +102,25 @@ export default function ValidationTextFields() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const errors = validateForm();
-
-    if (Object.keys(errors).length === 0) {
-      // Form is valid, submit the data or perform any other desired action
-      await postDesposit(formValues);
-      setOpen2(true);
-      console.log('Form submitted:', formValues);
-    } else {
-      // Set validation errors
-      setValidationErrors(errors);
+    try {
+      const errors = validateForm();
+      if (Object.keys(errors).length === 0) {
+        // Form is valid, submit the data or perform any other desired action
+        const res = await postDesposit(formValues);
+        if (res.response.status == 500) {
+          console.log('Transaction hash is already submitted');
+          throw 'Transaction hash is already submitted';
+        }
+        setOpen2(true);
+      } else {
+        // Set validation errors
+        setValidationErrors(errors);
+      }
+    } catch (error) {
+      setValidationErrors((prevState) => ({
+        ...prevState,
+        transactionHash: error
+      }));
     }
   };
 
@@ -225,7 +233,7 @@ export default function ValidationTextFields() {
             onClose={handleClose2}
             action={action}
           >
-            <Alert severity="success">Request Submited Successfully</Alert>
+            <Alert severity="success">Request Submitted Successfully</Alert>
           </Snackbar>
         </Box>
       </Box>
