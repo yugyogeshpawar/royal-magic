@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 import AuthGuard from '../guards/AuthGuard';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const Landing = Loadable(lazy(() => import('views/dashboard/landingPage')));
 
 // utilities routing
 const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
@@ -42,7 +43,7 @@ const MainRoutes = {
     },
     {
       path: '',
-      element: <DashboardDefault />
+      element: <Landing />
     },
     {
       path: 'deposit',

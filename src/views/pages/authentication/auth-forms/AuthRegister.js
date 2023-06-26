@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuth from '../../../../hooks/useAuth';
-import { Navigate } from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
   Box,
   Button,
   Checkbox,
@@ -45,6 +47,11 @@ const Register = ({ ...others }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [cshowPassword, setcShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [values, setValues] = useState({
+  //   email: '',
+  //   userId: '' // Updated field name to 'userId'
+  // });
 
   const queryParams = new queryString.parse(window.location.search);
   console.log(queryParams);
@@ -69,6 +76,14 @@ const Register = ({ ...others }) => {
     setStrength(temp);
     setLevel(strengthColor(temp));
   };
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    window.location.href = '/login';
+  };
 
   return (
     <>
@@ -90,7 +105,7 @@ const Register = ({ ...others }) => {
           submit: null
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+          email: Yup.string().max(255).required('Email is required'),
           sponcerid: Yup.string().length(7, 'Sponcer ID must be 7 characters').required('Sponcer ID is required'),
           password: Yup.string().max(255).required('Password is required'),
           cpassword: Yup.string().max(255).required('Password is required'),
@@ -104,13 +119,13 @@ const Register = ({ ...others }) => {
             // Combine first name and last name into member_name
             const memberName = `${firstName} ${lastName}`;
 
-            await register({ ...values, member_name: memberName });
-
+            const res = await register({ ...values, member_name: memberName });
+            console.log(res);
             if (scriptedRef.current) {
               setStatus({ success: true });
               setSubmitting(false);
             }
-            <Navigate to="/login" />;
+            openModal();
           } catch (err) {
             console.error(err);
             if (scriptedRef.current) {
@@ -319,6 +334,15 @@ const Register = ({ ...others }) => {
           </form>
         )}
       </Formik>
+      <Dialog open={isModalOpen} onClose={closeModal}>
+        <DialogTitle>Registration Successful</DialogTitle>
+        <DialogContent>
+          <Typography variant="body1">Congratulations! You have successfully registered.</Typography>
+          {/* <Typography variant="body2">Email: {values.email}</Typography> Replace 'values.email' with the actual field value */}
+          {/* <Typography variant="body2">User ID: {values.userId}</Typography> Replace 'values.userId' with the actual field value */}
+        </DialogContent>
+        <Button onClick={closeModal}>Close</Button>
+      </Dialog>
     </>
   );
 };

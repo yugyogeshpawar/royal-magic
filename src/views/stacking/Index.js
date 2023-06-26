@@ -50,13 +50,13 @@ export default function ValidationTextFields() {
 
   const onCopyClick = () => {
     try {
-      navigator.clipboard.writeText('0x3bCaD00fDde10EbB9285899dd01522D8E0A54337');
+      navigator.clipboard.writeText('TQ78Q5aAYidd5eJDqTKhtYmSbH2E74iWdT');
       setOpen(true);
     } catch (error) {
       const tempItem = document.createElement('input');
       tempItem.setAttribute('type', 'text');
       tempItem.setAttribute('display', 'none');
-      const content = '0x3bCaD00fDde10EbB9285899dd01522D8E0A54337';
+      const content = 'TQ78Q5aAYidd5eJDqTKhtYmSbH2E74iWdT';
       tempItem.setAttribute('value', content);
       document.body.appendChild(tempItem);
 
@@ -142,7 +142,7 @@ export default function ValidationTextFields() {
         <TextField
           error={Boolean(validationErrors.wallet)}
           id="outlined-error-helper-text-wallet"
-          label="Wallet"
+          label="Your Wallet Address"
           name="wallet"
           value={formValues.wallet}
           onChange={handleInputChange}
@@ -157,7 +157,7 @@ export default function ValidationTextFields() {
         <TextField
           error={Boolean(validationErrors.staking)}
           id="outlined-error-helper-text-staking"
-          label="Deposit (USD)"
+          label="Deposit Amount (USDT)"
           name="staking"
           value={formValues.staking}
           onChange={handleInputChange}
@@ -186,7 +186,9 @@ export default function ValidationTextFields() {
         <Button type="submit" variant="contained" disableElevation sx={{ mt: 2, width: '200px' }}>
           Submit
         </Button>
-        <p>Deposit: Lock crypto, support network - Tron.</p>
+        <p>
+          Deposit: Lock crypto, Support network - <b>TRON</b> .
+        </p>
       </Box>
       <Box
         component="form"
@@ -198,7 +200,12 @@ export default function ValidationTextFields() {
           <img src={QrCode} alt="QrCode" width={240} />
           <h1>Important</h1>
           <ol>
-            <li>This address is only for Royal Magic</li>
+            <li>
+              This address is only for <b> TRC-20</b>
+            </li>
+            <li>
+              Deposit amount is fixed<b> 15 USDT </b>
+            </li>
             <li>Sending any other coin or token to this address may result in the loss</li>
             <li>Deposits will automatically be processed after 3 network confirmations.</li>
           </ol>
@@ -209,13 +216,14 @@ export default function ValidationTextFields() {
             // error
             disabled
             id="outlined-error-helper-text"
-            label="0x3bCaD00fDde10EbB9285899dd01522D8E0A54337"
+            label="TQ78Q5aAYidd5eJDqTKhtYmSbH2E74iWdT"
             // defaultValue="Hello World"
             sx={{
-              width: '100%'
+              width: '100%',
+              fontWeight: 'bold'
             }}
           />
-          <ContentCopyIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} onClick={handleClick} />
+          <ContentCopyIcon sx={{ color: 'action.active', mr: 1, my: 0.5, cursor: 'pointer' }} onClick={handleClick} />
 
           <Snackbar
             style={{ backgroundColor: '#fff' }}

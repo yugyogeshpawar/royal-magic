@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setSession } from '../utils/jwt';
 // ----------------------------------------------------------------------
 
-const baseUrl = process.env.PORT || 'http://13.200.50.205:3010/api';
+const baseUrl = process.env.PORT || 'https://13.200.50.205:8080/api';
 
 const initialState = {
   isAuthenticated: false,
@@ -223,15 +223,8 @@ function AuthProvider({ children }) {
       url: `${baseUrl}/Auth/register`,
       data: { sponcerid, memberName, email, contactNumber, password, cpassword, member_name }
     });
-    const { accessToken, user } = response.data;
-
-    window.localStorage.setItem('accessToken', accessToken);
-    dispatch({
-      type: 'REGISTER',
-      payload: {
-        user
-      }
-    });
+    console.log(response);
+    return response.data;
   };
 
   const forgotPassword = async (values) => {

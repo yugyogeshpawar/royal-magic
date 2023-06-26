@@ -4,6 +4,7 @@ import useAuth from '../../../hooks/useAuth';
 import { Grid } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 // project imports
 import EarningCard from './EarningCard';
 // import PopularCard from './PopularCard';
@@ -28,6 +29,33 @@ const Dashboard = () => {
   useEffect(() => {
     setLoading(false);
   }, []);
+
+  const blueWhiteStyle = {
+    color: 'white', // Set the color based on hover state
+    backgroundColor: 'transparent', // Set the background color based on hover state
+    cursor: 'pointer'
+  };
+
+  const copyToClipboard = () => {
+    try {
+      navigator.clipboard.writeText(`http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`);
+      setOpen2(true);
+    } catch (error) {
+      const tempItem = document.createElement('input');
+
+      tempItem.setAttribute('type', 'text');
+      tempItem.setAttribute('display', 'none');
+      const content = `http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`;
+      tempItem.setAttribute('value', content);
+      document.body.appendChild(tempItem);
+
+      tempItem.select();
+      document.execCommand('Copy');
+
+      tempItem.parentElement.removeChild(tempItem);
+      setOpen2(true);
+    }
+  };
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -121,6 +149,12 @@ const Dashboard = () => {
             {/* <PopularCard isLoading={isLoading} /> */}
           </Grid>
         </Grid>
+        <Stack sx={{ width: 'max-content', my: 2 }} spacing={2}>
+          <Alert variant="filled" severity="primary">
+            http://royalmagic.live/register?UplineId={user?.member_user_id}
+            <ContentCopyTwoToneIcon style={blueWhiteStyle} onClick={() => copyToClipboard()} sx={{ ml: 2 }} />
+          </Alert>
+        </Stack>
       </Grid>
     </Grid>
   );

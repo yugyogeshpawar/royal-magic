@@ -81,7 +81,7 @@ const FirebaseLogin = ({ ...others }) => {
               setStatus({ success: true });
               setSubmitting(false);
             }
-            navigate('/');
+            navigate('/dashboard');
           } catch (err) {
             console.error(err);
             if (scriptedRef.current) {
