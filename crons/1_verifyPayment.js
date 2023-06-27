@@ -78,18 +78,16 @@ async function fetchTransactionDetails() {
           amount:- ${transactionAmount},${element.invest_package}
              `);
 
-             //need to change after testing by client side
-
-          // if (
-          //   transactionDetails.contractData.owner_address ==
-          //     element.walletAddress &&
-          //   transactionDetails.contractData.contract_address ==
-          //     "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" &&
-          //   transactionDetails.trigger_info.parameter._to ==
-          //     "TAJN8MrgsbY8mZcVQmV4zbSKTGbc555555" &&
-          //     transactionAmount >=
-          //     15
-          // ) {
+          if (
+            transactionDetails.contractData.owner_address ==
+              element.walletAddress &&
+            transactionDetails.contractData.contract_address ==
+              "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" &&
+            transactionDetails.trigger_info.parameter._to ==
+              "TAJN8MrgsbY8mZcVQmV4zbSKTGbc555555" &&
+              transactionAmount ==
+              15
+          ) {
 
 
             const update = `UPDATE tbl_reinvest SET checked = 1 WHERE hash_code = '${element.hash_code}'`;
@@ -97,7 +95,7 @@ async function fetchTransactionDetails() {
             const updated = await query(update);
 console.log("transaction completed status updated");
 
-          // }
+          }
         } else {
           console.log("Transaction Failed");
         }

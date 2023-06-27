@@ -19,7 +19,7 @@ connection.connect((err) => {
 let count = 1;
 let query = promisify(connection.query).bind(connection);
 
-cron.schedule("*/50 * * * * *", function () {
+cron.schedule("*/60 * * * * *", function () {
 const activation_date = moment().format("YYYY-MM-DD HH:mm:ss");
 const plan = [
   {

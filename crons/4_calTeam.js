@@ -18,7 +18,7 @@ connection.connect((err) => {
 });
 let query = promisify(connection.query).bind(connection);
 
-cron.schedule("*/10 * * * * *", function () {
+cron.schedule("*/15 * * * * *", function () {
  console.log("6 cal team ");
 
   async function main() {

@@ -15,7 +15,7 @@ connection.connect((err) => {
 });
 
 // Schedule tasks to be run on the server.
-cron.schedule("*/8 * * * * *", function () {
+cron.schedule("*/20 * * * * *", function () {
   // console.log("running a task every minute");
 console.log("19 tam busines scheduled");
   let query = promisify(connection.query).bind(connection);
