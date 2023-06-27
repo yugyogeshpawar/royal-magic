@@ -54,6 +54,7 @@ const getDashboardData = async (req, res) => {
     royalPoolIncome: user.royal_pool,
     magicPoolIncome: user.magic_pool,
     net_income: user.net_income,
+    direct_income:user.direct_income
   };
 
   if (user.length === 0) {

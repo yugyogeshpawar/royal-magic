@@ -74,7 +74,7 @@ async function fetchTransactionDetails() {
           console.log(`
           contractAddress:- ${ transactionDetails.contractData.contract_address} ,TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t
           sender:- ${ transactionDetails.contractData.owner_address}, ${element.walletAddress}
-          reciever:- ${transactionDetails.trigger_info.parameter._to},0x1c0632E61Ee09A8e3713a11324B9574754c51021
+          reciever:- ${transactionDetails.trigger_info.parameter._to},TQ78Q5aAYidd5eJDqTKhtYmSbH2E74iWdT
           amount:- ${transactionAmount},${element.invest_package}
              `);
 
@@ -84,9 +84,9 @@ async function fetchTransactionDetails() {
             transactionDetails.contractData.contract_address ==
               "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" &&
             transactionDetails.trigger_info.parameter._to ==
-              "TAJN8MrgsbY8mZcVQmV4zbSKTGbc555555" &&
+              "TQ78Q5aAYidd5eJDqTKhtYmSbH2E74iWdT" &&
               transactionAmount ==
-              15
+              15 && transactionAmount == element.invest_package
           ) {
 
 
