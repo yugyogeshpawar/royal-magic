@@ -59,11 +59,7 @@ const slice = createSlice({
   }
 });
 
-<<<<<<< HEAD
 const baseUrl = process.env.PORT || 'http://15.206.66.148:8080/api';
-=======
-const baseUrl = process.env.PORT || 'https://backend.royalmagic.live/api';
->>>>>>> d5c3db15ebc148a5f13b45b8b844744c93b6d896
 
 // Reducer
 export default slice.reducer;
