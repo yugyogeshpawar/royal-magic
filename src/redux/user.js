@@ -73,7 +73,10 @@ export async function getTeams() {
   if (!initializer.teamListSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Team/MyTeam`, {
         headers
       });
@@ -91,7 +94,10 @@ export async function getMyRefferal() {
   if (!initializer.RefBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+       const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Team/MyReferral`, {
         headers
       });
@@ -109,7 +115,10 @@ export async function getStakingBonus() {
   if (!initializer.stakingBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+       const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Earning/StakingBonus`, {
         headers
       });
@@ -127,7 +136,10 @@ export async function getLevelBonus() {
   if (!initializer.levelBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+       const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Earning/levelBonus`, {
         headers
       });
@@ -145,7 +157,10 @@ export async function getRefBonus() {
   if (!initializer.RefBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+       const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Earning/ReferralBonus`, {
         headers
       });
@@ -163,7 +178,10 @@ export async function getWithdrawHistory() {
   if (!initializer.withdrawHisSuccess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+       const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Withdraw/Summary`, {
         headers
       });
@@ -182,7 +200,10 @@ export async function getStacking() {
   if (!initializer.stakingHistorySucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+       const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/Staking/Summary`, {
         headers
       });

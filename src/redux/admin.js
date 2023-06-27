@@ -63,7 +63,10 @@ export async function getActiveUsers() {
   if (!initializer.ActiveUsersSucess) {
     try {
       const accessToken = window.localStorage.getItem('adminAccessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/activeUser`, {
         headers
       });
@@ -81,7 +84,10 @@ export async function getBlockedUsers() {
   if (!initializer.userBlockedSuccess) {
     try {
       const accessToken = window.localStorage.getItem('adminAccessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/blockedUser`, {
         headers
       });
@@ -99,7 +105,10 @@ export async function getInactiveUsers() {
   if (!initializer.InactiveUsersSucess) {
     try {
       const accessToken = window.localStorage.getItem('adminAccessToken');
-      const headers = { Authorization: `Bearer ${accessToken}` };
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
       const response = await axios.get(`${baseUrl}/inactive-users`, {
         headers
       });

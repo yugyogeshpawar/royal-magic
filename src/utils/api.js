@@ -10,7 +10,10 @@ export async function getActiveUsers() {
     const URL = API_ROUTES.GET_ACTIVE_USER;
 
     const accessToken = window.localStorage.getItem('adminAccessToken');
-    const headers = { Authorization: `Bearer ${accessToken}` };
+     const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        'Referrer-Policy': 'unsafe-url'
+      };
     const response = await axios.get(URL, {
       headers
     });
