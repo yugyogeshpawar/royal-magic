@@ -59,7 +59,7 @@ const slice = createSlice({
   }
 });
 
-const baseUrl = process.env.PORT || 'http://localhost:8080/api';
+const baseUrl = process.env.PORT || 'http://15.206.66.148:8080/api';
 
 // Reducer
 export default slice.reducer;
