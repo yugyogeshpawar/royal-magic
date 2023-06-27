@@ -39,8 +39,8 @@ const stakingRequest = async (req, res) => {
   const { wallerAddress, amount, transactionHash } = req.body;
   console.log("amount",amount);
   //showing some error in greater than less than
-  if( 15 >=amount) {
-    return res.status(400).send({message: `${amount}: should be greater than 15`});
+  if( amount != 15 ) {
+    return res.status(400).send({message: `${amount}: should be equal to 15`});
   }
  
   const checkHash = `select checked  from tbl_reinvest where hash_code = '${transactionHash}'`;
