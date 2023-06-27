@@ -59,7 +59,7 @@ const slice = createSlice({
   }
 });
 
-const baseUrl = process.env.PORT || 'http://localhost:8080/api';
+const baseUrl = process.env.PORT || 'https://backend.royalmagic.live/api';
 
 // Reducer
 export default slice.reducer;

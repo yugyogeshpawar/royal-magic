@@ -667,7 +667,7 @@ const App = () => {
                       <div class="cd-timeline__block js-cd-block">
                           <div class="cd-timeline__milestone"> </div>
                           <div class="cd-timeline__content js-cd-content">
-                              <div class="cd-timeline__date">JUNE 2016</div>
+                              <div class="cd-timeline__date">JUNE 2022</div>
                               <h4>Project Concept</h4>
                               <p>The Crypto Group is established. Start of the Royal Magic concept.</p>
                           </div>
@@ -675,15 +675,15 @@ const App = () => {
                       <div class="cd-timeline__block js-cd-block">
                           <div class="cd-timeline__milestone"> </div>
                           <div class="cd-timeline__content js-cd-content">
-                              <div class="cd-timeline__date">SEPTEMBER 2017</div>
+                              <div class="cd-timeline__date">SEPTEMBER 2022</div>
                               <h4>Platform Launch</h4>
-                              <p>Royal Magic trading platform is launched with full solutions in USA and Europe.</p>
+                              <p>Royal Magic trading platform is launched with full solutions in India and UAE.</p>
                           </div>
                       </div>
                       <div class="cd-timeline__block js-cd-block">
                           <div class="cd-timeline__milestone"> </div>
                           <div class="cd-timeline__content js-cd-content">
-                              <div class="cd-timeline__date">January 2018</div>
+                              <div class="cd-timeline__date">January 2023</div>
                               <h4>Published Whitepaper</h4>
                               <p>Our Whitepaper is released to our investors, clients and beta users</p>
                           </div>
@@ -691,24 +691,24 @@ const App = () => {
                       <div class="cd-timeline__block js-cd-block">
                           <div class="cd-timeline__milestone"> </div>
                           <div class="cd-timeline__content js-cd-content">
-                              <div class="cd-timeline__date">March 2018</div>
-                              <h4>First Pre-Sale</h4>
-                              <p>Start of the ICO token first pre-sale. Test advertising campaign.</p>
+                              <div class="cd-timeline__date">March 2023</div>
+                              <h4>First Investment</h4>
+                              <p>Start of the Marketing first Investment. Test advertising campaign and launched Web app.</p>
                           </div>
                       </div>
                       <div class="cd-timeline__block js-cd-block">
                           <div class="cd-timeline__milestone"> </div>
                           <div class="cd-timeline__content js-cd-content">
-                              <div class="cd-timeline__date">May 2018</div>
-                              <h4>Mobile App Release</h4>
-                              <p>Royal Magic Mobile App is released and its avilable in iOS and Android devices.</p>
+                              <div class="cd-timeline__date">Jun 2023</div>
+                              <h4>Web App Release</h4>
+                              <p>Royal Magic Web App is released and its avilable </p>
                           </div>
                       </div>
                       <div class="cd-timeline__block js-cd-block">
                           <div class="cd-timeline__milestone"> </div>
                           <div class="cd-timeline__content js-cd-content">
                               <div class="cd-timeline__date">Now</div>
-                              <h4 class="m-0">ICO Launch</h4>
+                              <h4 class="m-0">Investment Started</h4>
                           </div>
                       </div>
                   </div>
