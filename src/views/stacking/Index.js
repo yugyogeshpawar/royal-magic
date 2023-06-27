@@ -88,8 +88,9 @@ export default function ValidationTextFields() {
     }
 
     // Staking validation
-    if (formValues.staking.trim() === '') {
-      errors.staking = 'Staking amount is required.';
+    const stakingAmount = parseFloat(formValues.staking);
+    if (isNaN(stakingAmount) || stakingAmount !== 15) {
+      errors.staking = 'Staking amount must be equal to 15.';
     }
 
     // Transaction hash validation
@@ -107,9 +108,10 @@ export default function ValidationTextFields() {
       if (Object.keys(errors).length === 0) {
         // Form is valid, submit the data or perform any other desired action
         const res = await postDesposit(formValues);
-        if (res.response.status == 500) {
+        console.log(res);
+        if (res && res.response && res.response.status === 500) {
           console.log('Transaction hash is already submitted');
-          throw 'Transaction hash is already submitted';
+          throw new Error('Transaction hash is already submitted');
         }
         setOpen2(true);
       } else {
@@ -146,7 +148,7 @@ export default function ValidationTextFields() {
           name="wallet"
           value={formValues.wallet}
           onChange={handleInputChange}
-          helperText={validationErrors.wallet}
+          helperText={validationErrors.wallet instanceof Error ? validationErrors.wallet.message : ''}
           sx={{
             mt: 2,
             width: { sm: 200, md: 300 },
@@ -161,7 +163,7 @@ export default function ValidationTextFields() {
           name="staking"
           value={formValues.staking}
           onChange={handleInputChange}
-          helperText={validationErrors.staking}
+          helperText={validationErrors.staking instanceof Error ? validationErrors.staking.message : ''}
           sx={{
             mt: 2,
             width: { sm: 200, md: 300 }
@@ -175,7 +177,7 @@ export default function ValidationTextFields() {
           name="transactionHash"
           value={formValues.transactionHash}
           onChange={handleInputChange}
-          helperText={validationErrors.transactionHash}
+          helperText={validationErrors.transactionHash instanceof Error ? validationErrors.transactionHash.message : ''}
           sx={{
             mt: 2,
             width: { sm: 200, md: 300 },

@@ -1,4 +1,4 @@
-const BASE_URL = 'https://13.200.50.205:8080/api';
+const BASE_URL = 'http://localhost:8080/api';
 
 export const API_ROUTES = {
   GET_ACTIVE_USER: BASE_URL + '/admin/activeUser',

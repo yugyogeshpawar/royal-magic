@@ -48,10 +48,10 @@ const Register = ({ ...others }) => {
   const [cshowPassword, setcShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [values, setValues] = useState({
-  //   email: '',
-  //   userId: '' // Updated field name to 'userId'
-  // });
+  const [values, setValues] = useState({
+    email: '',
+    userId: '' // Updated field name to 'userId'
+  });
 
   const queryParams = new queryString.parse(window.location.search);
   console.log(queryParams);
@@ -118,6 +118,10 @@ const Register = ({ ...others }) => {
           try {
             // Combine first name and last name into member_name
             const memberName = `${firstName} ${lastName}`;
+            setValues((prevState) => ({
+              ...prevState,
+              email: values.email
+            }));
 
             const res = await register({ ...values, member_name: memberName });
             console.log(res);
@@ -125,6 +129,10 @@ const Register = ({ ...others }) => {
               setStatus({ success: true });
               setSubmitting(false);
             }
+            setValues((prevState) => ({
+              ...prevState,
+              userId: res.userId
+            }));
             openModal();
           } catch (err) {
             console.error(err);
@@ -338,8 +346,10 @@ const Register = ({ ...others }) => {
         <DialogTitle>Registration Successful</DialogTitle>
         <DialogContent>
           <Typography variant="body1">Congratulations! You have successfully registered.</Typography>
-          {/* <Typography variant="body2">Email: {values.email}</Typography> Replace 'values.email' with the actual field value */}
-          {/* <Typography variant="body2">User ID: {values.userId}</Typography> Replace 'values.userId' with the actual field value */}
+          <Typography variant="body2" sx={{ mt: 1 }}>Email: {values.email}</Typography>
+          <Typography variant="h4" sx={{ mt: 2 }}>
+            User ID: {values.userId}
+          </Typography>
         </DialogContent>
         <Button onClick={closeModal}>Close</Button>
       </Dialog>
