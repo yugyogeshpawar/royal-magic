@@ -5,9 +5,9 @@ const cron = require("node-cron");
 
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "",
-  database: "AIFX",
+  user: "phpmyadmin",
+  password: "123456789",
+  database: "royal_magic1",
 });
 
 connection.connect((err) => {
