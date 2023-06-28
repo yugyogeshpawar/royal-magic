@@ -22,22 +22,27 @@ try {
   console.log("error", error);
 }
 const query = promisify(connection.query).bind(connection);
-cron.schedule("*/20 * * * * *", function () {
+
   async function fetch() {
-    const detail = `select * from tbl_memberreg where team_member =21 limit 10`;
+    const detail = `select member_user_id,team_member from tbl_memberreg where team_member =21 limit 10`;
     const data = await query(detail);
-    console.log(data);
+    const node = { parent: 0, child: [] };
+    const root = [node];
+    console.log("root[0].child",root[0].child);
+   
+ data.forEach(element => {
+  const memberId = element.member_user_id;
+    node.parent = memberId;
+  root[0].parent= node.parent;
+  for (j = 0; 4 < root[0].child.length; j++){
+    
+  
+  
 
-    res.forEach(async(element) => {
-      const detail = { parent: 0, child: [] };
-      const root = [detail];
-
-      for (i = 0; i <= root.length; i++) {
-        root.detail.parent = element.member_user_id;
-        root.detail.child = element.member_user_id;
-        console.log(root);
-      }
-    });
-    fetch();
   }
 });
+
+  
+  console.log("root", root);
+  }
+fetch();
