@@ -3,7 +3,7 @@ const { promisify } = require("util");
 const query = promisify(connection.query).bind(connection);
 
 const getDashboardData = async (req, res) => {
-  const member_user_id = req.user;
+  try{const member_user_id = req.user;
   console.log(`member_user_id`, member_user_id);
   const query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${member_user_id}' `;
 
@@ -69,9 +69,10 @@ const getDashboardData = async (req, res) => {
       data: returnObject,
     });
   }
-};
-
-
+}catch (e) {
+  return res.status(500).send({message:e});
+}
+}
 
 
 module.exports = {

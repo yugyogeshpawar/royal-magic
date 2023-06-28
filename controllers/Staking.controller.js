@@ -4,7 +4,8 @@ const query = promisify(connection.query).bind(connection);
 
 //staking request 
 const stakingRequest = async (req, res) => {
-  try{const user = req.user;
+  try{
+    const user = req.user;
   const query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${user}'`;
   console.log("query1", query1);
   let output = await query(query1);
@@ -27,9 +28,14 @@ const stakingRequest = async (req, res) => {
   if (checkHash == 0) return res.status(400).send({message: "hash already submited"})
 const currentTime = getCurrentDateTime()
 console.log(currentTime )
-  const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,tr_date,invest_type,invest_package,hash_code,gusdAmt)
-  VALUES ('${user}','${wallerAddress}','${currentTime}','REGISTRATION',${amount},'${transactionHash}','${amount}')`;
+  const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,tr_date,invest_type,invest_package,hash_code,gusdAmt,checked)
+  VALUES ('${user}','${wallerAddress}','${currentTime}','REGISTRATION',${amount},'${transactionHash}','${amount}',1)`;
    const insertDeposit = await query(InsRec);
+
+   // const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,tr_date,invest_type,invest_package,hash_code,gusdAmt)
+  // VALUES ('${user}','${wallerAddress}','${currentTime}','REGISTRATION',${amount},'${transactionHash}','${amount}')`;
+  // const insertDeposit = await query(InsRec);
+ 
   return res.status(200).send({
     message: "Staking request submitted successfully",
   });
@@ -39,9 +45,10 @@ catch (err) {
 };
 }
 const stakingSummary = async (req, res) => {
+  try {
   const user = req.user;
   const query1 = `SELECT * FROM tbl_reinvest WHERE member_user_id='${user}'`;
-  try {
+  
     const output = await query(query1);
     return res.status(200).send({
       message: "Staking summary",

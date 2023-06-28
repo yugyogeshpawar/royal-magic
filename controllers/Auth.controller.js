@@ -27,7 +27,8 @@ const getRegister = async (req, res) => {
 };
 
 const register = async (req, res) => {
- try{ let sponcer_id = req.body.sponcerid;
+ try{ 
+  let sponcer_id = req.body.sponcerid;
   console.log(req.body)
   let member_user_id;
   let query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${sponcer_id}' and status=1`;
@@ -51,42 +52,44 @@ const register = async (req, res) => {
     });
   }
 
+ 
+
   let reg_date = new Date().toISOString().replace("T", " ").replace("Z", "");
 
   console.log(`reg_date`, reg_date);
 
   if (member_name.length < 3) {
-    res.status(400).send({
+   return res.status(400).send({
       title: "Error",
       message: "Fill Member Name",
       status: "error",
     });
   } else if (contactNo.length !== 10) {
-    res.status(400).send({
+   return res.status(400).send({
       title: "Error",
       message: "Fill Valid Mobile No",
       status: "error",
     });
   } else if (!phoneValidation(contactNo)) {
-    res.status(400).send({
+    return res.status(400).send({
       title: "Error",
       message: "Fill Valid Mobile Name",
       status: "error",
     });
   } else if (!emailValidation(email)) {
-    res.status(400).send({
+    return res.status(400).send({
       title: "Error",
       message: "Fill Valid Email Id",
       status: "error",
     });
   } else if (password.length < 6) {
-    res.status(400).send({
+    return res.status(400).send({
       title: "Error",
       message: "Password Must be 6 Charactor",
       status: "error",
     });
   } else if (password !== cpassword) {
-    res.status(400).send({
+    return res.status(400).send({
       title: "Error",
       message: "Password and Confirm Password do not match",
       status: "error",
@@ -109,20 +112,12 @@ const register = async (req, res) => {
 
   let insertQuery = `INSERT INTO tbl_memberreg (member_user_id, sponcer_id, sponcer_name, member_name, contact, email, password, registration_date) VALUES ('${member_user_id}', '${sponcer_id}', '${sponcer_name}', '${member_name}', '${contactNo}', '${email}', '${password}', '${reg_date}')`;
 
-  try {
     const insertResult = await query(insertQuery);
     return res.status(200).send({
       status: true,
       message: "Registration successfully",
       userId: member_user_id,
     });
-  } catch (err) {
-    console.log("Error in registration", err);
-    return res.status(400).send({
-      status: false,
-      message: "Registration failed",
-    });
-  }
 }catch (err) {
   return res.status(500).send({mesage:err});
 };

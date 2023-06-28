@@ -3,12 +3,13 @@ const  {promisify} = require("util");
 const query = promisify(connection.query).bind(connection);
 
 const MyReferral = async (req, res) => {
-    const member_user_id = req.user;
+    try{
+         const member_user_id = req.user;
     console.log(`member_user_id`, member_user_id);
 
     const query1 = `SELECT * FROM tbl_memberreg WHERE sponcer_id='${member_user_id}'`;
 
-    try{
+   
         const output = await query(query1);
         if(output.length === 0){
             return res.status(400).send({
