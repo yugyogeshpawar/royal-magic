@@ -116,14 +116,14 @@ const ProfileSection = () => {
 
   const copyToClipboard = () => {
     try {
-      navigator.clipboard.writeText(`http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`);
+      navigator.clipboard.writeText(`http://15.206.66.148:3000/register?UplineId=${user?.member_user_id}`);
       setOpen2(true);
     } catch (error) {
       const tempItem = document.createElement('input');
 
       tempItem.setAttribute('type', 'text');
       tempItem.setAttribute('display', 'none');
-      const content = `http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`;
+      const content = `http://15.206.66.148:3000/register?UplineId=${user?.member_user_id}`;
       tempItem.setAttribute('value', content);
       document.body.appendChild(tempItem);
 

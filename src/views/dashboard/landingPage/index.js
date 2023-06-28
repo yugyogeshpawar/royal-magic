@@ -134,7 +134,7 @@ const App = () => {
               </h1>
               <p class="lead mt-3 mx-auto">Discover the mystical allure of Royal Magic, a groundbreaking crypto currency
                   redefining the future of finance.</p>
-              <a href="#" class="btn btn-primary mt-3">Explore Coin
+              <a href="/login" class="btn btn-primary mt-3">Explore Now
                   <img src="images/right-arrow.svg" alt="arrow">
               </a>
           </div>

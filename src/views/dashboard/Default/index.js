@@ -9,7 +9,7 @@ import ContentCopyTwoToneIcon from '@mui/icons-material/ContentCopyTwoTone';
 import EarningCard from './EarningCard';
 // import PopularCard from './PopularCard';
 import TotalOrderLineChartCard from './TotalOrderLineChartCard';
-import TotalIncomeDarkCard from './TotalIncomeDarkCard';
+// import TotalIncomeDarkCard from './TotalIncomeDarkCard';
 import TotalIncomeLightCard from './TotalIncomeLightCard';
 import InactiveCard from './DashboardCard/InactiveCard';
 import PendingCard from './DashboardCard/PendingCard';
@@ -38,14 +38,14 @@ const Dashboard = () => {
 
   const copyToClipboard = () => {
     try {
-      navigator.clipboard.writeText(`http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`);
+      navigator.clipboard.writeText(`http://15.206.66.148:3000/register?UplineId=${user?.member_user_id}`);
       setOpen2(true);
     } catch (error) {
       const tempItem = document.createElement('input');
 
       tempItem.setAttribute('type', 'text');
       tempItem.setAttribute('display', 'none');
-      const content = `http://13.200.50.205:3000/register?UplineId=${user?.member_user_id}`;
+      const content = `http://15.206.66.148:3000/register?UplineId=${user?.member_user_id}`;
       tempItem.setAttribute('value', content);
       document.body.appendChild(tempItem);
 
@@ -79,10 +79,11 @@ const Dashboard = () => {
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <ActiveCard isLoading={isLoading} title="Team Members" teams={user?.team_member} />
-              </Grid>
-              <Grid item sm={6} xs={12} md={6} lg={12}>
                 <ConfirmWithdraw isLoading={isLoading} title="Direct Member" directMember={user?.direct_member} />
+              </Grid>
+
+              <Grid item sm={6} xs={12} md={6} lg={12}>
+                <TotalIncomeLightCard isLoading={isLoading} title={'Total investment'} topupAmount={user?.topup_amount} />
               </Grid>
             </Grid>
           </Grid>
@@ -90,38 +91,19 @@ const Dashboard = () => {
       </Grid>
       <Grid item lg={4} md={12} sm={12} xs={12}>
         <Grid container spacing={gridSpacing}>
-          <Grid item sm={6} xs={12} md={6} lg={12}>
-            <InactiveCard isLoading={isLoading} title={'Inactive Members'} inactive={0} />
-          </Grid>
-          <Grid item sm={6} xs={12} md={6} lg={12}>
-            <TotalIncomeLightCard isLoading={isLoading} title={'Total investment'} topupAmount={user?.topup_amount} />
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item lg={4} md={12} sm={12} xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item sm={6} xs={12} md={6} lg={12}>
+          {/* <Grid item sm={6} xs={12} md={6} lg={12}>
             <TotalIncomeDarkCard isLoading={isLoading} title={'Team Business'} teamBusiness={user?.team_business} />
-          </Grid>
+          </Grid> */}
           <Grid item sm={6} xs={12} md={6} lg={12}>
             <TotalStaking isLoading={isLoading} title={'Refferal Bonus'} refBonus={user?.direct_income} />
           </Grid>
         </Grid>
       </Grid>
+
       <Grid item lg={4} md={12} sm={12} xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item sm={6} xs={12} md={6} lg={12}>
-            <PendingCard isLoading={isLoading} title={'Staking Bonus'} stackingBonus={user?.total_earning} />
-          </Grid>
-          <Grid item sm={6} xs={12} md={6} lg={12}>
-            <TotalIncomeN isLoading={isLoading} title={'Withdraw Amount'} withdrawAmount={user?.withdrawal_amt} />
-          </Grid>
-        </Grid>
-      </Grid>
-      <Grid item lg={4} md={12} sm={12} xs={12}>
-        <Grid container spacing={gridSpacing}>
-          <Grid item sm={6} xs={12} md={6} lg={12}>
-            <PendingCard isLoading={isLoading} title={'Magic Pool Income'} stackingBonus={user?.magicPoolIncome} />
+            <ActiveCard isLoading={isLoading} title={'Magic Pool Income'} teams={`$${user?.magicPoolIncome}`} />
           </Grid>
         </Grid>
       </Grid>
@@ -139,6 +121,20 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Grid item lg={4} md={12} sm={12} xs={12}>
+        <Grid container spacing={gridSpacing}>
+          <Grid item sm={6} xs={12} md={6} lg={12}>
+            <TotalIncomeN isLoading={isLoading} title={'Withdraw Amount'} withdrawAmount={user?.withdrawal_amt} />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item lg={4} md={12} sm={12} xs={12}>
+        <Grid container spacing={gridSpacing}>
+          <Grid item sm={6} xs={12} md={6} lg={12}>
+            <PendingCard isLoading={isLoading} title={'Pending Withdraw'} stackingBonus={user?.magicPoolIncome} />
+          </Grid>
+        </Grid>
+      </Grid>
 
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
@@ -151,7 +147,7 @@ const Dashboard = () => {
         </Grid>
         <Stack sx={{ width: 'max-content', my: 2 }} spacing={2}>
           <Alert variant="filled" severity="primary">
-            http://royalmagic.live/register?UplineId={user?.member_user_id}
+            http://15.206.66.148:3000/register?UplineId={user?.member_user_id}
             <ContentCopyTwoToneIcon style={blueWhiteStyle} onClick={() => copyToClipboard()} sx={{ ml: 2 }} />
           </Alert>
         </Stack>
