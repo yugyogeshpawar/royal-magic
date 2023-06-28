@@ -13,29 +13,7 @@ const stakingRequest = async (req, res) => {
       message: "Invalid user id",
     });
   }
-  const currentDate = new Date();
-  const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    timeZone: "Asia/Kolkata",
-  };
-  let sys_date = currentDate
-    .toLocaleString("en-IN", options)
-    .replace(",", "")
-    .replaceAll("/", "-");
-  const arr = sys_date.split("-");
-  sys_date = `${arr[2]}-${arr[1]}-${arr[0]}`;
-  const option = {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Kolkata",
-  };
-  const time = currentDate.toLocaleString("en-IN", option);
-  sys_date = `${sys_date} ${time}`;
-  console.log(sys_date);
+  
   const { wallerAddress, amount, transactionHash } = req.body;
   console.log("amount",amount);
   //showing some error in greater than less than
@@ -47,9 +25,10 @@ const stakingRequest = async (req, res) => {
   console.log(checkHash);
   const status = await query(checkHash)
   if (checkHash == 0) return res.status(400).send({message: "hash already submited"})
-
+const currentTime = getCurrentDateTime()
+console.log(currentTime )
   const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,tr_date,invest_type,invest_package,hash_code,gusdAmt)
-  VALUES ('${user}','${wallerAddress}','${sys_date}','REGISTRATION',${amount},'${transactionHash}','${amount}')`;
+  VALUES ('${user}','${wallerAddress}','${currentTime}','REGISTRATION',${amount},'${transactionHash}','${amount}')`;
    const insertDeposit = await query(InsRec);
   return res.status(200).send({
     message: "Staking request submitted successfully",
@@ -80,3 +59,18 @@ module.exports = {
   stakingRequest,
   stakingSummary,
 };
+
+
+
+function getCurrentDateTime() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const hours = String(currentDate.getHours()).padStart(2, '0');
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+  console.log(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+

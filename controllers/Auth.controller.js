@@ -27,7 +27,7 @@ const getRegister = async (req, res) => {
 };
 
 const register = async (req, res) => {
-  let sponcer_id = req.body.sponcerid;
+ try{ let sponcer_id = req.body.sponcerid;
   console.log(req.body)
   let member_user_id;
   let query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${sponcer_id}' and status=1`;
@@ -50,15 +50,6 @@ const register = async (req, res) => {
       message: "Password and confirm password not matched",
     });
   }
-
-  // const checkEmail = `SELECT * FROM tbl_memberreg WHERE email='${email}'`;
-  // const checkEmailResult = await query(checkEmail);
-  // if (checkEmailResult.length > 0) {
-  //   return res.status(400).send({
-  //     status: false,
-  //     message: "Email already registered",
-  //   });
-  // }
 
   let reg_date = new Date().toISOString().replace("T", " ").replace("Z", "");
 
@@ -132,10 +123,12 @@ const register = async (req, res) => {
       message: "Registration failed",
     });
   }
+}catch (err) {
+  return res.status(500).send({mesage:err});
 };
-
+}
 const login = async (req, res) => {
-  const { email, password } = req.body;
+ try{ const { email, password } = req.body;
 
   console.log(email, password);
   const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${email}' `;
@@ -218,9 +211,11 @@ const login = async (req, res) => {
       token,
       user: returnObject,
     });
-  }
+  }}
+  catch(err) {
+    return res.status(500).send({mesage:err});
 };
-
+}
 const changePassword = async (req, res) => {
   try {
     let memberUserId = req.user;
@@ -353,7 +348,7 @@ const forgotPassword = async (req, res) => {
       });
     });
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(404).json({ message: err });
   }
 };
 
