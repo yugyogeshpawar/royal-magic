@@ -36,7 +36,9 @@ export default function StakingBonusPage() {
     { field: 'memberUserId', headerName: 'User Id', hide: true },
     { field: 'walletAmount', headerName: 'Level Income', width: 120 },
     { field: 'magic_pool', headerName: 'Magic Pool', width: 120 },
-    { field: 'royal_pool', headerName: 'Royal Pool', width: 120 }
+    { field: 'royal_pool', headerName: 'Royal Pool', width: 120 },
+    { field: '', headerName: 'Admin Charge', width: 120 },
+    { field: 'walletAmount', headerName: 'Net evel Income', width: 120 }
   ];
 
   return (

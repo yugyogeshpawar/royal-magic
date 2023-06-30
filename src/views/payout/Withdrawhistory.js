@@ -16,7 +16,7 @@ export default function QuickFilteringGrid() {
             id: index + 1,
             member_user_id: element.member_user_id,
             member_name: element.member_name,
-            with_amt: element.withdraw_amount,
+            with_amt: element.with_amt,
             with_date: format(new Date(element.with_date), 'dd-MM-yyyy'),
             paid_status: element.paid_status
           }))

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setSession } from '../utils/adminjwt';
 // ----------------------------------------------------------------------
 
-const baseUrl = process.env.ADMINPORT || 'http://15.206.66.148:8080/api/admin';
+const baseUrl = process.env.ADMINPORT || 'https://backend.royalmagic.live/api/admin';
 
 const initialState = {
   isInitialized: false,

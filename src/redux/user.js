@@ -11,6 +11,7 @@ let refBonus = [];
 let stackingBonus = [];
 let myRefferal = [];
 let levelBonus = [];
+let Withdraw = [];
 const initializer = {
   stakingHistorySucess: false,
   stakingSucess: false,
@@ -20,7 +21,8 @@ const initializer = {
   teamListSucess: false,
   RefBonusSucess: false,
   myRefferalSucess: false,
-  levelBonusSucess: false
+  levelBonusSucess: false,
+  WithdrawSucess: false
 };
 
 const initialState = {
@@ -59,7 +61,7 @@ const slice = createSlice({
   }
 });
 
-const baseUrl = process.env.PORT || 'http://15.206.66.148:8080/api';
+const baseUrl = process.env.PORT || 'https://backend.royalmagic.live/api';
 
 // Reducer
 export default slice.reducer;
@@ -94,7 +96,7 @@ export async function getMyRefferal() {
   if (!initializer.myRefferalSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-       const headers = {
+      const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
@@ -115,7 +117,7 @@ export async function getStakingBonus() {
   if (!initializer.stakingBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-       const headers = {
+      const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
@@ -136,7 +138,7 @@ export async function getLevelBonus() {
   if (!initializer.levelBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-       const headers = {
+      const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
@@ -157,7 +159,7 @@ export async function getRefBonus() {
   if (!initializer.RefBonusSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-       const headers = {
+      const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
@@ -178,13 +180,14 @@ export async function getWithdrawHistory() {
   if (!initializer.withdrawHisSuccess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-       const headers = {
+      const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
       const response = await axios.get(`${baseUrl}/Withdraw/Summary`, {
         headers
       });
+      console.log(response.data);
       initializer.withdrawHisSuccess = true;
       withDrawHistory = response.data;
     } catch (error) {
@@ -200,7 +203,7 @@ export async function getStacking() {
   if (!initializer.stakingHistorySucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
-       const headers = {
+      const headers = {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
@@ -237,6 +240,28 @@ export async function postDesposit(values) {
     }
   }
   return stakingPost;
+}
+// ----------------------------------------------------------------------
+export async function postWithdraw(values) {
+  if (!initializer.WithdrawSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('accessToken');
+      const response = await axios({
+        method: 'post',
+        url: `${baseUrl}/Withdraw/Request`,
+        headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        data: { amount: values }
+      });
+      console.log(response);
+      initializer.WithdrawSucess = true;
+      Withdraw = response.data;
+    } catch (error) {
+      console.log(error);
+      initializer.WithdrawSucess = false;
+      Withdraw = error;
+    }
+  }
+  return Withdraw;
 }
 
 // ----------------------------------------------------------------------

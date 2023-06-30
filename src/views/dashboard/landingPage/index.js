@@ -119,7 +119,7 @@ const App = () => {
                       <a class="nav-link" href="#">Plan</a>
                   </li>
                   <li class="nav-item dropdown">
-                      <a href="/login" class="btn btn-primary">Sign In
+                      <a href="/register" class="btn btn-primary">Sign up
                           <img src="images/right-arrow.svg" alt="arrow">
                       </a>
                   </li>
@@ -134,7 +134,7 @@ const App = () => {
               </h1>
               <p class="lead mt-3 mx-auto">Discover the mystical allure of Royal Magic, a groundbreaking crypto currency
                   redefining the future of finance.</p>
-              <a href="/login" class="btn btn-primary mt-3">Explore Now
+              <a href="/login" class="btn btn-primary mt-3">Login Now
                   <img src="images/right-arrow.svg" alt="arrow">
               </a>
           </div>

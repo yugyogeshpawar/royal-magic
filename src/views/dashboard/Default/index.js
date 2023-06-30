@@ -38,14 +38,14 @@ const Dashboard = () => {
 
   const copyToClipboard = () => {
     try {
-      navigator.clipboard.writeText(`http://15.206.66.148:3000/register?UplineId=${user?.member_user_id}`);
+      navigator.clipboard.writeText(`https://royalmagic.live/register?UplineId=${user?.member_user_id}`);
       setOpen2(true);
     } catch (error) {
       const tempItem = document.createElement('input');
 
       tempItem.setAttribute('type', 'text');
       tempItem.setAttribute('display', 'none');
-      const content = `http://15.206.66.148:3000/register?UplineId=${user?.member_user_id}`;
+      const content = `https://royalmagic.live/register?UplineId=${user?.member_user_id}`;
       tempItem.setAttribute('value', content);
       document.body.appendChild(tempItem);
 
@@ -147,7 +147,7 @@ const Dashboard = () => {
         </Grid>
         <Stack sx={{ width: 'max-content', my: 2 }} spacing={2}>
           <Alert variant="filled" severity="primary">
-            http://15.206.66.148:3000/register?UplineId={user?.member_user_id}
+            https://royalmagic.live/register?UplineId={user?.member_user_id}
             <ContentCopyTwoToneIcon style={blueWhiteStyle} onClick={() => copyToClipboard()} sx={{ ml: 2 }} />
           </Alert>
         </Stack>
