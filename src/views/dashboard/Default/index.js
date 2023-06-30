@@ -71,7 +71,7 @@ const Dashboard = () => {
         )}
         <Grid container spacing={gridSpacing}>
           <Grid item lg={4} md={6} sm={6} xs={12}>
-            <EarningCard isLoading={isLoading} totalEarning={user?.total_earning} />
+            <EarningCard isLoading={isLoading} totalEarning={user?.wallet_amount} />
           </Grid>
           <Grid item lg={4} md={6} sm={6} xs={12}>
             <TotalOrderLineChartCard isLoading={isLoading} directBusiness={user?.direct_business} />
@@ -117,7 +117,7 @@ const Dashboard = () => {
       <Grid item lg={4} md={12} sm={12} xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item sm={6} xs={12} md={6} lg={12}>
-            <InactiveCard isLoading={isLoading} title={'Net Amount'} inactive={`$${user?.net_income}`} />
+            <InactiveCard isLoading={isLoading} title={'Level Income'} inactive={`$${user?.net_income}`} />
           </Grid>
         </Grid>
       </Grid>

@@ -11,30 +11,16 @@ const icons = {
 
 const team = {
   id: 'team',
-  title: 'Team',
-  caption: 'Pages Caption',
+  title: 'Referrals',
   type: 'group',
   children: [
     {
-      id: 'my-ref',
-      title: 'Team',
-      type: 'collapse',
-      icon: icons.IconUsers,
-
-      children: [
-        {
-          id: 'my-ref',
-          title: 'My Referrals',
-          type: 'item',
-          url: '/team/my-referrals'
-        },
-        {
-          id: 'my-team',
-          title: 'My Team',
-          type: 'item',
-          url: '/team/my-team'
-        }
-      ]
+      id: 'myref',
+      title: 'My Referrals',
+      type: 'item',
+      url: '/team/my-referrals',
+      icon: icons.IconReportMoney,
+      breadcrumbs: false
     }
   ]
 };
