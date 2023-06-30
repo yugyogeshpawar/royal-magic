@@ -91,7 +91,7 @@ export async function getTeams() {
 }
 // ----------------------------------------------------------------------
 export async function getMyRefferal() {
-  if (!initializer.RefBonusSucess) {
+  if (!initializer.myRefferalSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
        const headers = {
@@ -102,10 +102,10 @@ export async function getMyRefferal() {
         headers
       });
       myRefferal = response.data;
-      initializer.RefBonusSucess = true;
+      initializer.myRefferalSucess = true;
     } catch (error) {
       console.log(error);
-      initializer.RefBonusSucess = false;
+      initializer.myRefferalSucess = false;
     }
   }
   return myRefferal;
@@ -140,7 +140,7 @@ export async function getLevelBonus() {
         Authorization: `Bearer ${accessToken}`,
         'Referrer-Policy': 'unsafe-url'
       };
-      const response = await axios.get(`${baseUrl}/Earning/levelBonus`, {
+      const response = await axios.get(`${baseUrl}/Earning/levelbonus`, {
         headers
       });
       initializer.levelBonusSucess = true;

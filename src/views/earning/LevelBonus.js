@@ -2,27 +2,25 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { format } from 'date-fns';
-import Button from '@mui/material/Button';
-import { useNavigate } from 'react-router-dom';
 import { getLevelBonus } from '../../redux/user';
 
 export default function StakingBonusPage() {
   const [rows, setRows] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       // Fetch staking bonus data from the API
       const res = await getLevelBonus(); // Replace with your API call
+      console.log(res);
       if (Array.isArray(res?.data)) {
         // Map the data to the desired structure
         const mappedData = res.data.map((item, index) => ({
           id: index + 1,
-          date: format(new Date(item.date), 'dd-MM-yyyy'),
-          memberUserId: item.memberUserId,
-          memberName: item.memberName,
-          walletAddress: item.walletAddress,
-          walletAmount: item.walletAmount
+          date: format(new Date(item.calculate_date), 'dd-MM-yyyy'),
+          memberUserId: item.member_user_id,
+          walletAmount: item.net_amt,
+          magic_pool: item.magic_pool,
+          royal_pool: item.royal_pool,
         }));
         setRows(mappedData);
       }
@@ -31,25 +29,14 @@ export default function StakingBonusPage() {
     fetchData();
   }, []);
 
-  const handleButtonClick = (id) => {
-    // Handle button click to navigate to the transaction details page
-    navigate(`/${id}`);
-  };
 
   const columns = [
     { field: 'id', headerName: 'Id' },
     { field: 'date', headerName: 'Date' },
     { field: 'memberUserId', headerName: 'User Id', hide: true },
-    { field: 'memberName', headerName: 'Name', width: 120 },
-    { field: 'walletAddress', headerName: 'Wallet Address', width: 200 },
-    { field: 'walletAmount', headerName: 'Wallet Amount', width: 120 },
-    {
-      field: 'action',
-      headerName: 'Action',
-      sortable: false,
-      width: 150,
-      renderCell: (params) => <Button onClick={() => handleButtonClick(params.row.id)}>Show Transaction</Button>
-    }
+    { field: 'walletAmount', headerName: 'Level Income', width: 120 },
+    { field: 'magic_pool', headerName: 'Magic Pool', width: 120 },
+    { field: 'royal_pool', headerName: 'Royal Pool', width: 120 }
   ];
 
   return (

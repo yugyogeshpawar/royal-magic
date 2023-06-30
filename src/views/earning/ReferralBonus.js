@@ -11,6 +11,7 @@ export default function RefBonusPage() {
     const fetchData = async () => {
       // Fetch referral bonus data from the API
       const res = await getRefBonus(); // Replace with your API call
+
       if (Array.isArray(res?.data)) {
         // Map the data to the desired structure
         const mappedData = res.data.map((item, index) => ({
@@ -28,11 +29,11 @@ export default function RefBonusPage() {
   }, []);
 
   const columns = [
-    { field: 'id', headerName: 'ID' },
-    { field: 'member_user_id', headerName: 'Member ID' },
-    { field: 'member_name', headerName: 'Name', hide: true },
+    { field: 'id', headerName: 'ID', width: 50 },
+    { field: 'member_user_id', headerName: 'Member ID', width: 100 },
+    { field: 'member_name', headerName: 'Name', hide: true, width: 180 },
     { field: 'registration_date', headerName: 'Date of Registration', hide: true, width: 150 },
-    { field: 'topup_amount', headerName: 'Topup Amount' }
+    { field: 'topup_amount', headerName: 'Topup Amount', width: 160 }
   ];
 
   return (
