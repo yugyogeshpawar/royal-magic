@@ -8,9 +8,13 @@ const apiKey = API_KEY;
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "royalmagic",
-  password: "royalmagic@admin123",
-  database: "royalmagic",
+  user: "root",
+  password: "",
+  database: "AIFX",
+  // host: "localhost",
+  // user: "royalmagic",
+  // password: "royalmagic@admin123",
+  // database: "royalmagic",
 });
 
 try {
@@ -22,7 +26,7 @@ try {
   console.log("error", error);
 }
 const query = promisify(connection.query).bind(connection);
-cron.schedule("*/20 * * * * *", function () {
+cron.schedule("*/10 * * * * *", function () {
 async function fetchTransactionDetails() {
   const detail = `select * from tbl_reinvest where checked ='0' limit 10`;
   const data = await query(detail);

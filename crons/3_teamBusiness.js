@@ -4,9 +4,13 @@ const { promisify } = require("util");
 const cron = require("node-cron");
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "royalmagic",
-  password: "royalmagic@admin123",
-  database: "royalmagic",
+  user: "root",
+  password: "",
+  database: "AIFX",
+  // host: "localhost",
+  // user: "royalmagic",
+  // password: "royalmagic@admin123",
+  // database: "royalmagic",
 });
 
 connection.connect((err) => {
@@ -15,7 +19,7 @@ connection.connect((err) => {
 });
 
 // Schedule tasks to be run on the server.
-cron.schedule("*/20 * * * * *", function () {
+cron.schedule("*/25 * * * * *", function () {
   // console.log("running a task every minute");
 console.log("19 tam busines scheduled");
   let query = promisify(connection.query).bind(connection);
@@ -47,7 +51,7 @@ console.log("19 tam busines scheduled");
   async function cal_Team(topup_amount, member_user_id) {
     let parent_id = get_parrent_member_id();
     let member_id = member_user_id;
-    let total_level = 100; // get_total_level();
+    let total_level = 11;
     for (let cnt = 1; cnt <= total_level; cnt++) {
       let mstr = `SELECT sponcer_id FROM tbl_memberreg WHERE member_user_id='${member_id}'`;
 

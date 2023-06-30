@@ -5,9 +5,13 @@ const cron = require("node-cron");
 const bcrypt = require("bcrypt");
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "royalmagic",
-  password: "royalmagic@admin123",
-  database: "royalmagic",
+  user: "root",
+  password: "",
+  database: "AIFX",
+  // host: "localhost",
+  // user: "royalmagic",
+  // password: "royalmagic@admin123",
+  // database: "royalmagic",
 });
 
 connection.connect((err) => {
@@ -19,7 +23,7 @@ connection.connect((err) => {
 let count = 1;
 let query = promisify(connection.query).bind(connection);
 
-cron.schedule("*/60 * * * * *", function () {
+cron.schedule("*/10 * * * * *", function () {
 const activation_date = moment().format("YYYY-MM-DD HH:mm:ss");
 const plan = [
   {
@@ -134,7 +138,7 @@ async function incomeCal() {
     console.log(element.team_member);
 
     switch (true) {
-      case element.team_member == 21 && element.level == 0:
+      case element.team_member >= 21 && element.level == 0:
         await insertLevel(
           memberId,
           memberName,
@@ -150,7 +154,7 @@ async function incomeCal() {
         console.log("level1:", memberId);
         break;
 
-      case element.team_member == 51 && element.level == 1:
+      case element.team_member >= 51 && element.level == 1:
         await insertLevel(
           memberId,
           memberName,
@@ -166,7 +170,7 @@ async function incomeCal() {
         console.log("level2:", memberId);
         break;
 
-      case element.team_member == 130 &&
+      case element.team_member >= 130 &&
         element.level == 2 &&
         directMember >= 1:
         await insertLevel(
@@ -183,7 +187,7 @@ async function incomeCal() {
         );
         console.log("level3:", memberId);
         break;
-      case element.team_member == 375 &&
+      case element.team_member >= 375 &&
         element.level == 3 &&
         directMember >= 1:
         await insertLevel(
@@ -200,7 +204,7 @@ async function incomeCal() {
         );
         console.log("level4:", memberId);
         break;
-      case element.team_member == 505 &&
+      case element.team_member >= 505 &&
         element.level == 4 &&
         directMember >= 2:
         await insertLevel(
@@ -218,7 +222,7 @@ async function incomeCal() {
         console.log("level5:", memberId);
         break;
 
-      case element.team_member == 900 &&
+      case element.team_member >= 900 &&
         element.level == 5 &&
         directMember >= 2:
         await insertLevel(
@@ -235,7 +239,7 @@ async function incomeCal() {
         );
         console.log("level6:", memberId);
         break;
-      case element.team_member == 1800 &&
+      case element.team_member >= 1800 &&
         element.level == 6 &&
         directMember >= 2:
         await insertLevel(
@@ -252,7 +256,7 @@ async function incomeCal() {
         );
         console.log("level7:", memberId);
         break;
-      case element.team_member == 3500 &&
+      case element.team_member >= 3500 &&
         element.level == 7 &&
         directMember >= 2:
         await insertLevel(
@@ -269,7 +273,7 @@ async function incomeCal() {
         );
         console.log("level8:", memberId);
         break;
-      case element.team_member == 5200 &&
+      case element.team_member >= 5200 &&
         element.level == 8 &&
         directMember >= 2:
         await insertLevel(
@@ -286,7 +290,7 @@ async function incomeCal() {
         );
         console.log("level9:", memberId);
         break;
-      case element.team_member == 9700 &&
+      case element.team_member >= 9700 &&
         element.level == 9 &&
         directMember >= 2:
         await insertLevel(
@@ -303,7 +307,7 @@ async function incomeCal() {
         );
         console.log("level10:", memberId);
         break;
-      case element.team_member == 11000 &&
+      case element.team_member >= 11000 &&
         element.level == 10 &&
         directMember >= 10:
         await insertLevel(
@@ -338,17 +342,21 @@ async function insertLevel(
   magicPool,
   royalPool,
   reEntry,
-  walletAddress
+  walletAddress,
+  sys_date,
 ) {
-  const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,tr_date,invest_type,invest_package,hash_code,gusdAmt)
-  VALUES ('${memberId}','${walletAddress}','${sys_date}','REENTRY',${amount},'${transactionHash}','${amount}')`;
+   sys_date = getCurrentDateTime()
+
+   let hash_code = generateRandomNumber()
+  const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,hash_code,tr_date,invest_type,invest_package,gusdAmt)
+                                     VALUES ('${memberId}','${walletAddress}',${hash_code},'${sys_date}','REENTRY',15,15)`;
    const insertDeposit = await query(InsRec);
+   sys_date = getCurrentDateTime()
   const insert = `INSERT INTO tbl_member_income_dtails ( member_user_id,member_name, calculate_date,income_amt, income_level,income_type,b_type,net_amt, magic_pool,royal_pool,re_entry)
- 
-  VALUES ('${memberId}',' ${memberName}', '${activation_date}', ${reward}, ${incomeLevel},'LEVEL BONUS','LEVEL BONUS',${netAmount}, ${magicPool}, ${royalPool},${reEntry})`;
+                                                VALUES ('${memberId}',' ${memberName}', '${sys_date}', ${reward}, ${incomeLevel},'LEVEL BONUS','LEVEL BONUS',${netAmount}, ${magicPool}, ${royalPool},${reEntry})`;
   const res = await query(insert);
   console.log(insert);
-  const tblMember = `UPDATE tbl_memberreg SET level=${incomeLevel} where member_user_id = ${memberId} `;
+  const tblMember = `UPDATE tbl_memberreg SET level='${incomeLevel}' where member_user_id = '${memberId}' `;
   const res1 = await query(tblMember);
 console.log(tblMember);
 register(memberId, memberName);
@@ -391,4 +399,16 @@ function generateRandomNumber() {
 })
 
 
+
+function getCurrentDateTime() {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const hours = String(currentDate.getHours()).padStart(2, '0');
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
+  console.log(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
 

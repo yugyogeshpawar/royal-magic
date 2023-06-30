@@ -7,9 +7,13 @@ const cron = require("node-cron");
 const moment = require("moment-timezone");
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "royalmagic",
-  password: "royalmagic@admin123",
-  database: "royalmagic",
+  user: "root",
+  password: "",
+  database: "AIFX",
+  // host: "localhost",
+  // user: "royalmagic",
+  // password: "royalmagic@admin123",
+  // database: "royalmagic",
 });
 
 try {

@@ -5,9 +5,13 @@ const cron = require("node-cron");
 
 const connection = mysql.createConnection({
   host: "localhost",
-  user: "royalmagic",
-  password: "royalmagic@admin123",
-  database: "royalmagic",
+  user: "root",
+  password: "",
+  database: "AIFX",
+  // host: "localhost",
+  // user: "royalmagic",
+  // password: "royalmagic@admin123",
+  // database: "royalmagic",
 });
 
 connection.connect((err) => {
@@ -18,7 +22,7 @@ connection.connect((err) => {
 });
 let query = promisify(connection.query).bind(connection);
 
-cron.schedule("*/15 * * * * *", function () {
+cron.schedule("*/10 * * * * *", function () {
  console.log("6 cal team ");
 
   async function main() {
@@ -39,7 +43,7 @@ cron.schedule("*/15 * * * * *", function () {
   main();
 
   async function cal_Team(member_user_id) {
-    const total_level =await getTotalLevel();
+    const total_level = 11;
     console.log(total_level);
     let member_id = member_user_id;
     console.log(member_id);
@@ -51,7 +55,7 @@ cron.schedule("*/15 * * * * *", function () {
           );
       console.log("mresult", typeof mresult, mresult, mresult.length);
       if (mresult.length == 0) {
-        console.log("kha jayega bhai");
+        console.log("no sponsor");
         return;
       }
       console.log(
@@ -65,14 +69,17 @@ cron.schedule("*/15 * * * * *", function () {
       const test = await query(
         `Update tbl_memberreg set team_member=team_member+1 where member_user_id='${sponcer_id}' and status=1`
       );
-     
+    
       if (sponcer_id === parant_id) {
         cnt = total_level + 20;
       }
       member_id = sponcer_id;
-      // }
     }
+   
   }
+
+ 
+
 
   //parent member id first id 
   async function get_parrent_member_id() {
@@ -83,13 +90,6 @@ cron.schedule("*/15 * * * * *", function () {
 });
 
 // total user count
-async function getTotalLevel() {
-    let str = "SELECT count(*) FROM tbl_memberreg";
-    let str_ = await query(str);
-    console.log(str_[0]);
-    let count = str_[0]["count(*)"];
-    console.log(count);
-    return count;
-  }
+
   
  
