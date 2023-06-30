@@ -4,14 +4,14 @@ const moment = require("moment-timezone");
 const cron = require("node-cron");
 const bcrypt = require("bcrypt");
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "AIFX",
   // host: "localhost",
-  // user: "royalmagic",
-  // password: "royalmagic@admin123",
-  // database: "royalmagic",
+  // user: "root",
+  // password: "",
+  // database: "AIFX",
+  host: "localhost",
+  user: "royalmagic",
+  password: "royalmagic@admin123",
+  database: "royalmagic",
 });
 
 connection.connect((err) => {
@@ -142,7 +142,7 @@ console.log(member_id);
     console.log(team);
 
     switch (true) {
-      case team >= 21 && element.level == 0:
+      case team >= 21 && element.level == 0 :
         await insertLevel(
           memberId,
           memberName,
@@ -352,6 +352,7 @@ async function insertLevel(
    sys_date = getCurrentDateTime()
 
    let hash_code = generateRandomNumber()
+
   const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,hash_code,tr_date,invest_type,invest_package,gusdAmt)
                                      VALUES ('${memberId}','${walletAddress}',${hash_code},'${sys_date}','REENTRY',15,15)`;
    const insertDeposit = await query(InsRec);

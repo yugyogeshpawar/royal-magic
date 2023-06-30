@@ -3,14 +3,14 @@ const { promisify } = require("util");
 const moment = require("moment-timezone");
 const cron = require("node-cron");
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "AIFX",
   // host: "localhost",
-  // user: "royalmagic",
-  // password: "royalmagic@admin123",
-  // database: "royalmagic",
+  // user: "root",
+  // password: "",
+  // database: "AIFX",
+  host: "localhost",
+  user: "royalmagic",
+  password: "royalmagic@admin123",
+  database: "royalmagic",
 });
 
 connection.connect((err) => {
@@ -50,7 +50,7 @@ async function updateStatus(
   const upStatus = `UPDATE tbl_member_income_dtails SET status=1 where income_id='${recordNo}'`;
   await query(upStatus);
 console.log(upStatus);
-  const upMem = `UPDATE tbl_memberreg set magic_pool=magic_pool+${magicPool} ,royal_pool=royal_pool+${royalPool}, net_income=net_income+${netIncome},wallet_amount =wallet_amount+${netIncome} where member_user_id = ${memberUserId}`;
+  const upMem = `UPDATE tbl_memberreg set magic_pool=magic_pool+${magicPool} ,royal_pool=royal_pool+${royalPool}, net_income=net_income+${netIncome},wallet_amount =wallet_amount+${netIncome}+${magicPool}+${royalPool} where member_user_id = ${memberUserId}`;
   await query(upMem);
   console.log(upMem);
 }
