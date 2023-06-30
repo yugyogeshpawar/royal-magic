@@ -14,7 +14,15 @@ const stakingRequest = async (req, res) => {
       message: "Invalid user id",
     });
   }
-  
+
+  const query2 = `SELECT * FROM tbl_reinvest WHERE member_user_id='${user}'`;
+  console.log("query1", query2);
+  let output_ = await query(query2);
+  if(output_.length >= 1) {
+    return res.status(400).send({
+      message: "ID ALREADY ACTIVATED",
+    });
+  }
   const { wallerAddress, amount, transactionHash } = req.body;
   console.log("amount",amount);
   //showing some error in greater than less than

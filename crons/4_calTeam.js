@@ -22,7 +22,7 @@ connection.connect((err) => {
 });
 let query = promisify(connection.query).bind(connection);
 
-cron.schedule("*/10 * * * * *", function () {
+cron.schedule("*/15 * * * * *", function () {
  console.log("6 cal team ");
 
   async function main() {
@@ -43,7 +43,7 @@ cron.schedule("*/10 * * * * *", function () {
   main();
 
   async function cal_Team(member_user_id) {
-    const total_level = 11;
+    const total_level =await getTotalLevel();
     console.log(total_level);
     let member_id = member_user_id;
     console.log(member_id);
@@ -69,16 +69,22 @@ cron.schedule("*/10 * * * * *", function () {
       const test = await query(
         `Update tbl_memberreg set team_member=team_member+1 where member_user_id='${sponcer_id}' and status=1`
       );
-    
+     
       if (sponcer_id === parant_id) {
         cnt = total_level + 20;
       }
       member_id = sponcer_id;
+      // }
+    
     }
-   
   }
 
- 
+  // async function level_team(){
+  //   for (let i = 1; i < await getTotalLevel(); i++) {
+  //   console.log("getTotalLevel()",await getTotalLevel());
+     
+  // }
+  // }
 
 
   //parent member id first id 
@@ -90,6 +96,13 @@ cron.schedule("*/10 * * * * *", function () {
 });
 
 // total user count
-
+async function getTotalLevel() {
+    let str = "SELECT count(*) FROM tbl_memberreg";
+    let str_ = await query(str);
+    console.log(str_[0]);
+    let count = str_[0]["count(*)"];
+    console.log(count);
+    return count;
+  }
   
  

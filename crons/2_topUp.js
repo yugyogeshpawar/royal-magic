@@ -30,7 +30,7 @@ async function topupAmount() {
     const check =`select * from tbl_reinvest where checked = 1 and status = '0'` 
     const res = await query(check)
     console.log(res);
-
+   
     res.forEach(async(element) => {
     const memberId=  element.member_user_id ;
     const pack=  element.invest_package;
@@ -44,7 +44,6 @@ console.log(up)
    await query(memberBalance)
  
     });
-    await level_team()
    await dierctIncome()
 }
 
@@ -80,17 +79,16 @@ async function dierctIncome(){
   });
 }
 
+// async function level_team() {
+// const total_level =await getTotalLevel();
+// console.log(total_level);
+// for (let cnt = 1; cnt <= total_level; cnt++) {
+//  const test = `Update tbl_memberreg set level_team_member=level_team_member+1 where member_id =${cnt}`
+//  const test_ = await query(test);
+//  console.log(test);
+// }
 
-async function level_team() {
-const total_level =await getTotalLevel();
-console.log(total_level);
-for (let cnt = 1; cnt <= total_level; cnt++) {
- const test =    `Update tbl_memberreg set level_team_member=level_team_member+1 where member_id =${cnt}`
- const test_ = await query(test);
- console.log(test);
-}
-
-}
+// }
 
 
 async function getTotalLevel() {

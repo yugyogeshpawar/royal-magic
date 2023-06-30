@@ -127,18 +127,22 @@ const plan = [
   },
 ];
 async function incomeCal() {
-  const check = `SELECT * FROM tbl_memberreg WHERE team_member > 0`;
-  const result = await query(check);
+  const total = `select * from tbl_memberreg` ;
+const test = await query(total)
+console.log(test);
 
-  result.forEach(async (element) => {
+test.forEach(async(element) => {
+    let member_id = element.member_id;
+    let team = member_id -1;
+console.log(member_id);
     const memberId = element.member_user_id;
     const memberName = element.member_name;
     const directMember = element.direct_member;
     const walletAddress = element.wallet_address;
-    console.log(element.team_member);
+    console.log(team);
 
     switch (true) {
-      case element.team_member >= 21 && element.level == 0:
+      case team >= 21 && element.level == 0:
         await insertLevel(
           memberId,
           memberName,
@@ -154,7 +158,7 @@ async function incomeCal() {
         console.log("level1:", memberId);
         break;
 
-      case element.team_member >= 51 && element.level == 1:
+      case team >= 51 && element.level == 1:
         await insertLevel(
           memberId,
           memberName,
@@ -170,7 +174,7 @@ async function incomeCal() {
         console.log("level2:", memberId);
         break;
 
-      case element.team_member >= 130 &&
+      case team >= 130 &&
         element.level == 2 &&
         directMember >= 1:
         await insertLevel(
@@ -187,7 +191,7 @@ async function incomeCal() {
         );
         console.log("level3:", memberId);
         break;
-      case element.team_member >= 375 &&
+      case team >= 375 &&
         element.level == 3 &&
         directMember >= 1:
         await insertLevel(
@@ -204,7 +208,7 @@ async function incomeCal() {
         );
         console.log("level4:", memberId);
         break;
-      case element.team_member >= 505 &&
+      case team >= 505 &&
         element.level == 4 &&
         directMember >= 2:
         await insertLevel(
@@ -222,7 +226,7 @@ async function incomeCal() {
         console.log("level5:", memberId);
         break;
 
-      case element.team_member >= 900 &&
+      case team >= 900 &&
         element.level == 5 &&
         directMember >= 2:
         await insertLevel(
@@ -239,7 +243,7 @@ async function incomeCal() {
         );
         console.log("level6:", memberId);
         break;
-      case element.team_member >= 1800 &&
+      case team >= 1800 &&
         element.level == 6 &&
         directMember >= 2:
         await insertLevel(
@@ -256,7 +260,7 @@ async function incomeCal() {
         );
         console.log("level7:", memberId);
         break;
-      case element.team_member >= 3500 &&
+      case team >= 3500 &&
         element.level == 7 &&
         directMember >= 2:
         await insertLevel(
@@ -273,7 +277,7 @@ async function incomeCal() {
         );
         console.log("level8:", memberId);
         break;
-      case element.team_member >= 5200 &&
+      case team >= 5200 &&
         element.level == 8 &&
         directMember >= 2:
         await insertLevel(
@@ -290,7 +294,7 @@ async function incomeCal() {
         );
         console.log("level9:", memberId);
         break;
-      case element.team_member >= 9700 &&
+      case team >= 9700 &&
         element.level == 9 &&
         directMember >= 2:
         await insertLevel(
@@ -307,7 +311,7 @@ async function incomeCal() {
         );
         console.log("level10:", memberId);
         break;
-      case element.team_member >= 11000 &&
+      case team >= 11000 &&
         element.level == 10 &&
         directMember >= 10:
         await insertLevel(
@@ -326,7 +330,7 @@ async function incomeCal() {
         break;
 
       default:
-        console.log(`no condition match memberId:${memberId},level:${element.level},teammember:${element.team_member},directMember:${directMember},`);
+        console.log(`no condition match memberId:${memberId},level:${element.level},teammember:${team},directMember:${directMember},`);
         break;
     }
   });
@@ -359,6 +363,7 @@ async function insertLevel(
   const tblMember = `UPDATE tbl_memberreg SET level='${incomeLevel}' where member_user_id = '${memberId}' `;
   const res1 = await query(tblMember);
 console.log(tblMember);
+
 register(memberId, memberName);
 }
 
