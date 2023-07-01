@@ -4,14 +4,14 @@ const moment = require("moment-timezone");
 const cron = require("node-cron");
 const bcrypt = require("bcrypt");
 const connection = mysql.createConnection({
-  // host: "localhost",
-  // user: "root",
-  // password: "",
-  // database: "AIFX",
   host: "localhost",
-  user: "royalmagic",
-  password: "royalmagic@admin123",
-  database: "royalmagic",
+  user: "root",
+  password: "",
+  database: "AIFX",
+  // host: "localhost",
+  // user: "royalmagic",
+  // password: "royalmagic@admin123",
+  // database: "royalmagic",
 });
 
 connection.connect((err) => {
@@ -20,11 +20,11 @@ connection.connect((err) => {
   }
   console.log("Connected to MySQL database!");
 });
-let count = 1;
+// let count = 1;
 let query = promisify(connection.query).bind(connection);
 
 cron.schedule("*/10 * * * * *", function () {
-const activation_date = moment().format("YYYY-MM-DD HH:mm:ss");
+// const activation_date = moment().format("YYYY-MM-DD HH:mm:ss");
 const plan = [
   {
     level: 1,
@@ -35,7 +35,7 @@ const plan = [
     netIncome: 3,
     reentry:0
   },
-  {
+{
     level: 2,
     reward: 10,
     magicPool: 2,
@@ -127,33 +127,36 @@ const plan = [
   },
 ];
 async function incomeCal() {
-  const total = `select * from tbl_memberreg` ;
+  const total = `select * from tbl_memberreg ` ;
 const test = await query(total)
-console.log(test);
+console.log("test", test );
+console.log(`test member id, ${test} `);
 
 test.forEach(async(element) => {
     let member_id = element.member_id;
-    let team = member_id -1;
+
+    let team = await getTotalLevel() - member_id;
 console.log(member_id);
     const memberId = element.member_user_id;
     const memberName = element.member_name;
     const directMember = element.direct_member;
     const walletAddress = element.wallet_address;
-    console.log(team);
+    const status = element.status;
+    console.log("team",team);
 
     switch (true) {
       case team >= 21 && element.level == 0 :
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
           plan[0].reward,
           plan[0].level,
           plan[0].netIncome,
           plan[0].magicPool,
           plan[0].royalPool,
-          plan[0].adminCharge,
-          plan[0].reentry
+       
+          plan[0].reentry,
+          status
         );
         console.log("level1:", memberId);
         break;
@@ -162,14 +165,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+       
           plan[1].reward,
           plan[1].level,
           plan[1].netIncome,
           plan[1].magicPool,
           plan[1].royalPool,
-          plan[1].adminCharge,
-          plan[1].reentry
+       
+          plan[1].reentry,
+          status
         );
         console.log("level2:", memberId);
         break;
@@ -180,14 +184,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+  
           plan[2].reward,
           plan[2].level,
           plan[2].netIncome,
           plan[2].magicPool,
           plan[2].royalPool,
-          plan[2].adminCharge,
-          plan[2].reentry
+        
+          plan[2].reentry,
+          status
         );
         console.log("level3:", memberId);
         break;
@@ -197,14 +202,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+     
           plan[3].reward,
           plan[3].level,
           plan[3].netIncome,
           plan[3].magicPool,
           plan[3].royalPool,
-          plan[3].adminCharge,
-          plan[3].reentry
+        
+          plan[3].reentry,
+          status
         );
         console.log("level4:", memberId);
         break;
@@ -214,14 +220,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+        
           plan[4].reward,
           plan[4].level,
           plan[4].netIncome,
           plan[4].magicPool,
           plan[4].royalPool,
-          plan[4].adminCharge,
-          plan[4].reentry
+       
+          plan[4].reentry,
+          status
         );
         console.log("level5:", memberId);
         break;
@@ -232,14 +239,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+  
           plan[5].reward,
           plan[5].level,
           plan[5].netIncome,
           plan[5].magicPool,
           plan[5].royalPool,
-          plan[5].adminCharge,
-          plan[5].reentry
+        
+          plan[5].reentry,
+          status
         );
         console.log("level6:", memberId);
         break;
@@ -249,14 +257,14 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
           plan[6].reward,
           plan[6].level,
           plan[6].netIncome,
           plan[6].magicPool,
           plan[6].royalPool,
-          plan[6].adminCharge,
-          plan[6].reentry
+       
+          plan[6].reentry,
+          status
         );
         console.log("level7:", memberId);
         break;
@@ -266,14 +274,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+         
           plan[7].reward,
           plan[7].level,
           plan[7].netIncome,
           plan[7].magicPool,
           plan[7].royalPool,
-          plan[7].adminCharge,
-          plan[7].reentry
+       
+          plan[7].reentry,
+          status
         );
         console.log("level8:", memberId);
         break;
@@ -283,14 +292,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+        
           plan[8].reward,
           plan[8].level,
           plan[8].netIncome,
           plan[8].magicPool,
           plan[8].royalPool,
-          plan[8].adminCharge,
-          plan[8].reentry
+         
+          plan[8].reentry,
+          status
         );
         console.log("level9:", memberId);
         break;
@@ -300,14 +310,14 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+         
           plan[9].reward,
           plan[9].level,
           plan[9].netIncome,
           plan[9].magicPool,
           plan[9].royalPool,
-          plan[9].adminCharge,
-          plan[9].reentry
+        
+          plan[9].reentry,status
         );
         console.log("level10:", memberId);
         break;
@@ -317,14 +327,15 @@ console.log(member_id);
         await insertLevel(
           memberId,
           memberName,
-          activation_date,
+        
           plan[10].reward,
           plan[10].level,
           plan[10].netIncome,
           plan[10].magicPool,
           plan[10].royalPool,
-          plan[10].adminCharge,
-          plan[10].reentry
+         
+          plan[10].reentry,
+          status
         );
         console.log("level11:", memberId);
         break;
@@ -334,76 +345,46 @@ console.log(member_id);
         break;
     }
   });
+  
 }
+
 incomeCal();
+})
 async function insertLevel(
   memberId,
   memberName,
-  activation_date,
   reward,
   incomeLevel,
   netAmount,
   magicPool,
   royalPool,
   reEntry,
+  status,
   walletAddress,
   sys_date,
 ) {
    sys_date = getCurrentDateTime()
-
-   let hash_code = generateRandomNumber()
-
-  const InsRec = `INSERT INTO tbl_reinvest(member_user_id,walletAddress,hash_code,tr_date,invest_type,invest_package,gusdAmt)
-                                     VALUES ('${memberId}','${walletAddress}',${hash_code},'${sys_date}','REENTRY',15,15)`;
+   console.log("rentry: " + reEntry);
+  if( reEntry > 0){
+  const InsRec = `INSERT INTO tbl_reinvest(member_user_id,tr_date,invest_type,invest_package,gusdAmt)
+                                     VALUES ('${memberId}','${sys_date}','REENTRY',15,15)`;
    const insertDeposit = await query(InsRec);
-   sys_date = getCurrentDateTime()
+  
+  }
+
+  sys_date = getCurrentDateTime()
+  if(status ===1){
   const insert = `INSERT INTO tbl_member_income_dtails ( member_user_id,member_name, calculate_date,income_amt, income_level,income_type,b_type,net_amt, magic_pool,royal_pool,re_entry)
-                                                VALUES ('${memberId}',' ${memberName}', '${sys_date}', ${reward}, ${incomeLevel},'LEVEL BONUS','LEVEL BONUS',${netAmount}, ${magicPool}, ${royalPool},${reEntry})`;
+                                                VALUES ('${memberId}',' ${memberName}','${getCurrentDateTime()}', ${reward}, ${incomeLevel},'LEVEL BONUS','LEVEL BONUS',${netAmount}, ${magicPool}, ${royalPool},${reEntry})`;
   const res = await query(insert);
   console.log(insert);
+
   const tblMember = `UPDATE tbl_memberreg SET level='${incomeLevel}' where member_user_id = '${memberId}' `;
   const res1 = await query(tblMember);
 console.log(tblMember);
+  }
 
-register(memberId, memberName);
 }
-
-const register = async (sponcerId, sponcerName, req, res) => {
-    try {
-      const regDate = new Date().toISOString().replace("T", " ").replace("Z", "");
-      console.log("reg_date", regDate);
-  
-      let password = "123456";
-      const salt = await bcrypt.genSalt(10);
-      password = await bcrypt.hash(password, salt);
-  
-      const member_user_id = generateRandomNumber();
-      let count = 0; // Assuming count is initialized and incremented somewhere
-  
-      const memberName = `RoyalMagic${count}`;
-      count++;
-  
-      console.log("member_user_id", member_user_id);
-  
-      const insertQuery = `INSERT INTO tbl_memberreg (member_user_id, sponcer_id, sponcer_name, member_name, password, registration_date)
-                           VALUES ('${member_user_id}', '${sponcerId}', '${sponcerName}', '${memberName}', '${password}', '${regDate}')`;
-  
-      const insertResult = await query(insertQuery);
-  
-    } catch (err) {
-      console.log("Error in registration", err);
-     
-    }
-  };
-
-function generateRandomNumber() {
-  const min = 1000000; // Minimum 7-digit number (inclusive)
-  const max = 9999999; // Maximum 7-digit number (inclusive)
-
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-})
-
 
 
 function getCurrentDateTime() {
@@ -418,3 +399,11 @@ function getCurrentDateTime() {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+async function getTotalLevel() {
+  let str = "SELECT count(*) FROM tbl_memberreg";
+  let str_ = await query(str);
+  console.log(str_[0]);
+  let count = str_[0]["count(*)"];
+  console.log("count",count);
+  return count;
+}
