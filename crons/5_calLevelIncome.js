@@ -20,7 +20,7 @@ connection.connect((err) => {
   console.log("Connected to MySQL database!");
 });
 let query = promisify(connection.query).bind(connection);
-cron.schedule("*/120 * * * * *", function () {
+cron.schedule("*/10 * * * * *", function () {
 async function calLevelIncome() {
   const checkStatus = `SELECT * FROM tbl_member_income_dtails where status='0' and income_type = 'LEVEL BONUS' ORDER BY income_id DESC ;`;
   const res = await query(checkStatus);
