@@ -5,6 +5,8 @@ import { Grid, Box, Typography } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { getSearch, getSearchDashboard, postBlockUser, postUnBlockUser } from '../../redux/admin';
+import { setSession } from '../../utils/jwt';
 
 const SearchSection = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -12,18 +14,67 @@ const SearchSection = () => {
   const [walletAdd, setWalletadd] = useState('');
   const [invA, setInva] = useState('');
   const [value, setValue] = React.useState('');
+  const [searchError, setSearchError] = useState('');
+  const [error, setError] = useState({
+    dashboardError: '',
+    blockError: '',
+    unBlockError: ''
+  });
 
   useEffect(() => {
     console.log(value);
   }, [value]);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
+    if (searchQuery.trim() === '') {
+      setSearchError('Please enter a search query.');
+      return;
+    }
+
     // Perform search logic here using the searchQuery
     console.log('Searching for:', searchQuery);
+    const res = await getSearch(searchQuery);
+    console.log(res);
+    setUserID(res.data[0].member_user_id);
+    setWalletadd(res.data[0].wallet_address);
+    console.log(new Date(res.data[0].registration_date));
+    setInva(res.data[0].topup_amount);
   };
 
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value);
+    setSearchError('');
+  };
+
+  const handDashboard = async () => {
+    if (!userID) {
+      setError.dashboardError('User ID is empty or undefined.');
+      console.log(userID);
+      return;
+    }
+    const res = await getSearchDashboard(userID);
+    setSession(res.token);
+    window.location.replace('/dashboard');
+  };
+
+  const handleBlock = async () => {
+    if (!userID) {
+      setError.blockError('User ID is empty or undefined.');
+      console.log(userID);
+      return;
+    }
+    const res = await postBlockUser(userID);
+    console.log(res);
+  };
+
+  const handleUnBlock = async () => {
+    if (!userID) {
+      setError.unBlockError('User ID is empty or undefined.');
+      console.log(userID);
+      return;
+    }
+    const res = await postUnBlockUser(userID);
+    console.log(res);
   };
 
   const handleUserQueryChange = (event) => {
@@ -54,6 +105,8 @@ const SearchSection = () => {
             variant="outlined"
             value={searchQuery}
             onChange={handleSearchQueryChange}
+            error={searchError !== ''}
+            helperText={searchError}
             style={{ marginRight: '1rem', width: '100%' }}
           />
         </Grid>
@@ -75,6 +128,9 @@ const SearchSection = () => {
             value={userID}
             onChange={handleUserQueryChange}
             style={{ marginRight: '1rem', width: '100%' }}
+            InputProps={{
+              readOnly: true
+            }}
           />
         </Grid>
         <Grid item xs={12} md={6}>
@@ -84,6 +140,9 @@ const SearchSection = () => {
             value={walletAdd}
             onChange={handleWalletQueryChange}
             sx={{ marginRight: '1rem', width: '100%' }}
+            InputProps={{
+              readOnly: true
+            }}
           />
         </Grid>
 
@@ -101,17 +160,30 @@ const SearchSection = () => {
             value={invA}
             onChange={handleInvQueryChange}
             sx={{ marginRight: '1rem', width: '100%' }}
+            InputProps={{
+              readOnly: true
+            }}
           />
         </Grid>
 
         <Grid item xs={12} md={3} sx={{ px: 3 }}>
-          <Button variant="contained" onClick={handleSearch} sx={{ width: '100%', py: 1, marginTop: '4px' }}>
+          <Button variant="contained" onClick={handDashboard} sx={{ width: '100%', py: 1, marginTop: '4px' }}>
             DashBoard
+          </Button>
+          {error.dashboardError && (
+            <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+              {error.dashboardError}
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={12} md={3} sx={{ px: 3 }}>
+          <Button variant="contained" onClick={handleBlock} sx={{ backgroundColor: 'red', width: '100%', py: 1, marginTop: '4px' }}>
+            Block User
           </Button>
         </Grid>
         <Grid item xs={12} md={3} sx={{ px: 3 }}>
-          <Button variant="contained" onClick={handleSearch} sx={{ backgroundColor: 'red', width: '100%', py: 1, marginTop: '4px' }}>
-            Block User
+          <Button variant="contained" onClick={handleUnBlock} sx={{ backgroundColor: 'red', width: '100%', py: 1, marginTop: '4px' }}>
+            UnBlock User
           </Button>
         </Grid>
       </Grid>

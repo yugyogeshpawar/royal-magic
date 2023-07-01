@@ -113,7 +113,9 @@ export default function ValidationTextFields() {
           console.log('Transaction hash is already submitted');
           throw new Error('Transaction hash is already submitted');
         }
-        setOpen2(true);
+        if (res && res.response && res.response.status === 200) {
+          setOpen2(true);
+        }
       } else {
         // Set validation errors
         setValidationErrors(errors);

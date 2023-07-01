@@ -9,6 +9,9 @@ let inactiveUsers = [];
 let blockedUsers = [];
 let Investment = [];
 let Withdraw = [];
+let SearchResult = [];
+let SearchDashboard = [];
+let blockUser = [];
 const initializer = {
   ActiveUsersSucess: false,
   userBlockedSuccess: false,
@@ -188,4 +191,88 @@ export async function getWithdrawSummary() {
     }
   }
   return Withdraw;
+}
+// ----------------------------------------------------------------------
+export async function getSearch(value) {
+  if (!initializer.SearchSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const headers = {
+        Authorization: `Bearer ${accessToken}`
+      };
+      const response = await axios.get(`${baseUrl}/search?search=${value}`, {
+        headers
+      });
+      SearchResult = response.data;
+      initializer.SearchSucess = true;
+    } catch (error) {
+      console.log(error);
+      initializer.SearchSucess = false;
+      SearchResult = error;
+    }
+  }
+  return SearchResult;
+}
+// ----------------------------------------------------------------------
+export async function getSearchDashboard(value) {
+  if (!initializer.SearchDashboardSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const headers = {
+        Authorization: `Bearer ${accessToken}`
+      };
+      const response = await axios.get(`${baseUrl}/search-dashboard?userID=${value}`, {
+        headers
+      });
+      SearchDashboard = response.data;
+      initializer.SearchDashboardSucess = true;
+    } catch (error) {
+      console.log(error);
+      initializer.SearchDashboardSucess = false;
+      SearchDashboard = error;
+    }
+  }
+  return SearchDashboard;
+}
+// ----------------------------------------------------------------------
+export async function postBlockUser(value) {
+  if (!initializer.blockUser) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const response = await axios({
+        method: 'post',
+        url: `${baseUrl}/block-user`,
+        headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        data: { userID: value }
+      });
+      blockUser = response.data;
+      initializer.blockUser = true;
+    } catch (error) {
+      console.log(error);
+      initializer.blockUser = false;
+      blockUser = error;
+    }
+  }
+  return blockUser;
+}
+// ----------------------------------------------------------------------
+export async function postUnBlockUser(value) {
+  if (!initializer.blockUser) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const response = await axios({
+        method: 'post',
+        url: `${baseUrl}/unblock-user`,
+        headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        data: { userID: value }
+      });
+      blockUser = response.data;
+      initializer.blockUser = true;
+    } catch (error) {
+      console.log(error);
+      initializer.blockUser = false;
+      blockUser = error;
+    }
+  }
+  return blockUser;
 }

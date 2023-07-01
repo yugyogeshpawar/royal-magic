@@ -20,7 +20,7 @@ export default function StakingBonusPage() {
           memberUserId: item.member_user_id,
           walletAmount: item.net_amt,
           magic_pool: item.magic_pool,
-          royal_pool: item.royal_pool,
+          royal_pool: item.royal_pool
         }));
         setRows(mappedData);
       }
@@ -29,7 +29,6 @@ export default function StakingBonusPage() {
     fetchData();
   }, []);
 
-
   const columns = [
     { field: 'id', headerName: 'Id' },
     { field: 'date', headerName: 'Date' },
@@ -37,7 +36,6 @@ export default function StakingBonusPage() {
     { field: 'walletAmount', headerName: 'Level Income', width: 120 },
     { field: 'magic_pool', headerName: 'Magic Pool', width: 120 },
     { field: 'royal_pool', headerName: 'Royal Pool', width: 120 },
-    { field: '', headerName: 'Admin Charge', width: 120 },
     { field: 'walletAmount', headerName: 'Net evel Income', width: 120 }
   ];
 

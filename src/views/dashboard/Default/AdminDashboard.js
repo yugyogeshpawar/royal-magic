@@ -64,7 +64,7 @@ const Dashboard = () => {
           <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item sm={6} xs={12} md={6} lg={12}>
-                <TotalIncomeDarkCard isLoading={isLoading} title={'Blocked Users'} totalUser={`$${user?.totalBlockedUser}`} />
+                <TotalIncomeDarkCard isLoading={isLoading} title={'Blocked Users'} totalUser={`${user?.totalBlockedUser}`} />
               </Grid>
               <Grid item sm={6} xs={12} md={6} lg={12}>
                 <TotalStaking isLoading={isLoading} title={'Today Staking'} />

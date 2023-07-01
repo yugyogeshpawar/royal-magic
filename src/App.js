@@ -18,8 +18,6 @@ import NavigationScroll from 'layout/NavigationScroll';
 const App = () => {
   const { isInitialized } = useAuth();
   const { isAdminAuthenticated } = useAdminAuth();
-  console.log(isInitialized);
-  console.log(isAdminAuthenticated);
   const customization = useSelector((state) => state.customization);
 
   return (
