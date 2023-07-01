@@ -113,6 +113,28 @@ const postBlockUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const postUnBlockUser = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${userID}' `;
+    const checkUser = await query(checkUserQuery);
+    if (checkUser.length === 0) {
+      return res.status(400).send({
+        status: false,
+        message: "Invalid USER ID!",
+      });
+    }
+    const unBlockUserQuery = `UPDATE tbl_memberreg SET isblock=0 WHERE member_user_id = '${userID}' `;
+    const unblocked = await query(unBlockUserQuery);
+
+    res.status(200).json({
+      resposnce: unblocked,
+      message: `Successfully unblocked The user ${userID}`,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getActiveUsers,
@@ -122,4 +144,5 @@ module.exports = {
   getBlockedUsers,
   getSearchDashboard,
   postBlockUser,
+  postUnBlockUser,
 };
