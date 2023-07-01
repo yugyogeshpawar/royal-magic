@@ -5,7 +5,7 @@ const query = promisify(connection.query).bind(connection);
 
 const withdrawRequest = async (req, res) => {
   const member_user_id = req.user;
-  const { amount } = req.body;
+  const { amount, address } = req.body;
 
   // Date
   const currentDate = new Date();
@@ -50,35 +50,32 @@ const withdrawRequest = async (req, res) => {
       let member_name = output[0].member_name;
 
       //Generate Reference ID with unique string of 20 characters with capital alphabets and numbers
-        let ref_id = "";
-        const characters =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        const charactersLength = characters.length;
+      let ref_id = "";
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      const charactersLength = characters.length;
+      for (let i = 0; i < 20; i++) {
+        ref_id += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
+      }
+      console.log(`ref_id`, ref_id);
+
+      //Check if reference id already exists
+      const query3 = `SELECT * FROM tbl_withdraw WHERE with_referrance='${ref_id}'`;
+      let output3 = await query(query3);
+      while (output3.length > 0) {
+        ref_id = "";
         for (let i = 0; i < 20; i++) {
-            ref_id += characters.charAt(
-                Math.floor(Math.random() * charactersLength)
-            );
+          ref_id += characters.charAt(
+            Math.floor(Math.random() * charactersLength)
+          );
         }
-        console.log(`ref_id`, ref_id);
-
-        //Check if reference id already exists
-        const query3 = `SELECT * FROM tbl_withdraw WHERE with_referrance='${ref_id}'`;
-        let output3 = await query(query3);
-        while(output3.length > 0){
-            ref_id = "";
-            for (let i = 0; i < 20; i++) {
-                ref_id += characters.charAt(
-                    Math.floor(Math.random() * charactersLength)
-                );
-            }
-            output3 = await query(query3);
-        }
-        console.log(`ref_id`, ref_id);
-
-    
+        output3 = await query(query3);
+      }
+      console.log(`ref_id`, ref_id);
 
       //   const query2 = `INSERT INTO tbl_withdraw(member_user_id, member_name ,amount , with_date) VALUES('${member_user_id}', '${member_name}' , '${amount}' , '${sys_date}'`;
-      const query2 = `INSERT INTO tbl_withdraw(member_user_id, member_name ,with_amt , with_date , with_referrance) VALUES('${member_user_id}', '${member_name}' , '${amount}' , '${sys_date}' , '${ref_id}')`;
+      const query2 = `INSERT INTO tbl_withdraw(member_user_id, member_name ,with_amt , with_date , with_referrance, transaction_id) VALUES('${member_user_id}', '${member_name}' , '${amount}' , '${sys_date}' , '${ref_id}', ${address})`;
       try {
         const output2 = await query(query2);
         console.log(`output2`, output2);
