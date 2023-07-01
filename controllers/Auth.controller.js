@@ -27,90 +27,88 @@ const getRegister = async (req, res) => {
 };
 
 const register = async (req, res) => {
- try{ 
-  let sponcer_id = req.body.sponcerid;
-  console.log(req.body)
-  let member_user_id;
-  let query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${sponcer_id}' and status=1`;
-  const checkSponcer = await query(query1);
-  if (checkSponcer.length === 0) {
-    return res.status(400).send({
-      message: "Invalid sponcer id",
-    });
-  }
-  let sponcer_name = checkSponcer[0].member_name;
-  let contactNo = req.body.contactNumber.trim();
-  let member_name = req.body.member_name.trim().toUpperCase();
-  let password = req.body.password.trim();
-  let cpassword = req.body.cpassword.trim();
-  let email = req.body.email.trim().toLowerCase();
-
-  if (password !== cpassword) {
-    return res.status(400).send({
-      status: false,
-      message: "Password and confirm password not matched",
-    });
-  }
-
- 
-
-  let reg_date = new Date().toISOString().replace("T", " ").replace("Z", "");
-
-  console.log(`reg_date`, reg_date);
-
-  if (member_name.length < 3) {
-   return res.status(400).send({
-      title: "Error",
-      message: "Fill Member Name",
-      status: "error",
-    });
-  } else if (contactNo.length !== 10) {
-   return res.status(400).send({
-      title: "Error",
-      message: "Fill Valid Mobile No",
-      status: "error",
-    });
-  } else if (!phoneValidation(contactNo)) {
-    return res.status(400).send({
-      title: "Error",
-      message: "Fill Valid Mobile Name",
-      status: "error",
-    });
-  } else if (!emailValidation(email)) {
-    return res.status(400).send({
-      title: "Error",
-      message: "Fill Valid Email Id",
-      status: "error",
-    });
-  } else if (password.length < 6) {
-    return res.status(400).send({
-      title: "Error",
-      message: "Password Must be 6 Charactor",
-      status: "error",
-    });
-  } else if (password !== cpassword) {
-    return res.status(400).send({
-      title: "Error",
-      message: "Password and Confirm Password do not match",
-      status: "error",
-    });
-  } else {
-    member_user_id = generateRandomNumber();
-
-    let checkMemberId = `SELECT * FROM tbl_memberreg WHERE member_user_id='${member_user_id}'`;
-    let checkMemberIdResult = await query(checkMemberId);
-
-    while (checkMemberIdResult.length > 0) {
-      member_user_id = generateRandomNumber();
-      checkMemberId = `SELECT * FROM tbl_memberreg WHERE member_user_id='${member_user_id}'`;
-      checkMemberIdResult = await query(checkMemberId);
+  try {
+    let sponcer_id = req.body.sponcerid;
+    console.log(req.body);
+    let member_user_id;
+    let query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${sponcer_id}' and status=1`;
+    const checkSponcer = await query(query1);
+    if (checkSponcer.length === 0) {
+      return res.status(400).send({
+        message: "Invalid sponcer id",
+      });
     }
-  }
+    let sponcer_name = checkSponcer[0].member_name;
+    let contactNo = req.body.contactNumber.trim();
+    let member_name = req.body.member_name.trim().toUpperCase();
+    let password = req.body.password.trim();
+    let cpassword = req.body.cpassword.trim();
+    let email = req.body.email.trim().toLowerCase();
 
-  const salt = await bcrypt.genSalt(10);
-  password = await bcrypt.hash(password, salt);
+    if (password !== cpassword) {
+      return res.status(400).send({
+        status: false,
+        message: "Password and confirm password not matched",
+      });
+    }
 
-  let insertQuery = `INSERT INTO tbl_memberreg (member_user_id, sponcer_id, sponcer_name, member_name, contact, email, password, registration_date) VALUES ('${member_user_id}', '${sponcer_id}', '${sponcer_name}', '${member_name}', '${contactNo}', '${email}', '${password}', '${reg_date}')`;
+    let reg_date = new Date().toISOString().replace("T", " ").replace("Z", "");
+
+    console.log(`reg_date`, reg_date);
+
+    if (member_name.length < 3) {
+      return res.status(400).send({
+        title: "Error",
+        message: "Fill Member Name",
+        status: "error",
+      });
+    } else if (contactNo.length !== 10) {
+      return res.status(400).send({
+        title: "Error",
+        message: "Fill Valid Mobile No",
+        status: "error",
+      });
+    } else if (!phoneValidation(contactNo)) {
+      return res.status(400).send({
+        title: "Error",
+        message: "Fill Valid Mobile Name",
+        status: "error",
+      });
+    } else if (!emailValidation(email)) {
+      return res.status(400).send({
+        title: "Error",
+        message: "Fill Valid Email Id",
+        status: "error",
+      });
+    } else if (password.length < 6) {
+      return res.status(400).send({
+        title: "Error",
+        message: "Password Must be 6 Charactor",
+        status: "error",
+      });
+    } else if (password !== cpassword) {
+      return res.status(400).send({
+        title: "Error",
+        message: "Password and Confirm Password do not match",
+        status: "error",
+      });
+    } else {
+      member_user_id = generateRandomNumber();
+
+      let checkMemberId = `SELECT * FROM tbl_memberreg WHERE member_user_id='${member_user_id}'`;
+      let checkMemberIdResult = await query(checkMemberId);
+
+      while (checkMemberIdResult.length > 0) {
+        member_user_id = generateRandomNumber();
+        checkMemberId = `SELECT * FROM tbl_memberreg WHERE member_user_id='${member_user_id}'`;
+        checkMemberIdResult = await query(checkMemberId);
+      }
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    password = await bcrypt.hash(password, salt);
+
+    let insertQuery = `INSERT INTO tbl_memberreg (member_user_id, sponcer_id, sponcer_name, member_name, contact, email, password, registration_date) VALUES ('${member_user_id}', '${sponcer_id}', '${sponcer_name}', '${member_name}', '${contactNo}', '${email}', '${password}', '${reg_date}')`;
 
     const insertResult = await query(insertQuery);
     return res.status(200).send({
@@ -118,99 +116,104 @@ const register = async (req, res) => {
       message: "Registration successfully",
       userId: member_user_id,
     });
-}catch (err) {
-  return res.status(500).send({mesage:err});
+  } catch (err) {
+    return res.status(500).send({ mesage: err });
+  }
 };
-}
-const login = async (req, res) => {
- try{ const { email, password } = req.body;
 
-  console.log(email, password);
-  const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${email}' `;
-  const checkUser = await query(checkUserQuery);
-  if (checkUser.length === 0) {
-    return res.status(400).send({
-      status: false,
-      message: "Invalid email!",
-    });
-  } else {
-    const validPassword = await bcrypt.compare(password, checkUser[0].password);
-    if (!validPassword) {
+const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    console.log(email, password);
+    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${email}' `;
+    const checkUser = await query(checkUserQuery);
+    if (checkUser.length === 0) {
       return res.status(400).send({
         status: false,
-        message: "Invalid password!",
+        message: "Invalid EMAIL or USER ID or password!",
+      });
+    } else {
+      const validPassword = await bcrypt.compare(
+        password,
+        checkUser[0].password
+      );
+      if (!validPassword) {
+        return res.status(400).send({
+          status: false,
+          message: "Invalid email or member id or PASSWORD",
+        });
+      }
+
+      const token = jwt.sign(
+        { userId: checkUser[0].member_user_id },
+        JWT_SECRET_KEY,
+        {
+          expiresIn: "1h",
+        }
+      );
+
+      const user = checkUser[0];
+
+      const returnObject = {
+        member_user_id: user.member_user_id,
+        member_name: user.member_name,
+        sponcer_id: user.sponcer_id,
+        sponcer_name: user.sponcer_name,
+        wallet_address: user.wallet_address,
+        promoter_id: user.promoter_id,
+        promoter_name: user.promoter_name,
+        contact: user.contact,
+        email: user.email,
+        status: user.status,
+        registration_date: user.registration_date,
+        member_status: user.member_status,
+        kyc_status: user.kyc_status,
+        topup_amount: user.topup_amount,
+        direct_member: user.direct_member,
+        wallet_amount: user.wallet_amount,
+        checked: user.checked,
+        withdrawal_amt: user.withdrawal_amt,
+        block_status: user.block_status,
+        current_investment: user.current_investment,
+        direct_business: user.direct_business,
+        total_earning: user.total_earning,
+        isblock: user.isblock,
+        team_business: user.team_business,
+        expiry_date: user.expiry_date,
+        expiry_date2: user.expiry_date2,
+        team_member: user.team_member,
+        activation_date: user.activation_date,
+        profile_image: user.profile_image,
+        front_image: user.front_image,
+        back_image: user.back_image,
+        member_dob: user.member_dob,
+        address: user.address,
+        pincod: user.pincod,
+        gender: user.gender,
+        country_code: user.country_code,
+        state: user.state,
+        city: user.city,
+        calTeamStatus: user.calTeamStatus,
+        updateWallet: user.updateWallet,
+        updateWallet: user.updateWallet,
+        royalPoolIncome: user.royal_pool,
+        magicPoolIncome: user.magic_pool,
+        net_income: user.net_income,
+        direct_income: user.direct_income,
+      };
+
+      return res.status(200).send({
+        status: true,
+        message: "Login successfully",
+        token,
+        user: returnObject,
       });
     }
-
-    const token = jwt.sign(
-      { userId: checkUser[0].member_user_id },
-      JWT_SECRET_KEY,
-      {
-        expiresIn: "1h",
-      }
-    );
-
-    const user = checkUser[0];
-
-    const returnObject = {
-      member_user_id: user.member_user_id,
-      member_name: user.member_name,
-      sponcer_id: user.sponcer_id,
-      sponcer_name: user.sponcer_name,
-      wallet_address: user.wallet_address,
-      promoter_id: user.promoter_id,
-      promoter_name: user.promoter_name,
-      contact: user.contact,
-      email: user.email,
-      status: user.status,
-      registration_date: user.registration_date,
-      member_status: user.member_status,
-      kyc_status: user.kyc_status,
-      topup_amount: user.topup_amount,
-      direct_member: user.direct_member,
-      wallet_amount: user.wallet_amount,
-      checked: user.checked,
-      withdrawal_amt: user.withdrawal_amt,
-      block_status: user.block_status,
-      current_investment: user.current_investment,
-      direct_business: user.direct_business,
-      total_earning: user.total_earning,
-      isblock: user.isblock,
-      team_business: user.team_business,
-      expiry_date: user.expiry_date,
-      expiry_date2: user.expiry_date2,
-      team_member: user.team_member,
-      activation_date: user.activation_date,
-      profile_image: user.profile_image,
-      front_image: user.front_image,
-      back_image: user.back_image,
-      member_dob: user.member_dob,
-      address: user.address,
-      pincod: user.pincod,
-      gender: user.gender,
-      country_code: user.country_code,
-      state: user.state,
-      city: user.city,
-      calTeamStatus: user.calTeamStatus,
-      updateWallet: user.updateWallet,
-      updateWallet: user.updateWallet,
-      royalPoolIncome: user.royal_pool,
-      magicPoolIncome: user.magic_pool,
-      net_income: user.net_income,
-      direct_income: user.direct_income,
-    };
-
-    return res.status(200).send({
-      status: true,
-      message: "Login successfully",
-      token,
-      user: returnObject,
-    });
-  }}
-  catch(err) {
-    return res.status(500).send({mesage:err});
+  } catch (err) {
+    return res.status(500).send({ mesage: err });
+  }
 };
-}
 const changePassword = async (req, res) => {
   try {
     let memberUserId = req.user;
