@@ -31,7 +31,7 @@ const register = async (req, res) => {
     let sponcer_id = req.body.sponcerid;
     console.log(req.body);
     let member_user_id;
-    let query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${sponcer_id}' and status=1`;
+    let query1 = `SELECT * FROM tbl_memberreg WHERE member_user_id='${sponcer_id}' AND status=1 AND isblock='0'`;
     const checkSponcer = await query(query1);
     if (checkSponcer.length === 0) {
       return res.status(400).send({
@@ -126,7 +126,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     console.log(email, password);
-    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${email}' `;
+    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${email}' AND isblock='0' `;
     const checkUser = await query(checkUserQuery);
     if (checkUser.length === 0) {
       return res.status(400).send({

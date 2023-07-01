@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 const getActiveUsers = async (req, res) => {
-  const sql = `SELECT * FROM tbl_memberreg WHERE status = '1'`; // status = 0 means active
+  const sql = `SELECT * FROM tbl_memberreg WHERE status = '1' AND isblock = '0'`; // status = 0 means active
   try {
     const result = await query(sql);
     res
@@ -28,7 +28,7 @@ const getBlockedUsers = async (req, res) => {
 };
 
 const getInactiveUsers = async (req, res) => {
-  const sql = `SELECT * FROM tbl_memberreg WHERE status = '0'`; // status = 1 means inactive
+  const sql = `SELECT * FROM tbl_memberreg WHERE status = '0' AND isblock = '0'`; // status = 1 means inactive
   try {
     const result = await query(sql);
     res
