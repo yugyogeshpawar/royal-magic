@@ -8,6 +8,7 @@ import { postWithdraw } from '../../redux/user';
 export default function ValidationTextFields() {
   const { user } = useAuth();
   const [withdrawAmount, setWithdrawAmount] = React.useState(0);
+  const [withdrawWallet, setwithdrawWallet] = React.useState('');
   const [error, setError] = React.useState(false);
   const [serverError, setServerError] = React.useState('');
   const [success, setSuccess] = React.useState(false);
@@ -17,6 +18,12 @@ export default function ValidationTextFields() {
   const handleWithdrawAmountChange = (event) => {
     const amount = parseInt(event.target.value);
     setWithdrawAmount(amount);
+    setError(false); // Reset the error state when the value changes
+    setServerError(''); // Reset the server error state when the value changes
+  };
+  const handleWithdrawWalletChange = (event) => {
+    const walladdress = parseInt(event.target.value);
+    setwithdrawWallet(walladdress);
     setError(false); // Reset the error state when the value changes
     setServerError(''); // Reset the server error state when the value changes
   };
@@ -35,7 +42,7 @@ export default function ValidationTextFields() {
     // Withdrawal logic here
 
     try {
-      await postWithdraw(withdrawAmount);
+      await postWithdraw(withdrawAmount, withdrawWallet);
       setSuccess(true); // Set the success state if the withdrawal request is successful
       setServerError(''); // Reset the server error state on success
       setSnackbarOpen(true); // Open the snackbar on success
@@ -84,6 +91,20 @@ export default function ValidationTextFields() {
       {error && <FormHelperText error={error}>Withdraw amount cannot exceed wallet balance or be negative.</FormHelperText>}
 
       {serverError && <FormHelperText error={true}>{serverError}</FormHelperText>}
+
+      <TextField
+        id="withdraw-wallet-address"
+        label="Withdraw Address"
+        helperText={error ? 'Incorrect entry.' : ''}
+        error={error} // Set the error state to display the error styling
+        type="text"
+        value={withdrawWallet}
+        onChange={handleWithdrawWalletChange}
+        sx={{
+          mt: 2,
+          width: '300px'
+        }}
+      />
 
       <Button variant="contained" disableElevation sx={{ mt: 2, width: '200px' }} onClick={handleWithdrawSubmit}>
         Submit

@@ -109,11 +109,18 @@ export default function ValidationTextFields() {
         // Form is valid, submit the data or perform any other desired action
         const res = await postDesposit(formValues);
         console.log(res);
-        if (res && res.response && res.response.status === 500) {
+
+        if (res.response.status === 200) {
+          setOpen2(true);
+          setValidationErrors({
+            wallet: '',
+            staking: '',
+            transactionHash: ''
+          });
+        } else {
           console.log('Transaction hash is already submitted');
-          throw new Error('Transaction hash is already submitted');
+          throw new Error('Transaction already submitted');
         }
-        setOpen2(true);
       } else {
         // Set validation errors
         setValidationErrors(errors);

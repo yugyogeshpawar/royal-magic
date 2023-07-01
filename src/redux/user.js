@@ -232,7 +232,7 @@ export async function postDesposit(values) {
         data: { wallerAddress: values.wallet, amount: values.staking, transactionHash: values.transactionHash }
       });
       initializer.stakingSucess = true;
-      stakingPost = response.data;
+      stakingPost = response;
     } catch (error) {
       console.log(error);
       initializer.stakingSucess = false;
@@ -242,7 +242,7 @@ export async function postDesposit(values) {
   return stakingPost;
 }
 // ----------------------------------------------------------------------
-export async function postWithdraw(values) {
+export async function postWithdraw(values, withdrawWallet) {
   if (!initializer.WithdrawSucess) {
     try {
       const accessToken = window.localStorage.getItem('accessToken');
@@ -250,7 +250,7 @@ export async function postWithdraw(values) {
         method: 'post',
         url: `${baseUrl}/Withdraw/Request`,
         headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-        data: { amount: values }
+        data: { amount: values, address: withdrawWallet }
       });
       console.log(response);
       initializer.WithdrawSucess = true;
