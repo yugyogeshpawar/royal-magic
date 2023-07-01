@@ -110,7 +110,7 @@ export default function ValidationTextFields() {
         const res = await postDesposit(formValues);
         console.log(res);
 
-        if (res.response.status === 200) {
+        if (res.status === 200) {
           setOpen2(true);
           setValidationErrors({
             wallet: '',
