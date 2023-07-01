@@ -67,7 +67,7 @@ const getUserDetails = async (req, res) => {
 
 const getSearchDashboard = async (req, res) => {
   try {
-    const { userID } = req.body;
+    const { userID } = req.query;
     const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${userID}' `;
     const checkUser = await query(checkUserQuery);
     if (checkUser.length === 0) {
@@ -85,7 +85,29 @@ const getSearchDashboard = async (req, res) => {
     );
     res.status(200).json({
       message: "Successfully fetched Dashboard search Data",
-      token
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+const postBlockUser = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${userID}' `;
+    const checkUser = await query(checkUserQuery);
+    if (checkUser.length === 0) {
+      return res.status(400).send({
+        status: false,
+        message: "Invalid USER ID!",
+      });
+    }
+    const BlockUserQuery = `UPDATE tbl_memberreg SET isblock=1 WHERE member_user_id = '${userID}' `;
+    const blocked = await query(BlockUserQuery);
+
+    res.status(200).json({
+      resposnce: blocked,
+      message: `Successfully Blocked The user ${userID}`,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -99,4 +121,5 @@ module.exports = {
   getUserDetails,
   getBlockedUsers,
   getSearchDashboard,
+  postBlockUser,
 };

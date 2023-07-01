@@ -11,6 +11,7 @@ const {
   searchUser,
   getUserDetails,
   getSearchDashboard,
+  postBlockUser,
 } = require("../controllers/AdminUserInformation.controller");
 const {
   getWithdrawRequests,
@@ -33,5 +34,6 @@ router.route("/summary").get(summary);
 router.route("/login").post(login);
 router.route("/dashboard").get(getAdminDashboard);
 router.route("/search-dashboard").get(getSearchDashboard);
+router.route("/block-user").post(postBlockUser);
 
 module.exports = router;
