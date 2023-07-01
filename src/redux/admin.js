@@ -7,9 +7,12 @@ let stakingHistory = [];
 let activeUsers = [];
 let inactiveUsers = [];
 let blockedUsers = [];
+let Investment = [];
+let Withdraw = [];
 const initializer = {
   ActiveUsersSucess: false,
   userBlockedSuccess: false,
+  InvestmentSucess: false,
   InactiveUsersSucess: false
 };
 
@@ -49,7 +52,7 @@ const slice = createSlice({
   }
 });
 
-const baseUrl = process.env.PORT || 'https://backend.royalmagic.live/api';
+const baseUrl = process.env.PORT || 'https://backend.royalmagic.live/api/admin';
 
 // Reducer
 export default slice.reducer;
@@ -120,4 +123,69 @@ export async function getInactiveUsers() {
     }
   }
   return inactiveUsers;
+}
+// ----------------------------------------------------------------------
+export async function getInvestSummary() {
+  if (!initializer.InvestmentSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const headers = {
+        Authorization: `Bearer ${accessToken}`
+      };
+      const response = await axios.get(`${baseUrl}/summary`, {
+        headers
+      });
+      Investment = response.data;
+      initializer.InvestmentSucess = true;
+    } catch (error) {
+      console.log(error);
+      initializer.InvestmentSucess = false;
+      Investment = error;
+    }
+  }
+  return Investment;
+}
+// ----------------------------------------------------------------------
+export async function getWithdrawReqSummary() {
+  if (!initializer.WithdrawSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const headers = {
+        Authorization: `Bearer ${accessToken}`
+      };
+      const response = await axios.get(`${baseUrl}/withdrawRequest`, {
+        headers
+      });
+      console.log(response.data);
+      Withdraw = response.data;
+      initializer.WithdrawSucess = true;
+    } catch (error) {
+      console.log(error);
+      initializer.WithdrawSucess = false;
+      Withdraw = error;
+    }
+  }
+  return Withdraw;
+}
+// ----------------------------------------------------------------------
+export async function getWithdrawSummary() {
+  if (!initializer.WithdrawSucess) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const headers = {
+        Authorization: `Bearer ${accessToken}`
+      };
+      const response = await axios.get(`${baseUrl}/withdrawRequest`, {
+        headers
+      });
+      console.log(response.data);
+      Withdraw = response.data;
+      initializer.WithdrawSucess = true;
+    } catch (error) {
+      console.log(error);
+      initializer.WithdrawSucess = false;
+      Withdraw = error;
+    }
+  }
+  return Withdraw;
 }

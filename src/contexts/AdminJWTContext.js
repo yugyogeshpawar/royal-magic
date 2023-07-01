@@ -71,10 +71,9 @@ function AdminAuthProvider({ children }) {
 
         if (accessToken) {
           setSession(accessToken);
-           const headers = {
-        Authorization: `Bearer ${accessToken}`,
-        'Referrer-Policy': 'unsafe-url'
-      };
+          const headers = {
+            Authorization: `Bearer ${accessToken}`
+          };
           const response = await axios.get(`${baseUrl}/dashboard`, {
             headers
           });
