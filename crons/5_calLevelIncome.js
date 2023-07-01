@@ -3,14 +3,14 @@ const { promisify } = require("util");
 const moment = require("moment-timezone");
 const cron = require("node-cron");
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "AIFX",
   // host: "localhost",
-  // user: "royalmagic",
-  // password: "royalmagic@admin123",
-  // database: "royalmagic",
+  // user: "root",
+  // password: "",
+  // database: "AIFX",
+  host: "localhost",
+  user: "royalmagic",
+  password: "royalmagic@admin123",
+  database: "royalmagic",
 });
 
 connection.connect((err) => {

@@ -5,14 +5,14 @@ const cron = require("node-cron");
 const { log } = require("util");
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
 const connection = mysql.createConnection({
-   host: "localhost",
-  user: "root",
-  password: "",
-  database: "AIFX",
-  // host: "localhost",
-  // user: "royalmagic",
-  // password: "royalmagic@admin123",
-  // database: "royalmagic",
+  //  host: "localhost",
+  // user: "root",
+  // password: "",
+  // database: "AIFX",
+  host: "localhost",
+  user: "royalmagic",
+  password: "royalmagic@admin123",
+  database: "royalmagic",
 });
 
 try {
