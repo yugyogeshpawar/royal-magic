@@ -136,6 +136,30 @@ const postUnBlockUser = async (req, res) => {
   }
 };
 
+const postActivateUser = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${userID}' `;
+    const checkUser = await query(checkUserQuery);
+    if (checkUser.length === 0) {
+      return res.status(400).send({
+        status: false,
+        message: "Invalid USER ID!",
+      });
+    }
+    const activate = `UPDATE tbl_reinvest SET checked=1 WHERE member_user_id = '${userID}' `;
+    const activated = await query(activate);
+    console.log("active", activate, activated);
+
+    res.status(200).json({
+      resposnce: activate,
+      message: `Successfully Activated... The user ${userID}`,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getActiveUsers,
   getInactiveUsers,
@@ -145,4 +169,5 @@ module.exports = {
   getSearchDashboard,
   postBlockUser,
   postUnBlockUser,
+  postActivateUser,
 };
