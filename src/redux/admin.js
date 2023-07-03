@@ -12,6 +12,7 @@ let Withdraw = [];
 let SearchResult = [];
 let SearchDashboard = [];
 let blockUser = [];
+let activate = [];
 const initializer = {
   ActiveUsersSucess: false,
   userBlockedSuccess: false,
@@ -275,4 +276,25 @@ export async function postUnBlockUser(value) {
     }
   }
   return blockUser;
+}
+// ----------------------------------------------------------------------
+export async function postActivate(value) {
+  if (!initializer.activate) {
+    try {
+      const accessToken = window.localStorage.getItem('adminAccessToken');
+      const response = await axios({
+        method: 'post',
+        url: `${baseUrl}/postActivateUser`,
+        headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+        data: { userID: value }
+      });
+      activate = response.data;
+      initializer.activate = true;
+    } catch (error) {
+      console.log(error);
+      initializer.activate = false;
+      activate = error;
+    }
+  }
+  return activate;
 }

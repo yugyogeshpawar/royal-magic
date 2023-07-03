@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Grid, Box, Typography } from '@mui/material';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { getSearch, getSearchDashboard, postBlockUser, postUnBlockUser } from '../../redux/admin';
+import { format } from 'date-fns';
+import { getSearch, getSearchDashboard, postBlockUser, postUnBlockUser, postActivate } from '../../redux/admin';
 import { setSession } from '../../utils/jwt';
 
 const SearchSection = () => {
@@ -39,6 +37,7 @@ const SearchSection = () => {
     setWalletadd(res.data[0].wallet_address);
     console.log(new Date(res.data[0].registration_date));
     setInva(res.data[0].topup_amount);
+    setValue(format(new Date(res.data[0].activation_date), 'dd-MM-yyyy'));
   };
 
   const handleSearchQueryChange = (event) => {
@@ -74,6 +73,15 @@ const SearchSection = () => {
       return;
     }
     const res = await postUnBlockUser(userID);
+    console.log(res);
+  };
+  const handleActivate = async () => {
+    if (!userID) {
+      setError.unBlockError('User ID is empty or undefined.');
+      console.log(userID);
+      return;
+    }
+    const res = await postActivate(userID);
     console.log(res);
   };
 
@@ -145,12 +153,24 @@ const SearchSection = () => {
             }}
           />
         </Grid>
-
         <Grid item xs={12} md={3}>
+          <TextField
+            label="Registration Date"
+            variant="outlined"
+            value={value}
+            onChange={handleWalletQueryChange}
+            sx={{ marginRight: '1rem', width: '100%' }}
+            InputProps={{
+              readOnly: true
+            }}
+          />
+        </Grid>
+
+        {/* <Grid item xs={12} md={3}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker label="Registration Date" value={value} onChange={(newValue) => setValue(newValue)} />
           </LocalizationProvider>
-        </Grid>
+        </Grid> */}
       </Grid>
       <Grid container rowSpacing={1} columnSpacing={1}>
         <Grid item xs={12} md={3}>
@@ -184,6 +204,11 @@ const SearchSection = () => {
         <Grid item xs={12} md={3} sx={{ px: 3 }}>
           <Button variant="contained" onClick={handleUnBlock} sx={{ backgroundColor: 'red', width: '100%', py: 1, marginTop: '4px' }}>
             UnBlock User
+          </Button>
+        </Grid>
+        <Grid item xs={12} md={3} sx={{ px: 3 }}>
+          <Button variant="contained" onClick={handleActivate} sx={{ backgroundColor: 'green', width: '100%', py: 1, marginTop: '4px' }}>
+            Activate
           </Button>
         </Grid>
       </Grid>
