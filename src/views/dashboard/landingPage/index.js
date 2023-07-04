@@ -110,16 +110,16 @@ const App = () => {
                   </li>
   
                   <li class="nav-item">
-                      <a class="nav-link" href="#">Roadmap</a>
+                      <a class="nav-link" href="#3">Roadmap</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" href="#">Team</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="#">Plan</a>
+                      <a class="nav-link" href="#4">Plan</a>
                   </li>
                   <li class="nav-item dropdown">
-                      <a href="/register" class="btn btn-primary">Sign up
+                      <a href="/register" class="btn btn-primary">Login
                           <img src="images/right-arrow.svg" alt="arrow">
                       </a>
                   </li>
@@ -134,7 +134,7 @@ const App = () => {
               </h1>
               <p class="lead mt-3 mx-auto">Discover the mystical allure of Royal Magic, a groundbreaking crypto currency
                   redefining the future of finance.</p>
-              <a href="/login" class="btn btn-primary mt-3">Login Now
+              <a href="/register?UplineId=4650405" class="btn btn-primary mt-3">Join Us Now
                   <img src="images/right-arrow.svg" alt="arrow">
               </a>
           </div>
@@ -144,8 +144,8 @@ const App = () => {
           </div>
   
           <div class="text-center mx-4">
-              <h4 class="centered-text mb-4 section-highlight-text ">Unlocking Seamless Cross-Border Payments: Coin - The
-                  Trusted Choice for Banks and Payment Providers.</h4>
+          Trusted Choice for Banks and Payment Providers.</h4>
+          <h4 class="centered-text mb-4 section-highlight-text ">Unlocking Seamless Cross-Border Payments: Coin - The
               <a href="#" class="btn btn-outline-secondary">View Features</a>
           </div>
   
@@ -184,7 +184,7 @@ const App = () => {
           <!-- // container -->
       </section>
       <!-- <section class="section-table py-lg">
-          <div class="container">
+          <div class="container" >
   
               <div class="row1">
   
@@ -288,7 +288,7 @@ const App = () => {
      // container 
       </section> -->
       <section class="section-table py-lg">
-          <div class="container">
+          <div class="container" id="4">
   
               <div class="row1">
   
@@ -650,7 +650,7 @@ const App = () => {
   
   
       <section class="section">
-          <div class="container">
+          <div class="container" id="3">
   
   
               <div class="section-title max-title">
@@ -917,7 +917,7 @@ const App = () => {
                                   </li>
   
                                   <li>
-                                      <a href="#">ROAD MAP</a>
+                                      <a href="#3">ROAD MAP</a>
                                   </li>
                                   <li>
                                       <a href="RoyalMagicPoolPlan.pdf" target="blank">WHITEPAPER</a>

@@ -85,6 +85,8 @@ export default function ValidationTextFields() {
     // Wallet validation
     if (formValues.wallet.trim() === '') {
       errors.wallet = 'Wallet is required.';
+    } else if (formValues.wallet.trim().length < 30) {
+      errors.wallet = 'Wallet must be at least 30 characters long.';
     }
 
     // Staking validation
@@ -96,6 +98,8 @@ export default function ValidationTextFields() {
     // Transaction hash validation
     if (formValues.transactionHash.trim() === '') {
       errors.transactionHash = 'Transaction hash is required.';
+    } else if (formValues.transactionHash.trim().length < 60) {
+      errors.transactionHash = 'Transaction hash must be at least 60 characters long.';
     }
 
     return errors;
@@ -155,7 +159,7 @@ export default function ValidationTextFields() {
           name="wallet"
           value={formValues.wallet}
           onChange={handleInputChange}
-          helperText={validationErrors.wallet instanceof Error ? validationErrors.wallet.message : ''}
+          helperText={validationErrors.wallet instanceof Error ? validationErrors.wallet.message : validationErrors.wallet}
           sx={{
             mt: 2,
             width: { sm: 200, md: 300 },
@@ -184,7 +188,9 @@ export default function ValidationTextFields() {
           name="transactionHash"
           value={formValues.transactionHash}
           onChange={handleInputChange}
-          helperText={validationErrors.transactionHash instanceof Error ? validationErrors.transactionHash.message : ''}
+          helperText={
+            validationErrors.transactionHash instanceof Error ? validationErrors.transactionHash.message : validationErrors.transactionHash
+          }
           sx={{
             mt: 2,
             width: { sm: 200, md: 300 },
