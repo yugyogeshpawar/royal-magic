@@ -119,7 +119,7 @@ const App = () => {
                       <a class="nav-link" href="#4">Plan</a>
                   </li>
                   <li class="nav-item dropdown">
-                      <a href="/register" class="btn btn-primary">Login
+                      <a href="/login" class="btn btn-primary">Login
                           <img src="images/right-arrow.svg" alt="arrow">
                       </a>
                   </li>
