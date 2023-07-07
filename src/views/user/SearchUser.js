@@ -3,11 +3,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Grid, Box, Typography } from '@mui/material';
 import { format } from 'date-fns';
-import { getSearch, getSearchDashboard, postBlockUser, postUnBlockUser, postActivate } from '../../redux/admin';
+import { getSearch, getSearchDashboard, postBlockUser, postUnBlockUser, postActivate, changePasswordUsingAdmin } from '../../redux/admin';
 import { setSession } from '../../utils/jwt';
 
 const SearchSection = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [newPassword, setNewPassword] = useState('');
   const [userID, setUserID] = useState('');
   const [walletAdd, setWalletadd] = useState('');
   const [invA, setInva] = useState('');
@@ -40,9 +41,25 @@ const SearchSection = () => {
     setValue(format(new Date(res.data[0].activation_date), 'dd-MM-yyyy'));
   };
 
+  const handleChangePassword = async () => {
+    if (newPassword.trim() === '') {
+      alert('please enter password');
+      return;
+    }
+    if (userID.trim() === '') {
+      alert('please select userID');
+      return;
+    }
+    const res = await changePasswordUsingAdmin(userID, newPassword);
+    console.log(res);
+  };
+
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value);
     setSearchError('');
+  };
+  const handleSearchPasswordChange = (event) => {
+    setNewPassword(event.target.value);
   };
 
   const handDashboard = async () => {
@@ -185,7 +202,8 @@ const SearchSection = () => {
             }}
           />
         </Grid>
-
+      </Grid>
+      <Grid container rowSpacing={1} columnSpacing={1} sx={{ mt: 2 }}>
         <Grid item xs={12} md={3} sx={{ px: 3 }}>
           <Button variant="contained" onClick={handDashboard} sx={{ width: '100%', py: 1, marginTop: '4px' }}>
             DashBoard
@@ -209,6 +227,25 @@ const SearchSection = () => {
         <Grid item xs={12} md={3} sx={{ px: 3 }}>
           <Button variant="contained" onClick={handleActivate} sx={{ backgroundColor: 'green', width: '100%', py: 1, marginTop: '4px' }}>
             Activate
+          </Button>
+        </Grid>
+      </Grid>
+
+      <Grid container sx={{ mb: 2, mt: 2 }} rowSpacing={1} columnSpacing={1}>
+        <Grid item xs={12} md={4}>
+          <TextField
+            label="New Password"
+            variant="outlined"
+            value={newPassword}
+            onChange={handleSearchPasswordChange}
+            error={searchError !== ''}
+            helperText={searchError}
+            style={{ marginRight: '1rem', width: '100%' }}
+          />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <Button variant="contained" onClick={handleChangePassword} sx={{ marginTop: '4px', px: 4, py: 1, width: '100%' }}>
+            Change Password
           </Button>
         </Grid>
       </Grid>

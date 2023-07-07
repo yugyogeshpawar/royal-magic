@@ -215,6 +215,23 @@ export async function getSearch(value) {
   return SearchResult;
 }
 // ----------------------------------------------------------------------
+export async function changePasswordUsingAdmin(userID, password) {
+  try {
+    const accessToken = window.localStorage.getItem('adminAccessToken');
+
+    const response = await axios({
+      method: 'post',
+      url: `${baseUrl}/change-password`,
+      headers: { authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      data: { userID: userID, newPassword: password }
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+}
+// ----------------------------------------------------------------------
 export async function getSearchDashboard(value) {
   if (!initializer.SearchDashboardSucess) {
     try {
