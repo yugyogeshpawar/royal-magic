@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const query = promisify(connection.query).bind(connection);
 const jwt = require("jsonwebtoken");
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+const bcrypt = require("bcrypt");
 
 const getActiveUsers = async (req, res) => {
   const sql = `SELECT * FROM tbl_memberreg WHERE status = '1' AND isblock = '0'`; // status = 0 means active
@@ -113,6 +114,42 @@ const postBlockUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+const changepassword = async (req, res) => {
+  try {
+    const { userID } = req.body;
+    const { newPassword } = req.body;
+    const checkUserQuery = `SELECT * FROM tbl_memberreg WHERE member_user_id = '${userID}' `;
+    const checkUser = await query(checkUserQuery);
+    if (checkUser.length === 0) {
+      return res.status(400).send({
+        status: false,
+        message: "Invalid USER ID!",
+      });
+    }
+    const salt = bcrypt.genSaltSync(10);
+
+    const pwdhash = bcrypt.hashSync(newPassword, salt);
+    const sql = `UPDATE tbl_memberreg SET password = "${pwdhash}" WHERE member_user_id = "${userID}"`;
+    connection.query(sql, (err, result) => {
+      if (err) {
+        return res.status(400).send({ error: "Not found" });
+      }
+      if (result.affectedRows === 1) {
+        return res
+          .status(200)
+          .json({ message: "password Updated Successfully" });
+      } else {
+        return res.status(400).json({ message: "password Update Failed" });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 const postUnBlockUser = async (req, res) => {
   try {
     const { userID } = req.body;
@@ -170,4 +207,5 @@ module.exports = {
   postBlockUser,
   postUnBlockUser,
   postActivateUser,
+  changepassword,
 };

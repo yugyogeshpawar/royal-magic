@@ -14,6 +14,7 @@ const {
   postBlockUser,
   postUnBlockUser,
   postActivateUser,
+  changepassword,
 } = require("../controllers/AdminUserInformation.controller");
 const {
   getWithdrawRequests,
@@ -37,6 +38,7 @@ router.route("/login").post(login);
 router.route("/dashboard").get(getAdminDashboard);
 router.route("/search-dashboard").get(getSearchDashboard);
 router.route("/block-user").post(postBlockUser);
+router.route("/change-password").post(verifyToken, changepassword);
 router.route("/unblock-user").post(postUnBlockUser);
 router.route("/active").post(postActivateUser);
 

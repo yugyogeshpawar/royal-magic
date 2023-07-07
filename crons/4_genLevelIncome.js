@@ -23,7 +23,7 @@ connection.connect((err) => {
 // let count = 1;
 let query = promisify(connection.query).bind(connection);
 
-cron.schedule("*/10 * * * * *", function () {
+cron.schedule("*/10 * * * *", function () {
   // const activation_date = moment().format("YYYY-MM-DD HH:mm:ss");
   const plan = [
     {
@@ -132,6 +132,7 @@ cron.schedule("*/10 * * * * *", function () {
     console.log("test", test);
     console.log(`test member id, ${test} `);
 
+
     test.forEach(async (element) => {
       let member_id = element.member_id;
 
@@ -178,7 +179,7 @@ cron.schedule("*/10 * * * * *", function () {
           console.log("level2:", memberId);
           break;
 
-        case team >= 130 && element.level == 2 && directMember >= 1:
+        case team >= 180 && element.level == 2:
           await insertLevel(
             memberId,
             memberName,
@@ -194,7 +195,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level3:", memberId);
           break;
-        case team >= 375 && element.level == 3 && directMember >= 1:
+        case team >= 475 && element.level == 3 && directMember >= 1:
           await insertLevel(
             memberId,
             memberName,
@@ -210,7 +211,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level4:", memberId);
           break;
-        case team >= 505 && element.level == 4 && directMember >= 2:
+        case team >= 630 && element.level == 4 && directMember >= 2:
           await insertLevel(
             memberId,
             memberName,
@@ -227,7 +228,7 @@ cron.schedule("*/10 * * * * *", function () {
           console.log("level5:", memberId);
           break;
 
-        case team >= 900 && element.level == 5 && directMember >= 2:
+        case team >= 1150 && element.level == 5 && directMember >= 2:
           await insertLevel(
             memberId,
             memberName,
@@ -243,7 +244,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level6:", memberId);
           break;
-        case team >= 1800 && element.level == 6 && directMember >= 2:
+        case team >= 2300 && element.level == 6 && directMember >= 2:
           await insertLevel(
             memberId,
             memberName,
@@ -258,7 +259,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level7:", memberId);
           break;
-        case team >= 3500 && element.level == 7 && directMember >= 2:
+        case team >= 4500 && element.level == 7 && directMember >= 2:
           await insertLevel(
             memberId,
             memberName,
@@ -274,7 +275,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level8:", memberId);
           break;
-        case team >= 5200 && element.level == 8 && directMember >= 2:
+        case team >= 6700 && element.level == 8 && directMember >= 2:
           await insertLevel(
             memberId,
             memberName,
@@ -290,7 +291,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level9:", memberId);
           break;
-        case team >= 9700 && element.level == 9 && directMember >= 2:
+        case team >= 12200 && element.level == 9 && directMember >= 2:
           await insertLevel(
             memberId,
             memberName,
@@ -306,7 +307,7 @@ cron.schedule("*/10 * * * * *", function () {
           );
           console.log("level10:", memberId);
           break;
-        case team >= 11000 && element.level == 10 && directMember >= 10:
+        case team >= 15000 && element.level == 10 && directMember >= 10:
           await insertLevel(
             memberId,
             memberName,
@@ -334,6 +335,8 @@ cron.schedule("*/10 * * * * *", function () {
 
   incomeCal();
 });
+
+let count = 0;
 async function insertLevel(
   memberId,
   memberName,
@@ -347,13 +350,18 @@ async function insertLevel(
   walletAddress,
   sys_date
 ) {
+let temp = "REENTRY";
+
+let hash_code = temp.concat(generateRandomNumber());
+console.log(hash_code);
   sys_date = getCurrentDateTime();
   console.log("rentry: " + reEntry);
   if (reEntry > 0) {
-    const InsRec = `INSERT INTO tbl_reinvest(member_user_id,tr_date,invest_type,invest_package,gusdAmt)
-                                     VALUES ('${memberId}','${sys_date}','REENTRY',15,15)`;
+    const InsRec = `INSERT INTO tbl_reinvest(member_user_id,tr_date,invest_type,hash_code,invest_package,gusdAmt,checked)
+                                     VALUES ('${memberId}','${sys_date}','REENTRY','${hash_code}',15,15,1)`;
     const insertDeposit = await query(InsRec);
-  }
+// count ++; 
+ }
 
   sys_date = getCurrentDateTime();
   if (status === 1) {
@@ -388,3 +396,11 @@ async function getTotalLevel() {
   console.log("count", count);
   return count;
 }
+
+function generateRandomNumber() {
+    var minm = 100000;
+    var maxm = 999999;
+    return Math.floor(Math
+    .random() * (maxm - minm + 1)) + minm;
+}
+
