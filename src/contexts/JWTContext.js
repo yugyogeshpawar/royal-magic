@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setSession } from '../utils/jwt';
 // ----------------------------------------------------------------------
 
-const baseUrl = process.env.PORT || 'https://backend.royalmagic.live/api';
+const baseUrl = process.env.BACKEND_URL || 'https://backend.royalmagic.live/api';
 
 const initialState = {
   isAuthenticated: false,
